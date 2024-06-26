@@ -10,9 +10,9 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "INT")]
         public int IdSupplier { get; set; }
 
-        /*[Required]
+        [Required]
         [Column(TypeName = "INT")]
-        public Supplier Supplier { get; set; }*/
+        public Supplier Supplier { get; set; }
 
         [Required]
         [Column(TypeName = "INT")]
@@ -28,6 +28,6 @@ namespace PresupuestitoBack.Models
 
         [Required]
         [Column(TypeName = "DECIMAL(10,2)")]
-        public decimal PriceMaterial { get; set; }
+        public decimal PricePerUnitMaterial { get; set; }
     } 
 }
