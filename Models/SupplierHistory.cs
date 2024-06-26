@@ -27,7 +27,10 @@ namespace PresupuestitoBack.Models
         public DateTime PurchaseDateMaterial {  get; set; }
 
         [Required]
-        [Column(TypeName = "DECIMAL(10,2)")]
+        [Column(TypeName = "DECIMAL(20,2)")]
         public decimal PricePerUnitMaterial { get; set; }
+
+        [Column(TypeName = "DECIMAL(20,2)")]
+        public decimal PriceTotal {  get; set; }
     } 
 }
