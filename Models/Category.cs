@@ -20,6 +20,6 @@ namespace PresupuestitoBack.Models
 
         [Required]
         [Column(TypeName = "INT")]
-        public SubCategory SubCategory { get; set; }
+        public SubCategory OSubCategory { get; set; }
     }
 }

@@ -12,11 +12,11 @@ namespace PresupuestitoBack.Models
 
         [Required]
         [Column(TypeName = "INT")]
-        public Supplier Supplier { get; set; }
+        public Supplier OSupplier { get; set; }
 
         [Required]
         [Column(TypeName = "INT")]
-        public Material Material { get; set; }
+        public Material OMaterial { get; set; }
 
         [Required]
         [Column(TypeName = "VARCHAR(50)")]

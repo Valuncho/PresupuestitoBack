@@ -16,6 +16,6 @@ namespace PresupuestitoBack.Models
 
         [Required]
         [Column(TypeName = "INT")]
-        public Material Material { get; set; }
+        public Material OMaterial { get; set; }
     }
 }
