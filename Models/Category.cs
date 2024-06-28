@@ -11,7 +11,7 @@ namespace PresupuestitoBack.Models
         public int IdCategory { get; set; }
 
         [Required]
-        [Column(TypeName = "VARCHAR(50)")]
+        [Column(TypeName = "VARCHAR(100)")]
         public string NameCategory { get; set; }
 
         [Required]
