@@ -5,7 +5,7 @@
 namespace PresupuestitoBack.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class firstInstance : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
