@@ -11,8 +11,8 @@ using PresupuestitoBack.DataAccess;
 namespace PresupuestitoBack.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240704192408_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240704222152_firstIntance")]
+    partial class firstIntance
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
