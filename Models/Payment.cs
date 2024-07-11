@@ -18,7 +18,9 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "DECIMAL(18, 2)")]
         public double Amount { get; set; }
 
-       
+        [Required]
+        [Column(TypeName = "VARCHAR(400)")]
+        public string DescriptionPayment { get; set; }
 
     }
 }

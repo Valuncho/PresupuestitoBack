@@ -20,6 +20,11 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "DECIMAL(18, 2)")]
         public decimal Cost { get; set; }
 
+        [Required]
+        [Column(TypeName = "VARCHAR(400)")]
+        public string DescriptionBudget { get; set; }
 
+        //List Payments
+        public ICollection<Payment> Payment { get; set; }
     }
 }

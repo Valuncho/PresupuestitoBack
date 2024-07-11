@@ -11,11 +11,11 @@ namespace PresupuestitoBack.Models
         public int IdClientHistory { get; set; }
 
         //List payments
-        public ICollection<Payment> Payments { get; set; }
+        public ICollection<Budget> Budgets { get; set; }
 
 
         [ForeignKey("IdClient")]
-        public Client Client { get; set; }
+        public Client OClient { get; set; }
 
     }
 }
