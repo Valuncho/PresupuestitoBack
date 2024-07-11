@@ -10,12 +10,11 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "INT")]
         public int IdClientHistory { get; set; }
 
-        [Required]
-        [Column(TypeName = "INT")] //ver tipo de datos en las listas
-        public List<Payment> Payments { get; set; }
+        //List payments
+        public ICollection<Payment> Payments { get; set; }
 
-        [Required]
-        [Column(TypeName = "INT")] 
+
+        [ForeignKey("IdClient")]
         public Client Client { get; set; }
 
     }

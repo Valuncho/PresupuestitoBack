@@ -10,13 +10,11 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "INT")]
         public int IdBudget { get; set; }
 
-        [Required]
-        [Column(TypeName = "INT")]
-        public Client Client { get; set; }
+        [ForeignKey("IdClient")]
+        public Client OClient { get; set; }
 
-        [Required]
-        [Column(TypeName = "INT")]//ver tipo de datos en las listas
-        public List<Work> Works { get; set; }
+        //List Works
+        public ICollection<Work> Works { get; set; }
 
         [Required]
         [Column(TypeName = "DECIMAL(18, 2)")]
