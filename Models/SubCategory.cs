@@ -10,12 +10,15 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "INT")]
         public int IdSubCategory { get; set; }  
 
+
         [Required]
         [Column(TypeName = "VARCHAR(100)")]
         public string NameSubCategory {  get; set; }
 
+
         [Required]
-        [Column(TypeName = "INT")]
+        public int IdMaterial { get; set; }
+        [ForeignKey("IdMaterial")]
         public Material OMaterial { get; set; }
     }
 }

@@ -8,30 +8,39 @@ namespace PresupuestitoBack.Models
     {
         [Key]
         [Column(TypeName = "INT")]
-        public int IdSupplier { get; set; }
+        public int IdSupplierHistory { get; set; }
 
-        [Required]
-        [Column(TypeName = "INT")]
+
+        [Required]       
+        public int IdSupplier { get; set; }
+        [ForeignKey("IdSupplier")]
         public Supplier OSupplier { get; set; }
 
-        [Required]
-        [Column(TypeName = "INT")]
+
+        [Required]      
+        public int IdMaterial { get; set; }
+        [ForeignKey("IdMaterial")]
         public Material OMaterial { get; set; }
+
 
         [Required]
         [Column(TypeName = "VARCHAR(50)")]
         public string QuantityMaterial { get; set; }
 
+
         [Required]
         [Column(TypeName = "DATE")]
         public DateTime PurchaseDateMaterial { get; set; }
+
 
         [Required]
         [Column(TypeName = "DECIMAL(20,2)")]
         public decimal PricePerUnitMaterial { get; set; }
 
+
         [Required]
         [Column(TypeName = "DECIMAL(20,2)")]
         public decimal PriceTotal {  get; set; }
+
     } 
 }
