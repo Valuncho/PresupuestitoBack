@@ -10,12 +10,14 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "INT")]
         public int IdClientHistory { get; set; }
 
-        //List payments
-        public ICollection<Budget> Budgets { get; set; }
 
-
+        public int IdClient { get; set; }
         [ForeignKey("IdClient")]
-        public Client OClient { get; set; }
+        public Person OClient { get; set; }
+
+
+        //List Budgets
+        public ICollection<Budget> Budgets { get; set; }
 
     }
 }

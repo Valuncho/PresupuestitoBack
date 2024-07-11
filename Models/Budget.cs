@@ -10,9 +10,6 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "INT")]
         public int IdBudget { get; set; }
 
-        [ForeignKey("IdClient")]
-        public Client OClient { get; set; }
-
         //List Works
         public ICollection<Work> Works { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace PresupuestitoBack.Models
 {
@@ -9,10 +10,16 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "INT")]
         public int IdClient { get; set; }
 
-      
         public int IdPerson { get; set; }
         [ForeignKey("IdPerson")]
         public Person OPerson { get; set; }
+
+
+        //List Budgets
+        public ICollection<Budget> Budgets { get; set; }
+
+        //Navigation properties
+        public ICollection<ClientHistory> ClientsHistory { get; set; } = new List<ClientHistory>();
 
     }
 }
