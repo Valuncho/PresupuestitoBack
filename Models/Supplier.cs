@@ -10,6 +10,9 @@ namespace PresupuestitoBack.Models
         [Column("IdSupplier", TypeName = "INT")]
         public int IdSupplier { get; set; }
 
+
+        [Required]
+        public int IdPerson { get; set; }
         [ForeignKey("IdPerson")]
         public Person OPerson { get; set; }
     }

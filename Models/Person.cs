@@ -38,5 +38,13 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "VARCHAR(20)")]
         public string CUIT { get; set; }
 
+        /*
+        //Navigation properties
+        public ICollection<Supplier> Suppliers { get; set; } = new List<Supplier>();
+
+        public ICollection<Client> Clients { get; set; } = new List<Client>();
+
+        public ICollection<Employee> Employees { get; set; } = new List<Employee>();
+        */
     }
 }
