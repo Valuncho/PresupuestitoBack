@@ -30,15 +30,16 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "DATE")]
         public DateTime Date { get; set; }
 
-        
+        //List Payments
+        public ICollection<Payment> Payment { get; set; }
 
         [Required]
         [Column(TypeName = "BIT")]
         public bool IsPaid { get; set; }
 
-        //List Payments
-        public ICollection<Payment> Payment { get; set; }
 
+        //List InvoiceItems
+        public ICollection<InvoiceItem> InvoiceItems { get; set; }
 
 
 >>>>>>> eb81f80 (addd model InvoiceItem)
