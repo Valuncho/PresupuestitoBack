@@ -9,9 +9,7 @@ namespace PresupuestitoBack.Repositories
     {
 
     
-    public PersonRepository(ApplicationDbContext context) : base(context)
-    {
-    }
+    public PersonRepository(ApplicationDbContext context) : base(context){}
 
     public override async Task<bool> Update(Person updatePerson)
     {

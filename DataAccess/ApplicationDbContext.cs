@@ -10,5 +10,6 @@ namespace PresupuestitoBack.DataAccess
 
         public DbSet<Person> Persons { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<SupplierHistory>SupplierHistories { get; set; }
     }
 }
