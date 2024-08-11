@@ -8,7 +8,6 @@ namespace PresupuestitoBack.Repositories
 {
     public class SupplierHistoryRepository : Repository<SupplierHistory>, ISupplierHistoryRepository
     {
-        //public SuppplierHistoryRepository(ApplicationDbContext context) : base(context){}
         public SupplierHistoryRepository(ApplicationDbContext context) : base(context) { }
         public override async Task<bool> Update(SupplierHistory updateSupplierHistory)
         {
@@ -23,6 +22,16 @@ namespace PresupuestitoBack.Repositories
             SupplierHistory.PriceTotal = updateSupplierHistory.PriceTotal;
             _context.SupplierHistories.Update(SupplierHistory);
             await _context.SaveChangesAsync();
+            return true;
+        }
+        public override async Task<bool> Delete(int id)
+        {
+            var supplierHistory = await _context.SupplierHistories.Where(x => x.IdSupplierHistory == id).FirstOrDefaultAsync();
+            if(supplierHistory != null) 
+            {
+                _context.SupplierHistories.Remove(supplierHistory);
+                await _context.SaveChangesAsync();
+            }
             return true;
         }
     }
