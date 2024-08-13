@@ -16,12 +16,19 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "DATE")]
         public DateTime Date { get; set; }
 
-        //List Payments
-        public ICollection<Payment> Payment { get; set; }
 
         [Required]
         [Column(TypeName = "BIT")]
         public bool IsPaid { get; set; }
+
+        [Required]
+        public int IdSupplierHistory { get; set; }
+        [ForeignKey("IdSupplierHistory")]
+        public SupplierHistory OSupplierHistory { get; set; }
+
+
+        //List Payments
+        public ICollection<Payment> Payment { get; set; }
 
 
         //List InvoiceItems
