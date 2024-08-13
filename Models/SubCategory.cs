@@ -17,8 +17,8 @@ namespace PresupuestitoBack.Models
 
 
         [Required]
-        public int IdMaterial { get; set; }
-        [ForeignKey("IdMaterial")]
-        public Material OMaterial { get; set; }
+        public int IdCategory { get; set; }
+        [ForeignKey("IdCategory")]
+        public Category OCategory { get; set; }
     }
 }

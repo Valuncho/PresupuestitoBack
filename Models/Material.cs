@@ -40,5 +40,13 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "VARCHAR(50)")]
         public string UnitMeasureMaterial { get; set; }
 
+
+        [Required]
+        public int IdSubCategory { get; set; }
+        [ForeignKey("IdSubCategory")]
+        public SubCategory OSubCategory { get; set; }
+
+
+
     }
 }
