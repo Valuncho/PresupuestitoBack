@@ -22,6 +22,6 @@ namespace PresupuestitoBack.Models
         public string DescriptionBudget { get; set; }
 
         //List Payments
-        public ICollection<Payment> Payment { get; set; }
+        public ICollection<Payment> Payments { get; set; }
     }
 }
