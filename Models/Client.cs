@@ -15,9 +15,6 @@ namespace PresupuestitoBack.Models
         public Person OPerson { get; set; }
 
 
-        //List Budgets
-        public ICollection<Budget> Budgets { get; set; }
-
         //Navigation properties
         public ICollection<ClientHistory> ClientsHistory { get; set; } = new List<ClientHistory>();
 
