@@ -9,5 +9,6 @@ namespace PresupuestitoBack.DataAccess
 
 
         public DbSet<Person> Persons { get; set; }
+        public DbSet<Client> Clients { get; set; }
     }
 }
