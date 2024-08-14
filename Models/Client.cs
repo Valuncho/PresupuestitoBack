@@ -9,10 +9,10 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "INT")]
         public int IdClient { get; set; }
 
-        [Required]
-        [Column(TypeName = "INT")]
-        public Person Person { get; set; }
-
+      
+        public int IdPerson { get; set; }
+        [ForeignKey("IdPerson")]
+        public Person OPerson { get; set; }
 
     }
 }
