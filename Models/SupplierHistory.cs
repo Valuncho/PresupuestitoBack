@@ -8,7 +8,7 @@ namespace PresupuestitoBack.Models
     {
         [Key]
         [Column(TypeName = "INT")]
-        public int IdSupplierHistory { get; set; }
+        public int SupplierHistoryId { get; set; }
 
 
         [Required]       

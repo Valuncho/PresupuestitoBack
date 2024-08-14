@@ -8,32 +8,32 @@ namespace PresupuestitoBack.Models
     {
         [Key]
         [Column(TypeName = "INT")]
-        public int IdMaterial { get; set; }
+        public int MaterialId { get; set; }
 
 
         [Required]
         [Column(TypeName = "VARCHAR(100)")]
-        public string NameMaterial { get; set; }
+        public string MaterialName { get; set; }
 
 
         [Required]
         [Column(TypeName = "VARCHAR(400)")]
-        public string DescriptionMaterial { get; set; }
+        public string MaterialDescription { get; set; }
 
 
         [Required]
         [Column(TypeName = "VARCHAR(50)")]
-        public string ColorMaterial { get; set; }
+        public string MaterialColor { get; set; }
 
 
         [Required]
         [Column(TypeName = "VARCHAR(100)")]
-        public string BrandMaterial { get; set; }
+        public string MaterialBrand { get; set; }
 
 
         [Required]
         [Column(TypeName = "VARCHAR(50)")]
-        public string MeasureMaterial { get; set; }
+        public string MaterialMeasure { get; set; }
 
 
         [Required]
@@ -42,8 +42,8 @@ namespace PresupuestitoBack.Models
 
 
         [Required]
-        public int IdSubCategory { get; set; }
-        [ForeignKey("IdSubCategory")]
+        public int SubCategoryId { get; set; }
+        [ForeignKey("SubCategoryId")]
         public SubCategory OSubCategory { get; set; }
 
 

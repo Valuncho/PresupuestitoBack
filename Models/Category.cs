@@ -8,17 +8,17 @@ namespace PresupuestitoBack.Models
     {
         [Key]
         [Column(TypeName = "INT")]
-        public int IdCategory { get; set; }
+        public int CategoryId { get; set; }
 
 
         [Required]
         [Column(TypeName = "VARCHAR(100)")]
-        public string NameCategory { get; set; }
+        public string CategoryName { get; set; }
 
 
         [Required]
         [Column(TypeName = "VARCHAR(100)")]
-        public string ModelCategory { get; set; }
+        public string CategoryModel { get; set; }
 
     }
 }
