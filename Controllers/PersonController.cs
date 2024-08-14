@@ -21,10 +21,10 @@ namespace PresupuestitoBack.Controllers
         [HttpGet("{id}", Name = "GetPersonById")]
         public async Task<ActionResult<PersonDto>> GetPerson(int id)
         {
-            if (id == 0)
+            /*if (id == 0)
             {
                 return BadRequest();
-            }
+            }*/
 
             var person = await _personService.GetByIdAsync(id);
             if (person != null)
@@ -39,6 +39,17 @@ namespace PresupuestitoBack.Controllers
         {
             var persons = await _personService.GetAllAsync();
             return Ok(_mapper.Map<List<PersonDto>>(persons));
+        }
+        [HttpDelete]
+        public async Task<ActionResult<PersonDto>> Delete(int IdPerson)
+        {
+            if (IdPerson == 0) { return BadRequest();
+            }
+            else
+            {
+                await _personService.Delete(IdPerson);
+                return NoContent();
+            }       
         }
     }
 }
