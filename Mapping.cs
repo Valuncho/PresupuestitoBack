@@ -13,6 +13,7 @@ namespace PresupuestitoBack
             CreateMap<Budget, BudgetDto>().ReverseMap();
             CreateMap<Client, ClientDto>().ReverseMap();
             CreateMap<ClientHistory, ClientHistoryDto>().ReverseMap();
+            CreateMap<Invoice, InvoiceDto>().ReverseMap();
             //CreateMap<Supplier, SupplierDto>().ReverseMap();
             //CreateMap<SupplierHistory, SupplierHistoryDto>().ReverseMap();
         }
