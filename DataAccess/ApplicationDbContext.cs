@@ -12,5 +12,6 @@ namespace PresupuestitoBack.DataAccess
         public DbSet<Client> Clients { get; set; }
         public DbSet<ClientHistory> ClientsHistorys { get; set; }
         public DbSet<Budget> Budgets { get; set; }
+        public DbSet<Payment> Payments { get; set; }
     }
 }
