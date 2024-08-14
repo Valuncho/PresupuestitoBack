@@ -28,7 +28,7 @@ namespace PresupuestitoBack.Models
 
 
         //List Payments
-        public ICollection<Payment> Payment { get; set; }
+        public ICollection<Payment> Payments { get; set; }
 
 
         //List InvoiceItems

@@ -43,7 +43,7 @@ namespace PresupuestitoBack.Models
         public decimal PriceTotal {  get; set; }
 
         //List Invoice
-        public ICollection<Invoice> Invoice { get; set; }
+        public ICollection<Invoice> Invoices { get; set; }
 
     } 
 }
