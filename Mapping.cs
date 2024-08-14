@@ -10,6 +10,8 @@ namespace PresupuestitoBack
         public Mapping() 
         {
             CreateMap<Person, PersonDto>().ReverseMap();
+            CreateMap<Supplier, SupplierDto>().ReverseMap();
+            CreateMap<SupplierHistory, SupplierHistoryDto>().ReverseMap();
         }        
     }
 }
