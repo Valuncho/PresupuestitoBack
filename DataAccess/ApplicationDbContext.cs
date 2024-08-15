@@ -9,5 +9,8 @@ namespace PresupuestitoBack.DataAccess
 
 
         public DbSet<Person> Persons { get; set; }
+        public DbSet<Cost> Costs { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<Work> Works { get; set; }
     }
 }
