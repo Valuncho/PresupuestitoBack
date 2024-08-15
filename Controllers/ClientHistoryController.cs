@@ -36,7 +36,7 @@ namespace PresupuestitoBack.Controllers
             return NotFound();
         }
         [HttpGet]
-        public async Task<ActionResult<List<ClientHistoryDto>>> GetAllPersons()
+        public async Task<ActionResult<List<ClientHistoryDto>>> GetAllClientsHistorys()
         {
             var clientsHistorys = await _clientHistoryService.GetAllAsync();
             return Ok(_mapper.Map<List<ClientHistoryDto>>(clientsHistorys));
