@@ -9,5 +9,9 @@ namespace PresupuestitoBack.DataAccess
 
 
         public DbSet<Person> Persons { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }
+        public DbSet<SupplierHistory> SupplierHistories { get; set; }
+        public DbSet<Material> Materials { get; set; }
     }
 }
