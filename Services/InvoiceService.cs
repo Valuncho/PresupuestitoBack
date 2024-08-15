@@ -13,7 +13,7 @@ namespace PresupuestitoBack.Services
         {
             _invoiceRepository = invoiceRepository;
         }
-        public async Task<Invoice> GetByIdAsync(int id) { return await _invoiceRepository.GetById(c => c.IdInvoice == id); }
+        public async Task<Invoice> GetByIdAsync(int id) { return await _invoiceRepository.GetById(i => i.IdInvoice == id); }
         public async Task<List<Invoice>> GetAllAsync(Expression<Func<Invoice, bool>>? filter = null) { return await _invoiceRepository.GetAll(filter); }
 
         internal async Task Delete(int idInvoice)
