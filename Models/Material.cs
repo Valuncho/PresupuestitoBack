@@ -38,7 +38,7 @@ namespace PresupuestitoBack.Models
 
         [Required]
         [Column(TypeName = "VARCHAR(50)")]
-        public string UnitMeasureMaterial { get; set; }
+        public string MaterialUnitMeasure { get; set; }
 
 
         [Required]
