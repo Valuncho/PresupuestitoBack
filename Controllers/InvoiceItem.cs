@@ -19,7 +19,7 @@ namespace PresupuestitoBack.Controllers
             _mapper = mapper;
             _invoiceItemService = invoiceItemService;
         }
-        [HttpGet("{id}", Name = "GetInvoiceById")]
+        [HttpGet("{id}", Name = "GetInvoiceItemById")]
         public async Task<ActionResult<InvoiceItemDto>> GetInvoiceItem(int id)
         {
             /*if (id == 0)
