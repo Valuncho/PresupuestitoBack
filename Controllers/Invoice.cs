@@ -30,7 +30,7 @@ namespace PresupuestitoBack.Controllers
             var invoice = await _invoiceService.GetByIdAsync(id);
             if (invoice != null)
             {
-                return Ok(_mapper.Map<ClientDto>(invoice));
+                return Ok(_mapper.Map<InvoiceDto>(invoice));
             }
 
             return NotFound();
