@@ -18,7 +18,7 @@ namespace PresupuestitoBack.Controllers
             _mapper = mapper;
             _clientService = clientService;
         }
-        [HttpGet("{id}", Name = "GetlientById")]
+        [HttpGet("{id}", Name = "GetClientById")]
         public async Task<ActionResult<ClientDto>> GetClient(int id)
         {
             /*if (id == 0)
