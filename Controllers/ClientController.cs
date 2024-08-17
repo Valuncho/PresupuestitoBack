@@ -1,56 +1,92 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PresupuestitoBack.DTOs;
+using PresupuestitoBack.DTOs.RequestDTOs;
+using PresupuestitoBack.Models;
 using PresupuestitoBack.Repositories;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/cliente")]
     public class ClientController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly ClientService _clientService;
 
-        public ClientController(IMapper mapper, ClientService clientService)
+
+        private readonly ClientService clientService;
+        private readonly IMapper mapper;
+
+        public ClientController(ClientService clientService, IMapper mapper)
         {
-            _mapper = mapper;
-            _clientService = clientService;
+            this.clientService = clientService;
+            this.mapper = mapper;
         }
-        [HttpGet("{id}", Name = "GetClientById")]
-        public async Task<ActionResult<ClientDto>> GetClient(int id)
-        {
-            /*if (id == 0)
-            {
-                return BadRequest();
-            }*/
 
-            var client = await _clientService.GetByIdAsync(id);
-            if (client != null)
+        [HttpGet("getAll")]
+        public async Task<ActionResult<List<ClientDto>>> GetClientes()
+        {
+            var clients = await clientService.GetAllAsync();
+            var clientsDto = mapper.Map<List<ClientDto>>(clients);
+            return Ok(clientsDto);
+        }
+
+       
+        [HttpPost("new")]
+        public async Task<ActionResult> SaveCliente([FromBody] ClientRequestDto clienteDto)
+        {
+            var client = mapper.Map<Client>(clienteDto);
+            var result = await clientService.SaveAsync(client);
+            if (result)
             {
-                return Ok(_mapper.Map<ClientDto>(client));
+                return Ok("Cliente guardado exitosamente.");
             }
+            return BadRequest("No se pudo guardar el cliente.");
+        }
+        
 
-            return NotFound();
-        }
-        [HttpGet]
-        public async Task<ActionResult<List<ClientDto>>> GetAllClients()
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ClientDto>> GetClienteById(int id)
         {
-            var clients = await _clientService.GetAllAsync();
-            return Ok(_mapper.Map<List<ClientDto>>(clients));
-        }
-        [HttpDelete]
-        public async Task<ActionResult<ClientDto>> Delete(int IdClient)
-        {
-            if (IdClient == 0)
+            var client = await clientService.GetByIdAsync(id);
+            if (client == null)
             {
-                return BadRequest();
+                return NotFound();
             }
-            else
+            var clientDto = mapper.Map<ClientDto>(client);
+            return Ok(clientDto);
+        }
+
+       
+        [HttpPut("update/{id}")]
+        public async Task<ActionResult> UpdateClienteById(int id, [FromBody] ClientRequestDto requestDto)
+        {
+            var client = mapper.Map<Client>(requestDto);
+            client.IdClient = id; // Ensure the ID is set correctly for updating
+            var result = await clientService.UpdateAsync(client);
+            if (result)
             {
-                await _clientService.Delete(IdClient);
-                return NoContent();
+                return Ok("Cliente actualizado exitosamente.");
+            }
+            return BadRequest("No se pudo actualizar el cliente.");
+        }
+        
+
+        [HttpDelete("delete/{id}")]
+        public async Task<ActionResult> DeleteClienteById(int id)
+        {
+            try
+            {
+                var result = await clientService.DeleteAsync(id);
+                if (result)
+                {
+                    return Ok("Registro eliminado :)");
+                }
+                return BadRequest("No se pudo eliminar el registro.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"No se pudo eliminar el registro. El error es: {ex.Message}");
             }
         }
     }

@@ -7,7 +7,7 @@ using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/Budget")]
     [ApiController]
     public class BudgetController : ControllerBase
     {
@@ -22,10 +22,10 @@ namespace PresupuestitoBack.Controllers
         [HttpGet("{id}", Name = "GetBudgetById")]
         public async Task<ActionResult<BudgetDto>> GetBudget(int id)
         {
-            /*if (id == 0)
+            if (id == 0)
             {
                 return BadRequest();
-            }*/
+            }
 
             var budget = await _budgetService.GetByIdAsync(id);
             if (budget != null)

@@ -7,7 +7,7 @@ using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/ClientHistory")]
     [ApiController]
     public class ClientHistoryController : ControllerBase
     {
@@ -22,10 +22,10 @@ namespace PresupuestitoBack.Controllers
         [HttpGet("{id}", Name = "GetClientHistoryById")]
         public async Task<ActionResult<ClientHistoryDto>> GetClient(int id)
         {
-            /*if (id == 0)
+            if (id == 0)
             {
                 return BadRequest();
-            }*/
+            }
 
             var clientHistory = await _clientHistoryService.GetByIdAsync(id);
             if (clientHistory != null)

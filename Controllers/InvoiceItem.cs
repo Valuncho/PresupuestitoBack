@@ -7,7 +7,7 @@ using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/InvoiceItem")]
     [ApiController]
     public class InvoiceItemController : ControllerBase
     {
@@ -22,10 +22,10 @@ namespace PresupuestitoBack.Controllers
         [HttpGet("{id}", Name = "GetInvoiceItemById")]
         public async Task<ActionResult<InvoiceItemDto>> GetInvoiceItem(int id)
         {
-            /*if (id == 0)
+            if (id == 0)
             {
                 return BadRequest();
-            }*/
+            }
 
             var invoiceItem = await _invoiceItemService.GetByIdAsync(id);
             if (invoiceItem != null)
