@@ -21,7 +21,7 @@ namespace PresupuestitoBack.Repositories
 
         public virtual async Task<List<T>> GetAll(Expression<Func<T, bool>>? filter = null)
         {
-            //return await _context.Set<T>().ToListAsync();
+            
             IQueryable<T> query = dbSet;
             if (filter != null)
             {
@@ -30,15 +30,6 @@ namespace PresupuestitoBack.Repositories
 
             return await query.ToListAsync();
         }
-        /*
-         * solo te inserta la entidad
-        public virtual async Task<bool> Insert(T entity)
-        {
-            await dbSet.AddAsync(entity);
-            await _context.SaveChangesAsync();
-            return true
-        }
-        */
 
         
         public virtual async Task<bool> Insert(T entity)

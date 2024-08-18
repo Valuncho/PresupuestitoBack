@@ -13,44 +13,12 @@ namespace PresupuestitoBack.Repositories
         {
         }
 
-        public override async Task<bool> Update(ClientHistory updateService)
-        {
-            var Service = await _context.ClientsHistorys.FirstOrDefaultAsync(x => x.IdClientHistory == updateService.IdClientHistory);
-            if (Service == null) { return false; }
-
-            Service.IdClient = updateService.IdClient;
-            Service.Budgets = updateService.Budgets;
-
-            _context.ClientsHistorys.Update(Service);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-
-        public override async Task<bool> Delete(int id)
-        {
-            var client = await _context.ClientsHistorys.Where(x => x.IdClient == id).FirstOrDefaultAsync();
-            if (client != null)
-            {
-                _context.ClientsHistorys.Remove(client);
-                await _context.SaveChangesAsync();
-            }
-
-            return true;
-        }
 
         public override async Task<bool> Insert(ClientHistory newClientHistory)
         {
             try
             {
-                var clientHistoryExisting = await _context.ClientsHistorys.FirstOrDefaultAsync(x => x.IdClientHistory == newClientHistory.IdClientHistory);
-
-                if (clientHistoryExisting != null)
-                {
-                    return false;
-                }
-
-                _context.ClientsHistorys.Add(newClientHistory);
-                await _context.SaveChangesAsync();
+                await base.Insert(newClientHistory);
                 return true;
             }
             catch (Exception)
@@ -58,6 +26,17 @@ namespace PresupuestitoBack.Repositories
                 return false;
             }
         }
+
+        public override async Task<bool> Update(ClientHistory updateService)
+        {
+            return await base.Update(updateService);
+        }
+
+        public override async Task<bool> Delete(int id)
+        {
+            return await base.Delete(id);
+        }
+
     }
 }
 
