@@ -5,7 +5,9 @@ using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
-    public class ItemController
+    [Route("api/[controller]/item")]
+    [ApiController]
+    public class ItemController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly ItemService _itemService;

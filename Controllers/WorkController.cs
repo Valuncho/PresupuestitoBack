@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using PresupuestitoBack.DTOs;
 using PresupuestitoBack.Services;
-using PresupuestitoBack.Repositories;
 
 namespace PresupuestitoBack.Controllers
 {
-    public class WorkController
+    [Route("api/[controller]/work")]
+    [ApiController]
+    public class WorkController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly WorkService _workService;

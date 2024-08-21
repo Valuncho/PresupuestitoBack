@@ -5,8 +5,11 @@ using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
-    public class CostController
+    [Route("api/[controller]/cost")]
+    [ApiController]
+    public class CostController : ControllerBase
     {
+
         private readonly IMapper _mapper;
         private readonly CostService _costService;
 
