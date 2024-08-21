@@ -1,57 +1,92 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PresupuestitoBack.DTOs;
+using PresupuestitoBack.DTOs.RequestDTOs;
 using PresupuestitoBack.Models;
 using PresupuestitoBack.Repositories;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
-    [Route("api/[controller]/Budget")]
     [ApiController]
+    [Route("api/budget")]
     public class BudgetController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly BudgetService _budgetService;
 
-        public BudgetController(IMapper mapper, BudgetService budgetService)
-        {
-            _mapper = mapper;
-            _budgetService = budgetService;
-        }
-        [HttpGet("{id}", Name = "GetBudgetById")]
-        public async Task<ActionResult<BudgetDto>> GetBudget(int id)
-        {
-            if (id == 0)
-            {
-                return BadRequest();
-            }
 
-            var budget = await _budgetService.GetByIdAsync(id);
-            if (budget != null)
-            {
-                return Ok(_mapper.Map<BudgetDto>(budget));
-            }
+        private readonly BudgetService budgetService;
+        private readonly IMapper mapper;
 
-            return NotFound();
-        }
-        [HttpGet]
-        public async Task<ActionResult<List<BudgetDto>>> GetAllBudgets()
+        public BudgetController(BudgetService budgetService, IMapper mapper)
         {
-            var budgets = await _budgetService.GetAllAsync();
-            return Ok(_mapper.Map<List<BudgetDto>>(budgets));
+            this.budgetService = budgetService;
+            this.mapper = mapper;
         }
-        [HttpDelete]
-        public async Task<ActionResult<BudgetDto>> Delete(int IdBudget)
+
+        [HttpGet("getAll")]
+        public async Task<ActionResult<List<BudgetDto>>> GetBudgets()
         {
-            if (IdBudget == 0)
+            var budgets = await budgetService.GetAllAsync();
+            var budgetsDto = mapper.Map<List<BudgetDto>>(budgets);
+            return Ok(budgetsDto);
+        }
+
+
+        [HttpPost("new")]
+        public async Task<ActionResult> SaveBudget([FromBody] BudgetRequestDto budgetDto)
+        {
+            var budget = mapper.Map<Budget>(budgetDto);
+            var result = await budgetService.SaveAsync(budget);
+            if (result)
             {
-                return BadRequest();
+                return Ok("Budget guardado exitosamente.");
             }
-            else
+            return BadRequest("No se pudo guardar el Budget.");
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<BudgetDto>> GetBudgetById(int id)
+        {
+            var budget = await budgetService.GetByIdAsync(id);
+            if (budget == null)
             {
-                await _budgetService.Delete(IdBudget);
-                return NoContent();
+                return NotFound();
+            }
+            var budgetDto = mapper.Map<BudgetDto>(budget);
+            return Ok(budgetDto);
+        }
+
+
+        [HttpPut("update/{id}")]
+        public async Task<ActionResult> UpdateBudgetById(int id, [FromBody] BudgetRequestDto requestDto)
+        {
+            var budget = mapper.Map<Budget>(requestDto);
+            budget.IdBudget = id; // Ensure the ID is set correctly for updating
+            var result = await budgetService.UpdateAsync(budget);
+            if (result)
+            {
+                return Ok("Budget actualizado exitosamente.");
+            }
+            return BadRequest("No se pudo actualizar el Budget.");
+        }
+
+
+        [HttpDelete("delete/{id}")]
+        public async Task<ActionResult> DeleteBudgetById(int id)
+        {
+            try
+            {
+                var result = await budgetService.DeleteAsync(id);
+                if (result)
+                {
+                    return Ok("Registro eliminado :)");
+                }
+                return BadRequest("No se pudo eliminar el registro.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"No se pudo eliminar el registro. El error es: {ex.Message}");
             }
         }
     }

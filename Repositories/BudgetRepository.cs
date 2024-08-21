@@ -13,46 +13,12 @@ namespace PresupuestitoBack.Repositories
         {
         }
 
-        public override async Task<bool> Update(Budget updateService)
-        {
-            var Service = await _context.Budgets.FirstOrDefaultAsync(x => x.IdBudget == updateService.IdBudget);
-            if (Service == null) { return false; }
-
-            Service.Works = updateService.Works;
-            Service.Cost = updateService.Cost;
-            Service.DescriptionBudget = updateService.DescriptionBudget;
-            Service.Payments = updateService.Payments;
-
-            _context.Budgets.Update(Service);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-
-        public override async Task<bool> Delete(int id)
-        {
-            var budget = await _context.Budgets.Where(x => x.IdBudget == id).FirstOrDefaultAsync();
-            if (budget != null)
-            {
-                _context.Budgets.Remove(budget);
-                await _context.SaveChangesAsync();
-            }
-
-            return true;
-        }
 
         public override async Task<bool> Insert(Budget newBudget)
         {
             try
             {
-                var BudgetExisting = await _context.Budgets.FirstOrDefaultAsync(x => x.IdBudget == newBudget.IdBudget);
-
-                if (BudgetExisting != null)
-                {
-                    return false;
-                }
-
-                _context.Budgets.Add(newBudget);
-                await _context.SaveChangesAsync();
+                await base.Insert(newBudget);
                 return true;
             }
             catch (Exception)
@@ -60,6 +26,17 @@ namespace PresupuestitoBack.Repositories
                 return false;
             }
         }
+
+        public override async Task<bool> Update(Budget updateService)
+        {
+            return await base.Update(updateService);
+        }
+
+        public override async Task<bool> Delete(int id)
+        {
+            return await base.Delete(id);
+        }
+
     }
 }
 
