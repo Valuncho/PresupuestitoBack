@@ -1,57 +1,92 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PresupuestitoBack.DTOs;
+using PresupuestitoBack.DTOs.RequestDTOs;
 using PresupuestitoBack.Models;
 using PresupuestitoBack.Repositories;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
-    [Route("api/[controller]/InvoiceItem")]
     [ApiController]
+    [Route("api/invoiceItem")]
     public class InvoiceItemController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly InvoiceItemService _invoiceItemService;
 
-        public InvoiceItemController(IMapper mapper, InvoiceItemService invoiceItemService)
-        {
-            _mapper = mapper;
-            _invoiceItemService = invoiceItemService;
-        }
-        [HttpGet("{id}", Name = "GetInvoiceItemById")]
-        public async Task<ActionResult<InvoiceItemDto>> GetInvoiceItem(int id)
-        {
-            if (id == 0)
-            {
-                return BadRequest();
-            }
 
-            var invoiceItem = await _invoiceItemService.GetByIdAsync(id);
-            if (invoiceItem != null)
-            {
-                return Ok(_mapper.Map<InvoiceItemDto>(invoiceItem));
-            }
+        private readonly InvoiceItemService invoiceItemService;
+        private readonly IMapper mapper;
 
-            return NotFound();
-        }
-        [HttpGet]
-        public async Task<ActionResult<List<InvoiceItemDto>>> GetAllInvoicesItems()
+        public InvoiceItemController(InvoiceItemService invoiceItemService, IMapper mapper)
         {
-            var invoicesItems = await _invoiceItemService.GetAllAsync();
-            return Ok(_mapper.Map<List<InvoiceItemDto>>(invoicesItems));
+            this.invoiceItemService = invoiceItemService;
+            this.mapper = mapper;
         }
-        [HttpDelete]
-        public async Task<ActionResult<InvoiceItemDto>> Delete(int IdInvoiceItem)
+
+        [HttpGet("getAll")]
+        public async Task<ActionResult<List<InvoiceItemDto>>> GetInvoicesItems()
         {
-            if (IdInvoiceItem == 0)
+            var invoicesItems = await invoiceItemService.GetAllAsync();
+            var invoicesItemsDto = mapper.Map<List<InvoiceItemDto>>(invoicesItems);
+            return Ok(invoicesItemsDto);
+        }
+
+
+        [HttpPost("new")]
+        public async Task<ActionResult> SaveInvoiceItem([FromBody] InvoiceItemRequestDto invoiceItemDto)
+        {
+            var invoiceItem = mapper.Map<InvoiceItem>(invoiceItemDto);
+            var result = await invoiceItemService.SaveAsync(invoiceItem);
+            if (result)
             {
-                return BadRequest();
+                return Ok("InvoiceItem guardado exitosamente.");
             }
-            else
+            return BadRequest("No se pudo guardar el InvoiceItem.");
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<InvoiceItemDto>> GetInvoiceItemById(int id)
+        {
+            var invoiceItem = await invoiceItemService.GetByIdAsync(id);
+            if (invoiceItem == null)
             {
-                await _invoiceItemService.Delete(IdInvoiceItem);
-                return NoContent();
+                return NotFound();
+            }
+            var invoiceItemDto = mapper.Map<InvoiceItemDto>(invoiceItem);
+            return Ok(invoiceItemDto);
+        }
+
+
+        [HttpPut("update/{id}")]
+        public async Task<ActionResult> UpdateInvoiceItemById(int id, [FromBody] InvoiceItemRequestDto requestDto)
+        {
+            var invoiceItem = mapper.Map<InvoiceItem>(requestDto);
+            invoiceItem.IdInvoiceItem = id; // Ensure the ID is set correctly for updating
+            var result = await invoiceItemService.UpdateAsync(invoiceItem);
+            if (result)
+            {
+                return Ok("InvoiceItem actualizado exitosamente.");
+            }
+            return BadRequest("No se pudo actualizar el InvoiceItem.");
+        }
+
+
+        [HttpDelete("delete/{id}")]
+        public async Task<ActionResult> DeleteInvoiceItemById(int id)
+        {
+            try
+            {
+                var result = await invoiceItemService.DeleteAsync(id);
+                if (result)
+                {
+                    return Ok("Registro eliminado :)");
+                }
+                return BadRequest("No se pudo eliminar el registro.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"No se pudo eliminar el registro. El error es: {ex.Message}");
             }
         }
     }
