@@ -15,5 +15,18 @@ namespace PresupuestitoBack.DataAccess
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceItem> InvoicesItems { get; set; }
+
+        public DbSet<Supplier> Suppliers { get; set; }
+
+        public DbSet<Cost> Costs { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<Work> Works { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }
+        public DbSet<SupplierHistory> SupplierHistories { get; set; }
+        public DbSet<Material> Materials { get; set; }
+
+
     }
 }

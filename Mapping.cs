@@ -16,8 +16,18 @@ namespace PresupuestitoBack
             CreateMap<Invoice, InvoiceDto>().ReverseMap();
             CreateMap<InvoiceItem, InvoiceItemDto>().ReverseMap();
             CreateMap<Payment, PaymentDto>().ReverseMap();
+
             //CreateMap<Supplier, SupplierDto>().ReverseMap();
             //CreateMap<SupplierHistory, SupplierHistoryDto>().ReverseMap();
+            //CreateMap<Work, WorkDto>().ReverseMap();
+            //CreateMap<Item, ItemDao>().ReverseMap();
+            //CreateMap<Cost, CostDto>().ReverseMap();
+
+            //CreateMap<SupplierHistory, SupplierHistoryDto>().ReverseMap();
+            //CreateMap<Category, CategoryDto>().ReverseMap();
+            //CreateMap<SubCategory, SubCategoryDto>().ReverseMap();
+            //CreateMap<Material, MaterialDto>().ReverseMap();
+
         }
     }
 }
