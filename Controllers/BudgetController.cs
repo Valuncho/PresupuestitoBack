@@ -33,7 +33,7 @@ namespace PresupuestitoBack.Controllers
 
 
         [HttpPost("new")]
-        public async Task<ActionResult> SaveBudget([FromBody] BudgetRequestDto budgetDto)
+        public async Task<ActionResult> SaveBudget(BudgetDto budgetDto)
         {
             var budget = mapper.Map<Budget>(budgetDto);
             var result = await budgetService.SaveAsync(budget);
@@ -59,7 +59,7 @@ namespace PresupuestitoBack.Controllers
 
 
         [HttpPut("update/{id}")]
-        public async Task<ActionResult> UpdateBudgetById(int id, [FromBody] BudgetRequestDto requestDto)
+        public async Task<ActionResult> UpdateBudgetById(int id, BudgetDto requestDto)
         {
             var budget = mapper.Map<Budget>(requestDto);
             budget.IdBudget = id; // Ensure the ID is set correctly for updating

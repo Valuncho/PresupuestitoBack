@@ -33,7 +33,7 @@ namespace PresupuestitoBack.Controllers
 
 
         [HttpPost("new")]
-        public async Task<ActionResult> SaveInvoiceItem([FromBody] InvoiceItemRequestDto invoiceItemDto)
+        public async Task<ActionResult> SaveInvoiceItem( InvoiceItemDto invoiceItemDto)
         {
             var invoiceItem = mapper.Map<InvoiceItem>(invoiceItemDto);
             var result = await invoiceItemService.SaveAsync(invoiceItem);
@@ -59,7 +59,7 @@ namespace PresupuestitoBack.Controllers
 
 
         [HttpPut("update/{id}")]
-        public async Task<ActionResult> UpdateInvoiceItemById(int id, [FromBody] InvoiceItemRequestDto requestDto)
+        public async Task<ActionResult> UpdateInvoiceItemById(int id, InvoiceItemDto requestDto)
         {
             var invoiceItem = mapper.Map<InvoiceItem>(requestDto);
             invoiceItem.IdInvoiceItem = id; // Ensure the ID is set correctly for updating

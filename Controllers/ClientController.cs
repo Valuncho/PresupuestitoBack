@@ -15,28 +15,26 @@ namespace PresupuestitoBack.Controllers
 
 
         private readonly ClientService clientService;
-        private readonly IMapper mapper;
+        
 
-        public ClientController(ClientService clientService, IMapper mapper)
+        public ClientController(ClientService clientService)
         {
             this.clientService = clientService;
-            this.mapper = mapper;
+            
         }
 
         [HttpGet("getAll")]
         public async Task<ActionResult<List<ClientDto>>> GetClientes()
         {
             var clients = await clientService.GetAllAsync();
-            var clientsDto = mapper.Map<List<ClientDto>>(clients);
-            return Ok(clientsDto);
+            return Ok(clients);
         }
 
        
         [HttpPost("new")]
-        public async Task<ActionResult> SaveCliente([FromBody] ClientRequestDto clienteDto)
+        public async Task<ActionResult> SaveCliente(ClientDto clienteDto)
         {
-            var client = mapper.Map<Client>(clienteDto);
-            var result = await clientService.SaveAsync(client);
+            var result = await clientService.SaveAsync(clienteDto);
             if (result)
             {
                 return Ok("Cliente guardado exitosamente.");
@@ -53,17 +51,16 @@ namespace PresupuestitoBack.Controllers
             {
                 return NotFound();
             }
-            var clientDto = mapper.Map<ClientDto>(client);
-            return Ok(clientDto);
+            
+            return Ok(client);
         }
 
        
         [HttpPut("update/{id}")]
-        public async Task<ActionResult> UpdateClienteById(int id, [FromBody] ClientRequestDto requestDto)
+        public async Task<ActionResult> UpdateClienteById(int id, ClientDto requestDto)
         {
-            var client = mapper.Map<Client>(requestDto);
-            client.IdClient = id; // Ensure the ID is set correctly for updating
-            var result = await clientService.UpdateAsync(client);
+            requestDto.IdClient = id; // Ensure the ID is set correctly for updating
+            var result = await clientService.UpdateAsync(requestDto);
             if (result)
             {
                 return Ok("Cliente actualizado exitosamente.");

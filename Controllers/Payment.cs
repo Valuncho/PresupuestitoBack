@@ -33,7 +33,7 @@ namespace PresupuestitoBack.Controllers
 
 
         [HttpPost("new")]
-        public async Task<ActionResult> SavePayment([FromBody] PaymentRequestDto paymentDto)
+        public async Task<ActionResult> SavePayment( PaymentDto paymentDto)
         {
             var payment = mapper.Map<Payment>(paymentDto);
             var result = await paymentService.SaveAsync(payment);
@@ -59,7 +59,7 @@ namespace PresupuestitoBack.Controllers
 
 
         [HttpPut("update/{id}")]
-        public async Task<ActionResult> UpdatePaymentById(int id, [FromBody] PaymentRequestDto requestDto)
+        public async Task<ActionResult> UpdatePaymentById(int id, PaymentDto requestDto)
         {
             var payment = mapper.Map<Payment>(requestDto);
             payment.IdPayment = id; // Ensure the ID is set correctly for updating

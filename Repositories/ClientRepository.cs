@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PresupuestitoBack.DataAccess;
+using PresupuestitoBack.DTOs;
 using PresupuestitoBack.Models;
 using PresupuestitoBack.Repositories.IRepositories;
 
@@ -36,7 +37,7 @@ namespace PresupuestitoBack.Repositories
         {
             return await base.Delete(id);
         }
-        
+
     }
 }
 

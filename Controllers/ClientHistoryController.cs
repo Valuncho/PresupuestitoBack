@@ -33,7 +33,7 @@ namespace PresupuestitoBack.Controllers
 
 
         [HttpPost("new")]
-        public async Task<ActionResult> SaveClienteHistory([FromBody] ClientHistoryRequestDto clienteHistoryDto)
+        public async Task<ActionResult> SaveClienteHistory(ClientHistoryDto clienteHistoryDto)
         {
             var clientHistory = mapper.Map<ClientHistory>(clienteHistoryDto);
             var result = await clientHistoryService.SaveAsync(clientHistory);
@@ -59,7 +59,7 @@ namespace PresupuestitoBack.Controllers
 
 
         [HttpPut("update/{id}")]
-        public async Task<ActionResult> UpdateClienteHistoryById(int id, [FromBody] ClientHistoryRequestDto requestDto)
+        public async Task<ActionResult> UpdateClienteHistoryById(int id, ClientHistoryDto requestDto)
         {
             var clientHistory = mapper.Map<ClientHistory>(requestDto);
             clientHistory.IdClientHistory = id; // Ensure the ID is set correctly for updating
