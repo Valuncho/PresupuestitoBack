@@ -20,5 +20,10 @@ namespace PresupuestitoBack.Models
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public Category OCategory { get; set; }
+
+        [Required]
+        [Column(TypeName = "Bool")]
+        public bool status { get; set; }
+
     }
 }

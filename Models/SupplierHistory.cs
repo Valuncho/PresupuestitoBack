@@ -22,8 +22,9 @@ namespace PresupuestitoBack.Models
         [ForeignKey("List<IdInvoices>")]
         public List<Invoice> OInvoices { get; set; }
 
-        //List Invoice
-        public ICollection<Invoice> Invoices { get; set; }
+        [Required]
+        [Column(TypeName = "Bool")]
+        public bool status { get; set; }
 
     } 
 }

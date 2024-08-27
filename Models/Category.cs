@@ -20,5 +20,9 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "VARCHAR(100)")]
         public string CategoryModel { get; set; }
 
+        [Required]
+        [Column(TypeName = "Bool")]
+        public bool status { get; set; }
+
     }
 }

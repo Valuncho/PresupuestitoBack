@@ -46,11 +46,9 @@ namespace PresupuestitoBack.Models
         [ForeignKey("SubCategoryId")]
         public SubCategory OSubCategory { get; set; }
 
-
-
-        
-        //Navigation properties
-        public ICollection<InvoiceItem> InvoiceItems { get; set; } = new List<InvoiceItem>();
+        [Required]
+        [Column(TypeName = "Bool")]
+        public bool status { get; set; }
 
     }
 }
