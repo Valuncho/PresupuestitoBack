@@ -48,5 +48,9 @@ namespace PresupuestitoBack.Models
 
 
 
+        
+        //Navigation properties
+        public ICollection<InvoiceItem> InvoiceItems { get; set; } = new List<InvoiceItem>();
+
     }
 }

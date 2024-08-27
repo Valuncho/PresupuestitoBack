@@ -22,5 +22,8 @@ namespace PresupuestitoBack.Models
         [ForeignKey("List<IdInvoices>")]
         public List<Invoice> OInvoices { get; set; }
 
+        //List Invoice
+        public ICollection<Invoice> Invoices { get; set; }
+
     } 
 }
