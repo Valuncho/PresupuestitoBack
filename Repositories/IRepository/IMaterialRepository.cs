@@ -1,6 +1,9 @@
-﻿namespace PresupuestitoBack.Repositories.IRepository
+﻿using PresupuestitoBack.Models;
+using PresupuestitoBack.Repositories.IRepositories;
+
+namespace PresupuestitoBack.Repositories.IRepository
 {
-    public class IMaterial
+    public interface IMaterialRepository : IRepository<Material>
     {
     }
 }

@@ -1,27 +1,30 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PresupuestitoBack.DataAccess;
+﻿using PresupuestitoBack.DataAccess;
+using PresupuestitoBack.Models;
 using PresupuestitoBack.Repositories.IRepository;
 
 namespace PresupuestitoBack.Repositories
 {
-    public class CategoryRepository<T> : ICategoryRepository<T> where T : class
+    public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
-        private readonly ApplicationDbContext context;
 
-        public CategoryRepository(ApplicationDbContext context)
+        private readonly ApplicationDbContext context;
+        public CategoryRepository(ApplicationDbContext context) : base(context)
         {
             this.context = context;
         }
 
-        protected DbSet<T> EntitySet
+        public override async Task<bool> Insert(Category category)
         {
-            get
-            {
-                return context.Set<T>();
-            }
+            await context.Categories.AddAsync(category);
+            await context.SaveChangesAsync();
+            return true;
         }
 
-        public async Task<T> InsertCategory(T entity);
-
+        public override async Task<bool> Update(Category category)
+        {
+            context.Categories.Update(category);
+            await context.SaveChangesAsync();
+            return true;
+        }
     }
 }
