@@ -1,83 +1,42 @@
-﻿using AutoMapper;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PresupuestitoBack.DataAccess;
 using PresupuestitoBack.DTOs;
-using PresupuestitoBack.Models;
+using PresupuestitoBack.Services;
 
-[ApiController]
-[Route("api/[controller/CategoryController]")]
-public class CategoryController : ControllerBase
+namespace PresupuestitoBack.Controllers
 {
-    private readonly ApplicationDbContext context;
-    private readonly IMapper mapper;
-
-    public CategoryController(ApplicationDbContext context, IMapper mapper)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CategoryController : ControllerBase
     {
-        this.context = context;
-        this.mapper = mapper;
-    }
+        private readonly CategoryService categoryService;
 
-    [HttpPost]
-    [Route("/create")]
-    public async Task<ActionResult<CategoryDto>> AddCategory(CategoryDto categoryDto)
-    {
-        var category = mapper.Map<Category>(categoryDto);
-        context.Categories.Add(category);
-        await context.SaveChangesAsync();
-
-        ActionResult<CategoryDto> result = Ok(mapper.Map<CategoryDto>(category));
-        return result;
-    }
-
-    [HttpGet]
-    [Route("/getAll")]
-    public async Task<ActionResult<List<CategoryDto>>> GetAllCategories()
-    {
-        var categories = await context.Categories.ToListAsync();
-        var categoryDtos = mapper.Map<List<CategoryDto>>(categories);
-
-        ActionResult<List<CategoryDto>> result = Ok(categoryDtos);
-        return result;
-    }
-
-    [HttpGet]
-    [Route("/getById")]
-    public async Task<ActionResult<CategoryDto>> GetCategoryById(int id)
-    {
-        var category = await context.Categories.FindAsync(id);
-        ActionResult<CategoryDto> result;
-
-        if (category == null)
+        public CategoryController(CategoryService categoryService)
         {
-            result = NotFound();
-        }
-        else
-        {
-            result = Ok(mapper.Map<CategoryDto>(category));
+            this.categoryService = categoryService;
         }
 
-        return result;
-    }
-
-    [HttpPut]
-    [Route("/update")]
-    public async Task<ActionResult<CategoryDto>> UpdateCategory(int id, CategoryDto categoryDto)
-    {
-        var category = await context.Categories.FindAsync(id);
-        ActionResult<CategoryDto> result;
-
-        if (category == null)
+        [HttpPost]
+        public async Task createCategory(CategoryDto categoryDto)
         {
-            result = NotFound();
-        }
-        else
-        {
-            mapper.Map(categoryDto, category);
-            await context.SaveChangesAsync();
-            result = Ok(mapper.Map<CategoryDto>(category));
+            await categoryService.createCategory(categoryDto);
         }
 
-        return result;
+        [HttpPut("{id}")]
+        public async Task updateCategory(CategoryDto categoryDto)
+        {
+            await categoryService.updateCategory(categoryDto);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<CategoryDto> getCategoryById(int id)
+        {
+            return await categoryService.getCategoryById(id);           
+        }
+
+        public async Task<List<CategoryDto>> getCategories()
+        {
+            return await categoryService.getCategories();
+        }
     }
 }
