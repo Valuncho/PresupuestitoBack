@@ -19,5 +19,10 @@ namespace PresupuestitoBack.Models
 
         [Required]
         public decimal Price { get; set; }
+
+
+        [Required]
+        [Column(TypeName = "Bool")]
+        public bool status { get; set; }
     }
 }

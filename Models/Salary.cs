@@ -24,5 +24,9 @@ namespace PresupuestitoBack.Models
         public int IdPayments { get; set; }
         [ForeignKey("IdPayment")]
         public Payment OPayment { get; set; }
+
+        [Required]
+        [Column(TypeName = "Bool")]
+        public bool status { get; set; }
     }
 }

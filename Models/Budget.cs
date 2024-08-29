@@ -23,5 +23,12 @@ namespace PresupuestitoBack.Models
 
         //List Payments
         public ICollection<Payment> Payments { get; set; }
+
+
+        [Required]
+        [Column(TypeName = "Bool")]
+        public bool status { get; set; }
+
+
     }
 }

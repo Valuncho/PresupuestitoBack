@@ -22,14 +22,6 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "VARCHAR(400)")]
         public string DescriptionPayment { get; set; }
 
-        /*
-        [Required]
-        public int IdSalary { get; set; }
-        [ForeignKey("IdSalary")]
-        public Salary OSalary { get; set; }
-
-        */
-
         [Required]
         public int IdInvoice { get; set; }
         [ForeignKey("IdInvoice")]
@@ -39,6 +31,10 @@ namespace PresupuestitoBack.Models
         public int IdBudget { get; set; }
         [ForeignKey("IdBudget")]
         public Budget OBudget { get; set; }
+
+        [Required]
+        [Column(TypeName = "Bool")]
+        public bool status { get; set; }
 
     }
 }

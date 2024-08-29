@@ -12,5 +12,9 @@ namespace PresupuestitoBack.Models
         
         [ForeignKey("IdPerson")]
         public Person OPerson { get; set; }
+
+        [Required]
+        [Column(TypeName = "Bool")]
+        public bool status { get; set; }
     }
 }

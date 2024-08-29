@@ -18,5 +18,9 @@ namespace PresupuestitoBack.Models
         //Navigation properties
         public ICollection<ClientHistory> ClientsHistory { get; set; } = new List<ClientHistory>();
 
+        [Required]
+        [Column(TypeName = "Bool")]
+        public bool status { get; set; }
+
     }
 }

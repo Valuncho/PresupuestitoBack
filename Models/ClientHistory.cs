@@ -19,5 +19,9 @@ namespace PresupuestitoBack.Models
         //List Budgets
         public ICollection<Budget> Budgets { get; set; }
 
+        [Required]
+        [Column(TypeName = "Bool")]
+        public bool status { get; set; }
+
     }
 }

@@ -45,6 +45,10 @@ namespace PresupuestitoBack.Models
         public ICollection<Client> Clients { get; set; } = new List<Client>();
 
         public ICollection<Employee> Employees { get; set; } = new List<Employee>();
-        
+
+        [Required]
+        [Column(TypeName = "Bool")]
+        public bool status { get; set; }
+
     }
 }
