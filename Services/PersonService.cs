@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using PresupuestitoBack.Models;
+﻿using PresupuestitoBack.Models;
 using PresupuestitoBack.Repositories.IRepositories;
 using System.Linq.Expressions;
 
@@ -7,8 +6,7 @@ namespace PresupuestitoBack.Services
 {
     public class PersonService
     {
-        private readonly IPersonRepository _personRepository;
-        private readonly IMapper _mapper;
+        private readonly IPersonRepository _personRepository;       
         public PersonService(IPersonRepository personRepository)
         {
             _personRepository = personRepository;
