@@ -2,6 +2,7 @@
 using PresupuestitoBack.DataAccess;
 using PresupuestitoBack.Models;
 using PresupuestitoBack.Repositories.IRepository;
+using System.Net;
 
 namespace PresupuestitoBack.Repositories
 {
@@ -13,42 +14,20 @@ namespace PresupuestitoBack.Repositories
         }
         public override async Task<bool> Update(Item updateService)
         {
-            var Service = await _context.Items.FirstOrDefaultAsync(x => x.IdItem == updateService.IdItem);
-            if (Service == null) { return false; }
-
-            Service.OMaterial = updateService.OMaterial;
-            Service.Quantity = updateService.Quantity;
-            
-            _context.Items.Update(Service);
-            await _context.SaveChangesAsync();
-            return true;
+            return await base.Update(updateService);
         }
 
         public override async Task<bool> Delete(int id)
         {
-            var item = await _context.Items.Where(x => x.IdItem == id).FirstOrDefaultAsync();
-            if (item != null)
-            {
-                _context.Items.Remove(item);
-                await _context.SaveChangesAsync();
-            }
+            return await base.Delete(id);
 
-            return true;
         }
 
         public override async Task<bool> Insert(Item newItem)
         {
             try
             {
-                var personExisting = await _context.Items.FirstOrDefaultAsync(x => x.IdItem == newItem.IdItem);
-
-                if (personExisting != null)
-                {
-                    return false;
-                }
-
-                _context.Items.Add(newItem);
-                await _context.SaveChangesAsync();
+                await base.Insert(newItem);
                 return true;
             }
             catch (Exception)

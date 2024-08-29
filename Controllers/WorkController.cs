@@ -9,47 +9,76 @@ namespace PresupuestitoBack.Controllers
     [ApiController]
     public class WorkController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly WorkService _workService;
+        private readonly WorkService workService;
 
-        public WorkController(IMapper mapper, WorkService workService)
+
+        public WorkController(WorkService workService)
         {
-            _mapper = mapper;
-            _workService = workService;
+            this.workService = workService;
+
         }
-        [HttpGet("{id}", Name = "GetWorkById")]
-        public async Task<ActionResult<WorkDto>> GetWork(int id)
+
+        [HttpGet("getAll")]
+        public async Task<ActionResult<List<WorkDto>>> GetWorks()
         {
-            if (id == 0)
+            var works = await workService.GetAllAsync();
+            return Ok(works);
+        }
+
+
+        [HttpPost("new")]
+        public async Task<ActionResult> SaveWork (WorkDto workDto)
+        {
+            var result = await workService.SaveAsync(workDto);
+            if (result)
             {
-                return BadRequest();
+                return Ok("Trabajo guardado exitosamente.");
+            }
+            return BadRequest("No se pudo guardar el trabajo.");
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<WorkDto>> GetWorkById(int id)
+        {
+            var work = await workService.GetByIdAsync(id);
+            if (work == null)
+            {
+                return NotFound();
             }
 
-            var work = await _workService.GetByIdAsync(id);
-            if (work != null)
-            {
-                return Ok(_mapper.Map<WorkDto>(work));
-            }
+            return Ok(work);
+        }
 
-            return NotFound();
-        }
-        [HttpGet]
-        public async Task<ActionResult<List<WorkDto>>> GetAllWorks()
+
+        [HttpPut("update/{id}")]
+        public async Task<ActionResult> UpdateWorkById(int id, WorkDto workDto)
         {
-            var works = await _workService.GetAllAsync();
-            return Ok(_mapper.Map<List<WorkDto>>(works));
-        }
-        [HttpDelete]
-        public async Task<ActionResult<WorkDto>> Delete(int IdWork)
-        {
-            if (IdWork == 0)
+            workDto.IdWork = id; // Ensure the ID is set correctly for updating
+            var result = await workService.UpdateAsync(workDto);
+            if (result)
             {
-                return BadRequest();
+                return Ok("Cliente actualizado exitosamente.");
             }
-            else
+            return BadRequest("No se pudo actualizar el cliente.");
+        }
+
+
+        [HttpDelete("delete/{id}")]
+        public async Task<ActionResult> DeleteWorkById(int id)
+        {
+            try
             {
-                await _workService.Delete(IdWork);
-                return NoContent();
+                var result = await workService.DeleteAsync(id);
+                if (result)
+                {
+                    return Ok("Registro eliminado :)");
+                }
+                return BadRequest("No se pudo eliminar el registro.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"No se pudo eliminar el registro. El error es: {ex.Message}");
             }
         }
     }

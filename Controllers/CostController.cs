@@ -10,47 +10,76 @@ namespace PresupuestitoBack.Controllers
     public class CostController : ControllerBase
     {
 
-        private readonly IMapper _mapper;
+       
         private readonly CostService _costService;
 
-        public CostController(IMapper mapper, CostService costService)
+        public CostController(CostService costService)
         {
-            _mapper = mapper;
-            _costService = costService;
-        }
-        [HttpGet("{id}", Name = "GetCostById")]
-        public async Task<ActionResult<CostDto>> GetCost(int id)
-        {
-            if (id == 0)
-            {
-                return BadRequest();
-            }
+            this._costService = costService;
 
-            var item = await _costService.GetByIdAsync(id);
-            if (item != null)
-            {
-                return Ok(_mapper.Map<CostDto>(item));
-            }
-
-            return NotFound();
         }
-        [HttpGet]
-        public async Task<ActionResult<List<CostDto>>> GetAllCost()
+
+        [HttpGet("getAll")]
+        public async Task<ActionResult<List<ClientDto>>> GetClientes()
         {
             var costs = await _costService.GetAllAsync();
-            return Ok(_mapper.Map<List<CostDto>>(costs));
+            return Ok(costs);
         }
-        [HttpDelete]
-        public async Task<ActionResult<CostDto>> Delete(int IdCost)
+
+
+        [HttpPost("new")]
+        public async Task<ActionResult> SaveCost(CostDto costDto)
         {
-            if (IdCost == 0)
+            var result = await _costService.SaveAsync(costDto);
+            if (result)
             {
-                return BadRequest();
+                return Ok("Costo guardado exitosamente.");
             }
-            else
+            return BadRequest("No se pudo guardar el costo.");
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<CostDto>> GetCostById(int id)
+        {
+            var cost = await _costService.GetByIdAsync(id);
+            if (cost == null)
             {
-                await _costService.Delete(IdCost);
-                return NoContent();
+                return NotFound();
+            }
+
+            return Ok(cost);
+        }
+
+
+        [HttpPut("update/{id}")]
+        public async Task<ActionResult> UpdateCostById(int id, CostDto costDto)
+        {
+            costDto.IdCost = id; // Ensure the ID is set correctly for updating
+            var result = await _costService.UpdateAsync(costDto);
+            if (result)
+            {
+                return Ok("Costo actualizado exitosamente.");
+            }
+            return BadRequest("No se pudo actualizar el costo.");
+        }
+
+
+        [HttpDelete("delete/{id}")]
+        public async Task<ActionResult> DeleteCostById(int id)
+        {
+            try
+            {
+                var result = await _costService.DeleteAsync(id);
+                if (result)
+                {
+                    return Ok("Registro eliminado :)");
+                }
+                return BadRequest("No se pudo eliminar el registro.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"No se pudo eliminar el registro. El error es: {ex.Message}");
             }
         }
     }

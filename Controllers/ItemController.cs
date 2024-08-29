@@ -10,74 +10,69 @@ namespace PresupuestitoBack.Controllers
     [ApiController]
     public class ItemController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly ItemService _itemService;
 
-        public ItemController(IMapper mapper, ItemService itemService)
+        public ItemController(ItemService itemService)
         {
-            _mapper = mapper;
-            _itemService = itemService;
+            this._itemService = itemService;
         }
 
         [HttpPost("new")]
-        public async Task<ActionResult> SaveItem(ItemDao itemDAO)
+        public async Task<ActionResult> SaveItem(ItemDao itemDto)
         {
-            var item = _mapper.Map<Item>(itemDAO);
-            var result = await _itemService.SaveAsync(item);
+            var result = await _itemService.SaveAsync(itemDto);
             if (result)
             {
-                return Ok("Item Guardado Correctamente");
+                return Ok("Item guardado exitosamente.");
             }
-            return BadRequest("No se pudo cargar el Item");
+            return BadRequest("No se pudo guardar el item.");
         }
 
-        [HttpGet("{id}", Name = "GetItemById")]
-        public async Task<ActionResult<ItemDao>> GetItem(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ItemDao>> GetItemById(int id)
         {
-            if (id == 0)
-            {
-                return BadRequest();
-            }
-
             var item = await _itemService.GetByIdAsync(id);
-            if (item != null)
+            if (item == null)
             {
-                return Ok(_mapper.Map<ItemDao>(item));
+                return NotFound();
             }
 
-            return NotFound();
+            return Ok(item);
         }
-        [HttpGet]
+        [HttpGet("getAll")]
         public async Task<ActionResult<List<ItemDao>>> GetAllItems()
         {
             var items = await _itemService.GetAllAsync();
-            return Ok(_mapper.Map<List<ItemDao>>(items));
+            return Ok(items);
         }
 
         [HttpPut("update/{id}")]
         public async Task<ActionResult> UpdateItemById(int id, ItemDao itemDto)
         {
-            var item = _mapper.Map<Item>(itemDto);
-            item.IdItem = id;
-            var result = await _itemService.UpdateAsync(item);
+            itemDto.IdItem = id; // Ensure the ID is set correctly for updating
+            var result = await _itemService.UpdateAsync(itemDto);
             if (result)
             {
-                return Ok("Item Actualizado");
+                return Ok("Item actualizado exitosamente.");
             }
-            return BadRequest("No se puso actualizar el Item");
+            return BadRequest("No se pudo actualizar el item.");
         }
 
-        [HttpDelete]
-        public async Task<ActionResult<ItemDao>> Delete(int IdItem)
+        [HttpDelete("delete/{id}")]
+        public async Task<ActionResult> DeleteItemById(int Id)
         {
-            if (IdItem == 0)
+            try
             {
-                return BadRequest();
+                var result = await _itemService.DeleteAsync(Id);
+                if (result)
+                {
+                    return Ok("Registro eliminado :)");
+                }
+                return BadRequest("No se pudo eliminar el registro.");
             }
-            else
+            catch (Exception ex)
             {
-                await _itemService.Delete(IdItem);
-                return NoContent();
+                return BadRequest($"No se pudo eliminar el registro. El error es: {ex.Message}");
             }
         }
     }
