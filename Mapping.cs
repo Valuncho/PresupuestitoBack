@@ -19,9 +19,9 @@ namespace PresupuestitoBack
 
             //CreateMap<Supplier, SupplierDto>().ReverseMap();
             //CreateMap<SupplierHistory, SupplierHistoryDto>().ReverseMap();
-            //CreateMap<Work, WorkDto>().ReverseMap();
-            //CreateMap<Item, ItemDao>().ReverseMap();
-            //CreateMap<Cost, CostDto>().ReverseMap();
+            CreateMap<Work, WorkDto>().ReverseMap();
+            CreateMap<Item, ItemDao>().ReverseMap();
+            CreateMap<Cost, CostDto>().ReverseMap();
 
             //CreateMap<SupplierHistory, SupplierHistoryDto>().ReverseMap();
             //CreateMap<Category, CategoryDto>().ReverseMap();

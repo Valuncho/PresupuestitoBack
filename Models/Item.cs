@@ -10,9 +10,6 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "INT")]
         public int IdItem { get; set; }
 
-        [Required]
-        public int MaterialId { get; set; }
-
         [ForeignKey("IdMaterial")]
         public Material OMaterial { get; set; }
 
