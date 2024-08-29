@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PresupuestitoBack.DTOs;
-using PresupuestitoBack.DTOs.RequestDTOs;
 using PresupuestitoBack.Models;
 using PresupuestitoBack.Repositories;
 using PresupuestitoBack.Services;
@@ -9,34 +8,32 @@ using PresupuestitoBack.Services;
 namespace PresupuestitoBack.Controllers
 {
     [ApiController]
-    [Route("api/budget")]
+    [Route("api/Budget")]
     public class BudgetController : ControllerBase
     {
 
 
         private readonly BudgetService budgetService;
-        private readonly IMapper mapper;
 
-        public BudgetController(BudgetService budgetService, IMapper mapper)
+
+        public BudgetController(BudgetService budgetService)
         {
             this.budgetService = budgetService;
-            this.mapper = mapper;
+
         }
 
         [HttpGet("getAll")]
         public async Task<ActionResult<List<BudgetDto>>> GetBudgets()
         {
             var budgets = await budgetService.GetAllAsync();
-            var budgetsDto = mapper.Map<List<BudgetDto>>(budgets);
-            return Ok(budgetsDto);
+            return Ok(budgets);
         }
 
 
         [HttpPost("new")]
         public async Task<ActionResult> SaveBudget(BudgetDto budgetDto)
         {
-            var budget = mapper.Map<Budget>(budgetDto);
-            var result = await budgetService.SaveAsync(budget);
+            var result = await budgetService.SaveAsync(budgetDto);
             if (result)
             {
                 return Ok("Budget guardado exitosamente.");
@@ -53,17 +50,16 @@ namespace PresupuestitoBack.Controllers
             {
                 return NotFound();
             }
-            var budgetDto = mapper.Map<BudgetDto>(budget);
-            return Ok(budgetDto);
+
+            return Ok(budget);
         }
 
 
         [HttpPut("update/{id}")]
         public async Task<ActionResult> UpdateBudgetById(int id, BudgetDto requestDto)
         {
-            var budget = mapper.Map<Budget>(requestDto);
-            budget.IdBudget = id; // Ensure the ID is set correctly for updating
-            var result = await budgetService.UpdateAsync(budget);
+            requestDto.IdBudget = id; // Ensure the ID is set correctly for updating
+            var result = await budgetService.UpdateAsync(requestDto);
             if (result)
             {
                 return Ok("Budget actualizado exitosamente.");

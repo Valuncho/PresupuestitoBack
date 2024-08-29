@@ -59,7 +59,7 @@ namespace PresupuestitoBack.Controllers
         public async Task<ActionResult> UpdateClienteHistoryById(int id, ClientHistoryDto requestDto)
         {
             requestDto.IdClientHistory = id; // Ensure the ID is set correctly for updating
-            var result = await clientService.UpdateAsync(requestDto);
+            var result = await clientHistoryService.UpdateAsync(requestDto);
             if (result)
             {
                 return Ok("Cliente History actualizado exitosamente.");
