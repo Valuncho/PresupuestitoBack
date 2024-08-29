@@ -14,33 +14,31 @@ namespace PresupuestitoBack.Controllers
 
 
         private readonly InvoiceItemService invoiceItemService;
-        private readonly IMapper mapper;
 
-        public InvoiceItemController(InvoiceItemService invoiceItemService, IMapper mapper)
+
+        public InvoiceItemController(InvoiceItemService invoiceItemService)
         {
             this.invoiceItemService = invoiceItemService;
-            this.mapper = mapper;
+
         }
 
         [HttpGet("getAll")]
         public async Task<ActionResult<List<InvoiceItemDto>>> GetInvoicesItems()
         {
             var invoicesItems = await invoiceItemService.GetAllAsync();
-            var invoicesItemsDto = mapper.Map<List<InvoiceItemDto>>(invoicesItems);
-            return Ok(invoicesItemsDto);
+            return Ok(invoicesItems);
         }
 
 
         [HttpPost("new")]
-        public async Task<ActionResult> SaveInvoiceItem( InvoiceItemDto invoiceItemDto)
+        public async Task<ActionResult> SaveInvoiceItem(InvoiceItemDto invoiceItemDto)
         {
-            var invoiceItem = mapper.Map<InvoiceItem>(invoiceItemDto);
-            var result = await invoiceItemService.SaveAsync(invoiceItem);
+            var result = await invoiceItemService.SaveAsync(invoiceItemDto);
             if (result)
             {
                 return Ok("InvoiceItem guardado exitosamente.");
             }
-            return BadRequest("No se pudo guardar el InvoiceItem.");
+            return BadRequest("No se pudo guardar el invoiceItem.");
         }
 
 
@@ -52,17 +50,16 @@ namespace PresupuestitoBack.Controllers
             {
                 return NotFound();
             }
-            var invoiceItemDto = mapper.Map<InvoiceItemDto>(invoiceItem);
-            return Ok(invoiceItemDto);
+
+            return Ok(invoiceItem);
         }
 
 
         [HttpPut("update/{id}")]
         public async Task<ActionResult> UpdateInvoiceItemById(int id, InvoiceItemDto requestDto)
         {
-            var invoiceItem = mapper.Map<InvoiceItem>(requestDto);
-            invoiceItem.IdInvoiceItem = id; // Ensure the ID is set correctly for updating
-            var result = await invoiceItemService.UpdateAsync(invoiceItem);
+            requestDto.IdInvoiceItem = id; // Ensure the ID is set correctly for updating
+            var result = await invoiceItemService.UpdateAsync(requestDto);
             if (result)
             {
                 return Ok("InvoiceItem actualizado exitosamente.");

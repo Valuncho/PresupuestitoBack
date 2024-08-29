@@ -36,9 +36,9 @@ namespace PresupuestitoBack.Controllers
             var result = await invoiceService.SaveAsync(invoiceDto);
             if (result)
             {
-                return Ok("Cliente guardado exitosamente.");
+                return Ok("Invoice guardado exitosamente.");
             }
-            return BadRequest("No se pudo guardar el cliente.");
+            return BadRequest("No se pudo guardar el invoice.");
         }
 
 
