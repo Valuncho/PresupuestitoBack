@@ -9,6 +9,12 @@ namespace PresupuestitoBack
     {
         public Mapping()
         {
+<<<<<<< HEAD
+            CreateMap<SupplierHistory, SupplierHistoryDto>().ReverseMap();
+            CreateMap<Category, CategoryDto>().ReverseMap();
+            CreateMap<SubCategory, SubCategoryDto>().ReverseMap();
+            CreateMap<Material, MaterialDto>().ReverseMap();
+=======
             CreateMap<Person, PersonDto>().ReverseMap();
             CreateMap<Budget, BudgetDto>().ReverseMap();
             CreateMap<Client, ClientDto>().ReverseMap();
@@ -28,6 +34,7 @@ namespace PresupuestitoBack
             //CreateMap<SubCategory, SubCategoryDto>().ReverseMap();
             //CreateMap<Material, MaterialDto>().ReverseMap();
 
+>>>>>>> 29122568a473bcb76fc8acfb3a42b22589cfb67c
         }
     }
 }

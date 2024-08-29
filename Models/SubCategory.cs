@@ -8,17 +8,22 @@ namespace PresupuestitoBack.Models
     {
         [Key]
         [Column(TypeName = "INT")]
-        public int IdSubCategory { get; set; }  
+        public int SubCategoryId { get; set; }  
 
 
         [Required]
         [Column(TypeName = "VARCHAR(100)")]
-        public string NameSubCategory {  get; set; }
+        public string SubCategoryName {  get; set; }
 
 
         [Required]
-        public int IdMaterial { get; set; }
-        [ForeignKey("IdMaterial")]
-        public Material OMaterial { get; set; }
+        public int CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
+        public Category OCategory { get; set; }
+
+        [Required]
+        [Column(TypeName = "Bool")]
+        public bool status { get; set; }
+
     }
 }
