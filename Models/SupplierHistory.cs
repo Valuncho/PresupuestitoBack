@@ -8,7 +8,7 @@ namespace PresupuestitoBack.Models
     {
         [Key]
         [Column(TypeName = "INT")]
-        public int IdSupplierHistory { get; set; }
+        public int SupplierHistoryId { get; set; }
 
 
         [Required]       
@@ -17,33 +17,14 @@ namespace PresupuestitoBack.Models
         public Supplier OSupplier { get; set; }
 
 
-        [Required]      
-        public int IdMaterial { get; set; }
-        [ForeignKey("IdMaterial")]
-        public Material OMaterial { get; set; }
-
+        [Required]
+        public List<int> Invoices { get; set; }
+        [ForeignKey("List<IdInvoices>")]
+        public List<Invoice> OInvoices { get; set; }
 
         [Required]
-        [Column(TypeName = "VARCHAR(50)")]
-        public string QuantityMaterial { get; set; }
-
-
-        [Required]
-        [Column(TypeName = "DATE")]
-        public DateTime PurchaseDateMaterial { get; set; }
-
-
-        [Required]
-        [Column(TypeName = "DECIMAL(20,2)")]
-        public decimal PricePerUnitMaterial { get; set; }
-
-
-        [Required]
-        [Column(TypeName = "DECIMAL(20,2)")]
-        public decimal PriceTotal {  get; set; }
-
-        //List Invoice
-        public ICollection<Invoice> Invoices { get; set; }
+        [Column(TypeName = "Bool")]
+        public bool status { get; set; }
 
     } 
 }
