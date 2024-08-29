@@ -9,23 +9,21 @@ namespace PresupuestitoBack.Repositories
     {
 
     
-    public PersonRepository(ApplicationDbContext context) : base(context)
-    {
-    }
+    public PersonRepository(ApplicationDbContext context) : base(context){}
 
-    public override async Task<bool> Update(Person updateService)
+    public override async Task<bool> Update(Person updatePerson)
     {
-        var Service = await _context.Persons.FirstOrDefaultAsync(x => x.IdPerson == updateService.IdPerson);
-        if (Service == null) { return false; }
+        var Person = await _context.Persons.FirstOrDefaultAsync(x => x.IdPerson == updatePerson.IdPerson);
+        if (Person == null) { return false; }
 
-        Service.Name = updateService.Name;
-        Service.LastName = updateService.LastName;
-        Service.Address = updateService.Address;
-        Service.PhoneNumber = updateService.PhoneNumber;
-        Service.Email = updateService.Email;
-        Service.DNI = updateService.DNI;
-        Service.CUIT = updateService.CUIT;
-        _context.Persons.Update(Service);
+        Person.Name = updatePerson.Name;
+        Person.LastName = updatePerson.LastName;
+        Person.Address = updatePerson.Address;
+        Person.PhoneNumber = updatePerson.PhoneNumber;
+        Person.Email = updatePerson.Email;
+        Person.DNI = updatePerson.DNI;
+        Person.CUIT = updatePerson.CUIT;
+        _context.Persons.Update(Person);
         await _context.SaveChangesAsync();
         return true;
     }
