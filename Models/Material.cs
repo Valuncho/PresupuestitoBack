@@ -40,5 +40,9 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "VARCHAR(50)")]
         public string UnitMeasureMaterial { get; set; }
 
+        
+        //Navigation properties
+        public ICollection<InvoiceItem> InvoiceItems { get; set; } = new List<InvoiceItem>();
+
     }
 }
