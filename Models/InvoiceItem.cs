@@ -3,16 +3,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PresupuestitoBack.Models
 {
-    [Table("InvoiceItems")]
+    [Table("InvoicesItems")]
     public class InvoiceItem
     {
         [Key]
         public int IdInvoiceItem { get; set; }
-        [Required]
+
+        public int IdMaterial { get; set; }
         [ForeignKey("IdMaterial")]
         public Material OMaterial { get; set; }
+        
         [Required]
-        public decimal Quantity { get; set; }
+        [Column(TypeName = "DECIMAL(18, 2)")]
+        public decimal Quantity { get; set; }   
+
         [Required]
         public decimal Price { get; set; }
     }

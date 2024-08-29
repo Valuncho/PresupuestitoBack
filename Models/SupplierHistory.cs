@@ -42,5 +42,8 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "DECIMAL(20,2)")]
         public decimal PriceTotal {  get; set; }
 
+        //List Invoice
+        public ICollection<Invoice> Invoices { get; set; }
+
     } 
 }

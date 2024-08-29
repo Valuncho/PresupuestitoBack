@@ -3,18 +3,38 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PresupuestitoBack.Models
 {
+
     [Table("Invoices")]
     public class Invoice
     {
+        
         [Key]
+        [Column(TypeName = "INT")]
         public int IdInvoice { get; set; }
+
         [Required]
-        public DateOnly Date { get; set; }
+        [Column(TypeName = "DATE")]
+        public DateTime Date { get; set; }
+
+
         [Required]
-        public List<Payment> Payments { get; set; }
+        [Column(TypeName = "BIT")]
+        public bool IsPaid { get; set; }
+
         [Required]
-        public bool IsPiad { get; set; }
-        [Required]
-        public List<Item> Items { get; set; }
+        public int IdSupplierHistory { get; set; }
+        [ForeignKey("IdSupplierHistory")]
+        public SupplierHistory OSupplierHistory { get; set; }
+
+
+        //List Payments
+        public ICollection<Payment> Payments { get; set; }
+
+
+        //List InvoiceItems
+        public ICollection<InvoiceItem> InvoiceItems { get; set; }
+
+
+
     }
 }
