@@ -14,33 +14,31 @@ namespace PresupuestitoBack.Controllers
 
 
         private readonly InvoiceService invoiceService;
-        private readonly IMapper mapper;
 
-        public InvoiceController(InvoiceService invoiceService, IMapper mapper)
+
+        public InvoiceController(InvoiceService invoiceService)
         {
             this.invoiceService = invoiceService;
-            this.mapper = mapper;
+
         }
 
         [HttpGet("getAll")]
         public async Task<ActionResult<List<InvoiceDto>>> GetInvoices()
         {
             var invoices = await invoiceService.GetAllAsync();
-            var invoicesDto = mapper.Map<List<InvoiceDto>>(invoices);
-            return Ok(invoicesDto);
+            return Ok(invoices);
         }
 
 
         [HttpPost("new")]
         public async Task<ActionResult> SaveInvoice(InvoiceDto invoiceDto)
         {
-            var invoice = mapper.Map<Invoice>(invoiceDto);
-            var result = await invoiceService.SaveAsync(invoice);
+            var result = await invoiceService.SaveAsync(invoiceDto);
             if (result)
             {
                 return Ok("Invoice guardado exitosamente.");
             }
-            return BadRequest("No se pudo guardar el Invoice.");
+            return BadRequest("No se pudo guardar el invoice.");
         }
 
 
@@ -52,17 +50,16 @@ namespace PresupuestitoBack.Controllers
             {
                 return NotFound();
             }
-            var invoiceDto = mapper.Map<InvoiceDto>(invoice);
-            return Ok(invoiceDto);
+
+            return Ok(invoice);
         }
 
 
         [HttpPut("update/{id}")]
         public async Task<ActionResult> UpdateInvoiceById(int id, InvoiceDto requestDto)
         {
-            var invoice = mapper.Map<Invoice>(requestDto);
-            invoice.IdInvoice = id; // Ensure the ID is set correctly for updating
-            var result = await invoiceService.UpdateAsync(invoice);
+            requestDto.IdInvoice = id; // Ensure the ID is set correctly for updating
+            var result = await invoiceService.UpdateAsync(requestDto);
             if (result)
             {
                 return Ok("Invoice actualizado exitosamente.");

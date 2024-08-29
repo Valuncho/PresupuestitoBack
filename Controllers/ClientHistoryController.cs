@@ -14,28 +14,26 @@ namespace PresupuestitoBack.Controllers
 
 
         private readonly ClientHistoryService clientHistoryService;
-        private readonly IMapper mapper;
 
-        public ClientHistoryController(ClientHistoryService clientHistoryService, IMapper mapper)
+
+        public ClientHistoryController(ClientHistoryService clientHistoryService)
         {
             this.clientHistoryService = clientHistoryService;
-            this.mapper = mapper;
+
         }
 
         [HttpGet("getAll")]
-        public async Task<ActionResult<List<ClientHistoryDto>>> GetClientesHistory()
+        public async Task<ActionResult<List<ClientHistoryDto>>> GetClientesHistorys()
         {
             var clientsHistorys = await clientHistoryService.GetAllAsync();
-            var clientsHistorysDto = mapper.Map<List<ClientDto>>(clientsHistorys);
-            return Ok(clientsHistorysDto);
+            return Ok(clientsHistorys);
         }
 
 
         [HttpPost("new")]
         public async Task<ActionResult> SaveClienteHistory(ClientHistoryDto clienteHistoryDto)
         {
-            var clientHistory = mapper.Map<ClientHistory>(clienteHistoryDto);
-            var result = await clientHistoryService.SaveAsync(clientHistory);
+            var result = await clientHistoryService.SaveAsync(clienteHistoryDto);
             if (result)
             {
                 return Ok("ClienteHistory guardado exitosamente.");
@@ -52,22 +50,21 @@ namespace PresupuestitoBack.Controllers
             {
                 return NotFound();
             }
-            var clientHistoryDto = mapper.Map<ClientHistoryDto>(clientHistory);
-            return Ok(clientHistoryDto);
+
+            return Ok(clientHistory);
         }
 
 
         [HttpPut("update/{id}")]
         public async Task<ActionResult> UpdateClienteHistoryById(int id, ClientHistoryDto requestDto)
         {
-            var clientHistory = mapper.Map<ClientHistory>(requestDto);
-            clientHistory.IdClientHistory = id; // Ensure the ID is set correctly for updating
-            var result = await clientHistoryService.UpdateAsync(clientHistory);
+            requestDto.IdClientHistory = id; // Ensure the ID is set correctly for updating
+            var result = await clientHistoryService.UpdateAsync(requestDto);
             if (result)
             {
-                return Ok("ClienteHistory actualizado exitosamente.");
+                return Ok("Cliente History actualizado exitosamente.");
             }
-            return BadRequest("No se pudo actualizar el clienteHistory.");
+            return BadRequest("No se pudo actualizar el cliente History.");
         }
 
 
