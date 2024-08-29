@@ -8,5 +8,6 @@ namespace PresupuestitoBack.Repositories.IRepositories
         Task<T> GetById(Expression<Func<T, bool>>? filter = null, bool tracked = true);
         public Task<bool> Update(T entity);
         public Task<bool> Delete(int id);
+        public Task<bool> Insert(T entity);
     }
 }
