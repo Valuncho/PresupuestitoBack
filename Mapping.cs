@@ -23,6 +23,8 @@ namespace PresupuestitoBack
             CreateMap<Work, WorkDto>().ReverseMap();
             CreateMap<Item, ItemDao>().ReverseMap();
             CreateMap<Cost, CostDto>().ReverseMap();
+            CreateMap<Salary, SalaryDto>().ReverseMap();
+            CreateMap<FixedCost, FixedCostDto>().ReverseMap();
 
             //CreateMap<SupplierHistory, SupplierHistoryDto>().ReverseMap();
             //CreateMap<Category, CategoryDto>().ReverseMap();
