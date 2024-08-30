@@ -32,20 +32,15 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "TEXT")]
         public string StatusSerialized { get; set; }
 
-        [NotMapped]
-        public Dictionary<string, string> Status
-        {
-            get => JsonConvert.DeserializeObject<Dictionary<string, string>>(StatusSerialized);
-            set => StatusSerialized = JsonConvert.SerializeObject(value);
-        }
+        [Required]
+        [Column(TypeName = "Bool")]
+        public bool status { get; set; }
 
         [Required]
         [Column(TypeName = "VARCHAR(500)")]
         public string Notes { get; set; }
 
-        [Required]
-        [Column(TypeName = "VARCHAR(500)")]
-        public string Image { get; set; }
+        
     }
 }
 

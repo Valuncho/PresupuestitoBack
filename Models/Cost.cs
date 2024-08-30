@@ -31,6 +31,10 @@ namespace PresupuestitoBack.Models
             get => JsonConvert.DeserializeObject<Dictionary<string, object>>(TypeSerialized);
             set => TypeSerialized = JsonConvert.SerializeObject(value);
         }
+
+        [Required]
+        [Column(TypeName = "Bool")]
+        public bool status { get; set; }
     }
 }
 

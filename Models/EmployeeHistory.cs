@@ -20,5 +20,9 @@ namespace PresupuestitoBack.Models
         [Required]
         [Column(TypeName = "DATETIME")]
         public DateTime Date { get; set; }
+
+        [Required]
+        [Column(TypeName = "Bool")]
+        public bool status { get; set; }
     }
 }

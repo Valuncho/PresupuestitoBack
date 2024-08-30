@@ -35,6 +35,11 @@ namespace PresupuestitoBack.Models
         public ICollection<InvoiceItem> InvoiceItems { get; set; }
 
 
+        [Required]
+        [Column(TypeName = "Bool")]
+        public bool status { get; set; }
+
+
 
     }
 }
