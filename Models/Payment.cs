@@ -8,7 +8,7 @@ namespace PresupuestitoBack.Models
     {
         [Key]
         [Column(TypeName = "INT")]
-        public int IdPayment { get; set; }
+        public int PaymentId { get; set; }
 
         [Required]
         [Column(TypeName = "DATE")]
