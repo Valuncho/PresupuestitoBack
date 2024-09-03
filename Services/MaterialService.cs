@@ -8,9 +8,9 @@ namespace PresupuestitoBack.Services
     public class MaterialService 
     {
         private readonly IMaterialRepository materialRepository;
-        private readonly Mapper mapper;
+        private readonly IMapper mapper;
 
-        public MaterialService(IMaterialRepository materialRepository, Mapper mapper)
+        public MaterialService(IMaterialRepository materialRepository, IMapper mapper)
         {
             this.materialRepository = materialRepository;
             this.mapper = mapper;
@@ -24,14 +24,29 @@ namespace PresupuestitoBack.Services
 
         public async Task updateMaterial(MaterialDto materialDto)
         {
-            var material = mapper.Map<Material>(materialDto);
-            await materialRepository.Update(material);
+            var existingMaterial = await materialRepository.GetById(m => m.MaterialId == materialDto.MaterialId);
+            if (existingMaterial == null)
+            {
+                throw new KeyNotFoundException("El material no existe");
+            }
+            else
+            {
+                var material = mapper.Map<Material>(materialDto);
+                await materialRepository.Update(material);                
+            }
         }
-
+        
         public async Task<MaterialDto> getMaterialById(int id)
         {
-            var material = await materialRepository.GetById(id);
-            return mapper.Map<MaterialDto>(material);
+            var material = await materialRepository.GetById(m => m.MaterialId == id);
+            if (material == null)
+            {
+                throw new KeyNotFoundException("Material no encontrado.");
+            }
+            else
+            {
+                return mapper.Map<MaterialDto>(material);
+            }            
         }
 
         public async Task<List<MaterialDto>> getMaterials()
@@ -39,6 +54,5 @@ namespace PresupuestitoBack.Services
             var materials = await materialRepository.GetAll();
             return mapper.Map<List<MaterialDto>>(materials);
         }
-
     }
 }

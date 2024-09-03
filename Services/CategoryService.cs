@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using PresupuestitoBack.DTOs;
 using PresupuestitoBack.Models;
-using PresupuestitoBack.Repositories;
 using PresupuestitoBack.Repositories.IRepository;
 
 namespace PresupuestitoBack.Services
@@ -9,35 +8,50 @@ namespace PresupuestitoBack.Services
     public class CategoryService
     {
         private readonly ICategoryRepository categoryRepository;
-        private readonly Mapper mapper;
+        private readonly IMapper mapper;
 
-        public CategoryService(ICategoryRepository categoryRepository, Mapper mapper)
+        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
         {
             this.categoryRepository = categoryRepository;
             this.mapper = mapper;
         }
 
-        public async Task createCategory(CategoryDto categoryDto)
+        public async Task CreateCategory(CategoryDto categoryDto)
         {
-            var category = mapper.Map<Category>(categoryDto);
+            var category = mapper.Map<Category>(categoryDto);     
             await categoryRepository.Insert(category);
         }
 
-        public async Task updateCategory(CategoryDto categoryDto)
+        public async Task UpdateCategory(CategoryDto categoryDto)
         {
-            var category = mapper.Map<Category>(categoryDto);
-            await categoryRepository.Update(category);
+            var existingCategory = await categoryRepository.GetById(c => c.CategoryId == categoryDto.CategoryId);
+            if (existingCategory == null)
+            {
+                throw new KeyNotFoundException("La categoria no existe.");
+            }
+            else
+            {
+                var category = mapper.Map<Category>(categoryDto);
+                await categoryRepository.Update(category);
+            }               
         }
 
-        public async Task<CategoryDto> getCategoryById(int id)
+        public async Task<CategoryDto> GetCategoryById(int id)
         {
-            var category = await categoryRepository.GetById(id);
-            return mapper.Map<CategoryDto>(category);
+            var category = await categoryRepository.GetById(c => c.CategoryId == id);
+            if (category == null)
+            {
+                throw new KeyNotFoundException("La categoria no fue encontrada.");
+            }
+            else
+            {
+                return mapper.Map<CategoryDto>(category);
+            }           
         }
 
-        public async Task<List<CategoryDto>> getCategories()
+        public async Task<List<CategoryDto>> GetCategories()
         {
-            var categories = await categoryRepository.GetAll();
+            var categories = await categoryRepository.GetAll();           
             return mapper.Map<List<CategoryDto>>(categories);
         }
     }
