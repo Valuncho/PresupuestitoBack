@@ -10,5 +10,6 @@
         public string Email { get; set; }
         public string DNI { get; set; }
         public string CUIT { get; set; }
+        public bool Status { get; set; }
     }
 }

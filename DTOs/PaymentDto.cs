@@ -10,6 +10,7 @@ namespace PresupuestitoBack.DTOs
         //public Salary OSalary { get; set; }
         public Invoice OInvoice { get; set; }
         public Budget OBudget { get; set; }
+        public bool Status { get; set; }
 
     }
 }

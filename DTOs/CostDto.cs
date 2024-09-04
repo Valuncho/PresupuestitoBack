@@ -9,5 +9,6 @@ namespace PresupuestitoBack.DTOs
         public decimal CostValue { get; set; }
         public string Description { get; set; }
         public string TypeSerialized { get; set; }
+        public bool Status { get; set; }
     }
 }

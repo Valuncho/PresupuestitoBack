@@ -12,5 +12,6 @@ namespace PresupuestitoBack.DTOs
         public string MaterialMeasure { get; set; }
         public string MaterialUnitMeasure { get; set; }
         public SubCategory OSubCategory { get; set; }
+        public bool Status { get; set; }
     }
 }

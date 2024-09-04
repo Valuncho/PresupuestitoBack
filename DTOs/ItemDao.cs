@@ -9,5 +9,6 @@ namespace PresupuestitoBack.DTOs
         public int IdItem { get; set; }
         public Material OMaterial { get; set; }
         public decimal Quantity { get; set; }
+        public bool Status { get; set; }
     }
 }

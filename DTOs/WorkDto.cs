@@ -17,5 +17,6 @@ namespace PresupuestitoBack.DTOs
         public string StatusSerialized { get; set; }
         public string Notes { get; set; }
         public string Image { get; set; }
+        public bool Status { get; set; }
     }
 }

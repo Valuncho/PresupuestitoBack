@@ -8,5 +8,6 @@
         public int WorkingDays { get; set; }
         public int HoursWorked { get; set; }
         public DateOnly DateCharged { get; set; }
+        public bool Status { get; set; }
     }
 }
