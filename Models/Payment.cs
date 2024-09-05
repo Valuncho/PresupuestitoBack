@@ -33,7 +33,7 @@ namespace PresupuestitoBack.Models
         public Budget OBudget { get; set; }
 
         [Required]
-        [Column(TypeName = "Bool")]
+        [Column(TypeName = "bit")]
         public bool Status { get; set; }
 
     }

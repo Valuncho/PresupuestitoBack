@@ -23,7 +23,7 @@ namespace PresupuestitoBack.Models
         public List<Invoice> OInvoices { get; set; }
 
         [Required]
-        [Column(TypeName = "Bool")]
+        [Column(TypeName = "bit")]
         public bool Status { get; set; }
 
     } 
