@@ -6,5 +6,6 @@ namespace PresupuestitoBack.DTOs
         public int IdClientHistory { get; set; }
         public Client OClient { get; set; }
         // falta list de Budgets
+        public bool Status { get; set; }
     }
 }

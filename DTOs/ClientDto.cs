@@ -5,6 +5,7 @@ namespace PresupuestitoBack.DTOs
     {
         public int IdClient { get; set; }
         public Person OPerson { get; set; }
-       // falta la list de ClientHistory
+        // falta la list de ClientHistory
+        public bool Status { get; set; }
     }
 }

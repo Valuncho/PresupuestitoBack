@@ -7,5 +7,6 @@ namespace PresupuestitoBack.DTOs
         public int SubCategoryId { get; set; }
         public string SubCategoryName { get; set; }
         public Category OCategory { get; set; }
+        public bool Status { get; set; }
     }
 }

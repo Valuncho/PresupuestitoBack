@@ -6,6 +6,7 @@
         public decimal Cost { get; set; }
         public string DescriptionBudget { get; set; }
         //falta list de works and Payments
+        public bool Status { get; set; }
 
     }
 }

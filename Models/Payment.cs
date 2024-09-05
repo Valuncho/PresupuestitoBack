@@ -34,7 +34,7 @@ namespace PresupuestitoBack.Models
 
         [Required]
         [Column(TypeName = "Bool")]
-        public bool status { get; set; }
+        public bool Status { get; set; }
 
     }
 }
