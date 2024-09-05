@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PresupuestitoBack.DTOs;
 using PresupuestitoBack.Services;
 
@@ -19,24 +18,25 @@ namespace PresupuestitoBack.Controllers
         [HttpPost]
         public async Task createCategory(CategoryDto categoryDto)
         {
-            await categoryService.createCategory(categoryDto);
+            await categoryService.CreateCategory(categoryDto);
         }
 
         [HttpPut("{id}")]
         public async Task updateCategory(CategoryDto categoryDto)
         {
-            await categoryService.updateCategory(categoryDto);
+            await categoryService.UpdateCategory(categoryDto);
         }
 
         [HttpGet("{id}")]
         public async Task<CategoryDto> getCategoryById(int id)
         {
-            return await categoryService.getCategoryById(id);           
+            return await categoryService.GetCategoryById(id);           
         }
 
+        [HttpGet]
         public async Task<List<CategoryDto>> getCategories()
         {
-            return await categoryService.getCategories();
+            return await categoryService.GetCategories();
         }
     }
 }

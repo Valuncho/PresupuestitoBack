@@ -22,7 +22,7 @@ namespace PresupuestitoBack.Models
         public DateTime Date { get; set; }
 
         [Required]
-        [Column(TypeName = "Bool")]
+        [Column(TypeName = "bit")]
         public bool Status { get; set; }
     }
 }

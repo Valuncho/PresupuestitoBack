@@ -8,7 +8,7 @@ namespace PresupuestitoBack.Models
     {
         [Key]
         [Column(TypeName = "INT")]
-        public int IdPayment { get; set; }
+        public int PaymentId { get; set; }
 
         [Required]
         [Column(TypeName = "DATE")]
@@ -33,7 +33,7 @@ namespace PresupuestitoBack.Models
         public Budget OBudget { get; set; }
 
         [Required]
-        [Column(TypeName = "Bool")]
+        [Column(TypeName = "bit")]
         public bool Status { get; set; }
 
     }

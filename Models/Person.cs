@@ -47,7 +47,7 @@ namespace PresupuestitoBack.Models
         public ICollection<Employee> Employees { get; set; } = new List<Employee>();
 
         [Required]
-        [Column(TypeName = "Bool")]
+        [Column(TypeName = "bit")]
         public bool Status { get; set; }
 
     }

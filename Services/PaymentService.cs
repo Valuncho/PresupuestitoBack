@@ -1,41 +1,58 @@
-﻿using PresupuestitoBack.Models;
-using PresupuestitoBack.Repositories;
-using PresupuestitoBack.Repositories.IRepositories;
-using System.Linq.Expressions;
+﻿using AutoMapper;
+using PresupuestitoBack.DTOs;
+using PresupuestitoBack.Models;
+using PresupuestitoBack.Repositories.IRepository;
 
 namespace PresupuestitoBack.Services
 {
     public class PaymentService
     {
-        private readonly IPaymentRepository _paymentRepository;
+        private readonly IPaymentRepository paymentRepository;
+        private readonly IMapper mapper;
 
-        public PaymentService(IPaymentRepository paymentRepository)
+        public PaymentService(IPaymentRepository paymentRepository, IMapper mapper)
         {
-            _paymentRepository = paymentRepository;
-        }
-        public async Task<Payment> GetByIdAsync(int id)
+            this.paymentRepository = paymentRepository;
+            this.mapper = mapper;
+        }    
+        
+        public async Task CreatePayment(PaymentDto paymentDto)
         {
-            return await _paymentRepository.GetById(c => c.IdPayment == id);
-        }
-
-        public async Task<List<Payment>> GetAllAsync(Expression<Func<Payment, bool>>? filter = null)
-        {
-            return await _paymentRepository.GetAll(filter);
-        }
-
-        public async Task<bool> DeleteAsync(int idPayment)
-        {
-            return await _paymentRepository.Delete(idPayment);
+            var payment = mapper.Map<Payment>(paymentDto);
+            await paymentRepository.Insert(payment);
         }
 
-        public async Task<bool> SaveAsync(Payment payment)
+        public async Task UpdatePayment(PaymentDto paymentDto)
         {
-            return await _paymentRepository.Insert(payment);
+            var existingPayment = await paymentRepository.GetById(p => p.PaymentId == paymentDto.PaymentId);
+            if (existingPayment == null)
+            {
+                throw new KeyNotFoundException("El pago no se encuentra");
+            }
+            else
+            {
+                var payment = mapper.Map<Payment>(paymentDto);
+                await paymentRepository.Update(payment);
+            }
         }
 
-        public async Task<bool> UpdateAsync(Payment payment)
+        public async Task<PaymentDto> GetPaymentById(int id)
         {
-            return await _paymentRepository.Update(payment);
+            var payment = await paymentRepository.GetById(p => p.PaymentId == id);
+            if(payment == null)
+            {
+                throw new KeyNotFoundException("El pago no fue encontrado");
+            }
+            else
+            {
+                return mapper.Map<PaymentDto>(payment);
+            }
+        }
+
+        public async Task<List<PaymentDto>> GetPayments()
+        {
+            var payments = await paymentRepository.GetAll();
+            return mapper.Map<List<PaymentDto>>(payments);
         }
     }
 }

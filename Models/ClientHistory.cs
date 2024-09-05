@@ -20,7 +20,7 @@ namespace PresupuestitoBack.Models
         public ICollection<Budget> Budgets { get; set; }
 
         [Required]
-        [Column(TypeName = "Bool")]
+        [Column(TypeName = "bit")]
         public bool Status { get; set; }
 
     }

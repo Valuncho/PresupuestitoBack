@@ -37,7 +37,7 @@ namespace PresupuestitoBack.Models
         public DateOnly DateCharged {  get; set; }
 
         [Required]
-        [Column(TypeName = "Bool")]
+        [Column(TypeName = "bit")]
         public bool Status { get; set; }
 
 

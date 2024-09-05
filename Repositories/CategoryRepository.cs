@@ -7,12 +7,13 @@ namespace PresupuestitoBack.Repositories
     public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
 
-        private readonly ApplicationDbContext context;
+        //private readonly ApplicationDbContext context;
         public CategoryRepository(ApplicationDbContext context) : base(context)
         {
-            this.context = context;
+            //this.context = context;
         }
 
+        /*
         public override async Task<bool> Insert(Category category)
         {
             await context.Categories.AddAsync(category);
@@ -26,5 +27,6 @@ namespace PresupuestitoBack.Repositories
             await context.SaveChangesAsync();
             return true;
         }
+        */
     }
 }
