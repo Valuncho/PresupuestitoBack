@@ -19,7 +19,7 @@ namespace PresupuestitoBack.Models
         public ICollection<ClientHistory> ClientsHistory { get; set; } = new List<ClientHistory>();
 
         [Required]
-        [Column(TypeName = "Bool")]
+        [Column(TypeName = "bit")]
         public bool Status { get; set; }
 
     }

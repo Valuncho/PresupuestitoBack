@@ -22,7 +22,7 @@ namespace PresupuestitoBack.Models
         public Category OCategory { get; set; }
 
         [Required]
-        [Column(TypeName = "Bool")]
+        [Column(TypeName = "bit")]
         public bool Status { get; set; }
 
     }
