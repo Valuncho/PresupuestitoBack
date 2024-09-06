@@ -21,5 +21,7 @@ namespace PresupuestitoBack.DataAccess
         public DbSet<Work> Works { get; set; }
         public DbSet<Salary> Salarys { get; set;}
         public DbSet<FixedCost> FixedCosts { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<EmployeeHistory> EmployeeHistorys { get; set; }
     }
 }
