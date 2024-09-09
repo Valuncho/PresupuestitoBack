@@ -26,11 +26,7 @@ namespace PresupuestitoBack.Models
         public decimal CostPrice { get; set; }
 
         // Lista de Items
-        public ICollection<Item> Materials { get; set; }
-
-        [Required]
-        [Column(TypeName = "TEXT")]
-        public string StatusSerialized { get; set; }
+        public ICollection<Item> Materials { get; set; } = new List<Item>();
 
         [Required]
         [Column(TypeName = "bit")]
@@ -40,9 +36,16 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "VARCHAR(500)")]
         public string Notes { get; set; }
 
-        
+        // Relación con Budget (Presupuesto)
+        [Required]
+        public int BudgetId { get; set; } // Clave foránea
+
+        [ForeignKey("BudgetId")]
+        public Budget Budget { get; set; } // Propiedad de navegación
     }
 }
+
+
 
 
 

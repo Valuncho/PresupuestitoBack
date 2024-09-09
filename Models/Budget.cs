@@ -11,7 +11,7 @@ namespace PresupuestitoBack.Models
         public int IdBudget { get; set; }
 
         //List Works
-        public ICollection<Work> Works { get; set; }
+        public ICollection<Work> Works { get; set; } = new List<Work>(); // Propiedad de navegación
 
         [Required]
         [Column(TypeName = "DECIMAL(18, 2)")]
@@ -29,6 +29,12 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "bit")]
         public bool Status { get; set; }
 
+        // Relación con ClientHistory 
+        [Required]
+        [ForeignKey("ClientHistory")]
+        public int ClientHistoryId { get; set; } // Clave foránea
+
+        public ClientHistory OclientHistory { get; set; } // Propiedad de navegación
 
     }
 }

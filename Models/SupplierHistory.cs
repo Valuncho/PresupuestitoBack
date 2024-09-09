@@ -10,17 +10,14 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "INT")]
         public int SupplierHistoryId { get; set; }
 
-
-        [Required]       
-        public int IdSupplier { get; set; }
-        [ForeignKey("IdSupplier")]
-        public Supplier OSupplier { get; set; }
-
-
+        // Relación con Supplier
         [Required]
-        public List<int> Invoices { get; set; }
-        [ForeignKey("List<IdInvoices>")]
-        public List<Invoice> OInvoices { get; set; }
+        [ForeignKey("IdSupplier")]
+        public int SuplierId { get; set; } // Clave foránea
+
+        public Supplier Osupplier { get; set; } // Propiedad de navegación
+
+        public ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
 
         [Required]
         [Column(TypeName = "bit")]

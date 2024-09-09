@@ -21,16 +21,6 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "VARCHAR(500)")]
         public string Description { get; set; }
 
-        [Required]
-        [Column(TypeName = "TEXT")]
-        public string TypeSerialized { get; set; }
-
-        [NotMapped]
-        public Dictionary<string, object> Type
-        {
-            get => JsonConvert.DeserializeObject<Dictionary<string, object>>(TypeSerialized);
-            set => TypeSerialized = JsonConvert.SerializeObject(value);
-        }
 
         [Required]
         [Column(TypeName = "bit")]

@@ -40,11 +40,13 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "VARCHAR(50)")]
         public string MaterialUnitMeasure { get; set; }
 
-
+        // Relación con SubCategory
         [Required]
-        public int SubCategoryId { get; set; }
-        [ForeignKey("SubCategoryId")]
-        public SubCategory OSubCategory { get; set; }
+        [ForeignKey("SubCategory")]
+        public int SubCategoryId { get; set; } // Clave foránea
+
+        public SubCategory OSubcategory { get; set; } // Propiedad de navegación
+
 
         [Required]
         [Column(TypeName = "bit")]

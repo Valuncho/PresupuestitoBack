@@ -10,10 +10,12 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "INT")]
         public int IdClientHistory { get; set; }
 
+        // Relación con Client
+        [Required]
+        [ForeignKey("Client")]
+        public int ClientId { get; set; } // Clave foránea
 
-        public int IdClient { get; set; }
-        [ForeignKey("IdClient")]
-        public Person OClient { get; set; }
+        public Client Oclient { get; set; } // Propiedad de navegación
 
 
         //List Budgets

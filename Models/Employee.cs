@@ -10,12 +10,11 @@ namespace PresupuestitoBack.Models
         [Column("IdEmployee", TypeName = "INT")]
         public int IdEmployee { get; set; }
 
-
         [Required]
         public int IdPerson { get; set; }
+
         [ForeignKey("IdPerson")]
         public Person OPerson { get; set; }
-
 
         [Required]
         [Column(TypeName = "DECIMAL(18, 2)")]
@@ -24,5 +23,8 @@ namespace PresupuestitoBack.Models
         [Required]
         [Column(TypeName = "bit")]
         public bool Status { get; set; }
+
+        // Relación con EmployeeHistory (Historial del empleado)
+        public ICollection<EmployeeHistory> Histories { get; set; } = new List<EmployeeHistory>(); // Propiedad de navegación
     }
 }

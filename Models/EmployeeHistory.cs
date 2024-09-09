@@ -10,9 +10,6 @@ namespace PresupuestitoBack.Models
         [Column("IdEmployeeHistory", TypeName = "INT")]
         public int IdEmployeeHistory { get; set; }
 
-        [ForeignKey("IdEmployee")]
-        public Employee OEmployee { get; set; }
-
         [Required]
         [Column(TypeName = "DECIMAL(18, 2)")]
         public decimal Quantity { get; set; }
@@ -24,5 +21,12 @@ namespace PresupuestitoBack.Models
         [Required]
         [Column(TypeName = "bit")]
         public bool Status { get; set; }
+
+        // Relación con Employee
+        [Required]
+        [ForeignKey("Employee")]
+        public int EmployeeId { get; set; } // Clave foránea
+
+        public Employee OEmployee { get; set; } // Propiedad de navegación
     }
 }

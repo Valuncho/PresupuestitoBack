@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace PresupuestitoBack.Models
 {
@@ -10,11 +11,9 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "INT")]
         public int CategoryId { get; set; }
 
-
         [Required]
         [Column(TypeName = "VARCHAR(100)")]
         public string CategoryName { get; set; }
-
 
         [Required]
         [Column(TypeName = "VARCHAR(100)")]
@@ -24,5 +23,7 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "bit")]
         public bool Status { get; set; }
 
+        // Propiedad de navegación para las SubCategories
+        public ICollection<SubCategory> SubCategories { get; set; } = new List<SubCategory>();
     }
 }

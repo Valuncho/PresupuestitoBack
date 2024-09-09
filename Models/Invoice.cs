@@ -21,18 +21,19 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "BIT")]
         public bool IsPaid { get; set; }
 
+        // Relación con SupplierHistory
         [Required]
-        public int IdSupplierHistory { get; set; }
-        [ForeignKey("IdSupplierHistory")]
-        public SupplierHistory OSupplierHistory { get; set; }
+        [ForeignKey("SupplierHistory")]
+        public int SuplierHistoryId { get; set; } // Clave foránea
 
+        public SupplierHistory OSupplierHistory { get; set; } // Propiedad de navegación
 
         //List Payments
         public ICollection<Payment> Payments { get; set; }
 
 
         //List InvoiceItems
-        public ICollection<InvoiceItem> InvoiceItems { get; set; }
+        public ICollection<InvoiceItem> InvoiceItems { get; set; } = new List<InvoiceItem>();
 
 
         [Required]
