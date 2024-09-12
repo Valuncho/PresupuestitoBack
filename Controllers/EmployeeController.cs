@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PresupuestitoBack.DTOs;
+using PresupuestitoBack.Models;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
@@ -28,9 +29,15 @@ namespace PresupuestitoBack.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<EmployeeDto> getEmployeeById(int id)
+        public async Task<ActionResult<EmployeeDto>> GetEmployeeById(int id)
         {
-            return await employeeService.getEmployeeById(id);
+            var employee = await employeeService.GetByIdAsync(id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(employee);
         }
 
         [HttpGet]

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PresupuestitoBack.DTOs;
+using PresupuestitoBack.Models;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
@@ -28,13 +29,19 @@ namespace PresupuestitoBack.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<EmployeeDto> getEmployeeById(int id)
+        public async Task<ActionResult<EmployeeHistory>> GetEmployeeHistoryById(int id)
         {
-            return await employeeHistoryService.getEmployeeHistoryById(id);
+            var employeeHistory = await employeeHistoryService.GetByIdAsync(id);
+            if (employeeHistory == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(employeeHistory);
         }
 
         [HttpGet]
-        public async Task<List<EmployeeDto>> getAllEmployee()
+        public async Task<List<EmployeeHistoryDto>> getAllEmployee()
         {
             return await employeeHistoryService.getEmployeeHistorys();
         }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using PresupuestitoBack.DTOs;
 using PresupuestitoBack.Models;
+using PresupuestitoBack.Repositories;
 using PresupuestitoBack.Repositories.IRepository;
 
 namespace PresupuestitoBack.Services
@@ -8,7 +9,7 @@ namespace PresupuestitoBack.Services
     public class EmployeeHistoryService
     {
         private readonly IEmployeeHistoryRepository employeeHistoryRepository;
-        private readonly Mapper mapper;
+        private readonly IMapper mapper;
 
         public EmployeeHistoryService(IEmployeeHistoryRepository employeeHistoryRepository, Mapper mapper)
         {
@@ -28,10 +29,11 @@ namespace PresupuestitoBack.Services
             await employeeHistoryRepository.Update(employeeHistory);
         }
 
-        public async Task<EmployeeHistoryDto> getEmployeeHistoryById(int id)
+        public async Task<EmployeeHistory> GetByIdAsync(int id)
         {
-            var employeeHistory = await employeeHistoryRepository.GetById(id);
-            return mapper.Map<EmployeeHistoryDto>(employeeHistory);
+            var employeeHistoryDto = await employeeHistoryRepository.GetById(c => c.IdEmployeeHistory == id);
+            var employeeHistory = mapper.Map<EmployeeHistory>(employeeHistoryDto);
+            return employeeHistory;
         }
 
         public async Task<List<EmployeeHistoryDto>> getEmployeeHistorys()
