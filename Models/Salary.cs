@@ -14,11 +14,9 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "DECIMAL(18,2)")]
         public decimal Amount { get; set; }
 
-
         [Required]
-        [Column(TypeName = "DATEONLY")]
-        public DateOnly BillDate { get; set; }
-
+        [Column(TypeName = "DATETIME")]
+        public DateTime BillDate { get; set; }
 
         [Required]
         public int IdPayments { get; set; }
