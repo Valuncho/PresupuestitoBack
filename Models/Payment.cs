@@ -22,14 +22,16 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "VARCHAR(400)")]
         public string DescriptionPayment { get; set; }
 
-        [Required]
-        public int IdInvoice { get; set; }
+        [Required]        
         [ForeignKey("IdInvoice")]
+        public int IdInvoice { get; set; }
+
         public Invoice OInvoice { get; set; }
 
         [Required]
-        public int IdBudget { get; set; }
         [ForeignKey("IdBudget")]
+        public int IdBudget { get; set; }
+        
         public Budget OBudget { get; set; }
 
         [Required]
