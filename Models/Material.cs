@@ -45,7 +45,7 @@ namespace PresupuestitoBack.Models
         [ForeignKey("SubCategory")]
         public int SubCategoryId { get; set; } // Clave foránea
 
-        public SubCategory OSubcategory { get; set; } // Propiedad de navegación
+        public SubCategoryMaterial OSubcategory { get; set; } // Propiedad de navegación
 
 
         [Required]

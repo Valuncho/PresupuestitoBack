@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace PresupuestitoBack.Models
 {
     [Table("SubCategories")]
-    public class SubCategory
+    public class SubCategoryMaterial
     {
         [Key]
         [Column(TypeName = "INT")]
-        public int SubCategoryId { get; set; }
+        public int SubCategoryMaterialId { get; set; }
 
         [Required]
         [Column(TypeName = "VARCHAR(100)")]
