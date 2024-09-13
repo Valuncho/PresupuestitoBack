@@ -7,6 +7,7 @@ namespace PresupuestitoBack.Repositories
 {
     public class ClientRepository : Repository<Client>, IClientRepository
     {
+
         private readonly ApplicationDbContext context;
 
         public ClientRepository(ApplicationDbContext context) : base(context)
@@ -28,7 +29,7 @@ namespace PresupuestitoBack.Repositories
             return true;
         }
 
-        public override async Task<Client?> GetById(Expression<Func<Client, bool>>? filter = null, bool tracked = true)
+        public override async Task<Client> GetById(Expression<Func<Client, bool>>? filter = null, bool tracked = true)
         {
             return await base.GetById(filter, tracked);
         }

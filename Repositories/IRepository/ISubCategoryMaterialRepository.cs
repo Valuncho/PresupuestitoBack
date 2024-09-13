@@ -3,7 +3,7 @@ using PresupuestitoBack.Repositories.IRepositories;
 
 namespace PresupuestitoBack.Repositories.IRepository
 {
-    public interface ISubCategoryRepository : IRepository<SubCategory>
+    public interface ISubCategoryMaterialRepository : IRepository<SubCategoryMaterial>
     {
     }
 }

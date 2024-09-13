@@ -7,6 +7,7 @@ namespace PresupuestitoBack.Repositories
 {
     public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
+
         private readonly ApplicationDbContext context;
 
         public CategoryRepository(ApplicationDbContext context) : base(context)
@@ -28,7 +29,7 @@ namespace PresupuestitoBack.Repositories
             return true;
         }
 
-        public override async Task<Category?> GetById(Expression<Func<Category, bool>>? filter = null, bool tracked = true)
+        public override async Task<Category> GetById(Expression<Func<Category, bool>>? filter = null, bool tracked = true)
         {
             return await base.GetById(filter, tracked);
         }

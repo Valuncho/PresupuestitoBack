@@ -7,6 +7,7 @@ namespace PresupuestitoBack.Repositories
 {
     public class BudgetRepository : Repository<Budget>, IBudgetRepository
     {
+
         private readonly ApplicationDbContext context;
 
         public BudgetRepository(ApplicationDbContext context) : base(context)
@@ -28,7 +29,7 @@ namespace PresupuestitoBack.Repositories
             return true;
         }
 
-        public override async Task<Budget?> GetById(Expression<Func<Budget, bool>>? filter = null, bool tracked = true)
+        public override async Task<Budget> GetById(Expression<Func<Budget, bool>>? filter = null, bool tracked = true)
         {
             return await base.GetById(filter, tracked);
         }

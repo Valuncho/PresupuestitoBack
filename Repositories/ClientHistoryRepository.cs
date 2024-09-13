@@ -7,6 +7,7 @@ namespace PresupuestitoBack.Repositories
 {
     public class ClientHistoryRepository : Repository<ClientHistory>, IClientHistoryRepository
     {
+
         private readonly ApplicationDbContext context;
 
         public ClientHistoryRepository(ApplicationDbContext context) : base(context)
@@ -28,7 +29,7 @@ namespace PresupuestitoBack.Repositories
             return true;
         }
 
-        public override async Task<ClientHistory?> GetById(Expression<Func<ClientHistory, bool>>? filter = null, bool tracked = true)
+        public override async Task<ClientHistory> GetById(Expression<Func<ClientHistory, bool>>? filter = null, bool tracked = true)
         {
             return await base.GetById(filter, tracked);
         }
