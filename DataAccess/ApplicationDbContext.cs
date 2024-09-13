@@ -23,5 +23,6 @@ namespace PresupuestitoBack.DataAccess
         public DbSet<FixedCost> FixedCosts { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeHistory> EmployeeHistorys { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }
