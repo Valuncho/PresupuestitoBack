@@ -2,7 +2,7 @@
 {
     public class CategoryRequestDto
     {
-        public string CategoryName;
-        public string CategoryModel;
+        public string CategoryName { get; set; }
+        public string CategoryModel { get; set; }
     }
 }
