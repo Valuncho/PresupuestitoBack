@@ -1,43 +1,42 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PresupuestitoBack.DataAccess;
+﻿using PresupuestitoBack.DataAccess;
 using PresupuestitoBack.Models;
-using PresupuestitoBack.Repositories.IRepositories;
+using PresupuestitoBack.Repositories.IRepository;
+using System.Linq.Expressions;
 
 namespace PresupuestitoBack.Repositories
 {
     public class ClientHistoryRepository : Repository<ClientHistory>, IClientHistoryRepository
     {
-
+        private readonly ApplicationDbContext context;
 
         public ClientHistoryRepository(ApplicationDbContext context) : base(context)
         {
+            this.context = context;
         }
 
-
-        public override async Task<bool> Insert(ClientHistory newClientHistory)
+        public override async Task<bool> Insert(ClientHistory clientHistory)
         {
-            try
-            {
-                await base.Insert(newClientHistory);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            await context.ClientHistories.AddAsync(clientHistory);
+            await context.SaveChangesAsync();
+            return true;
         }
 
-        public override async Task<bool> Update(ClientHistory updateService)
+        public override async Task<bool> Update(ClientHistory clientHistory)
         {
-            return await base.Update(updateService);
+            context.ClientHistories.Update(clientHistory);
+            await context.SaveChangesAsync();
+            return true;
         }
 
-        public override async Task<bool> Delete(int id)
+        public override async Task<ClientHistory?> GetById(Expression<Func<ClientHistory, bool>>? filter = null, bool tracked = true)
         {
-            return await base.Delete(id);
+            return await base.GetById(filter, tracked);
+        }
+
+        public override async Task<List<ClientHistory>> GetAll(Expression<Func<ClientHistory, bool>>? filter = null)
+        {
+            return await base.GetAll(filter);
         }
 
     }
 }
-
-
