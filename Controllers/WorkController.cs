@@ -1,85 +1,63 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using PresupuestitoBack.DTOs;
+﻿using Microsoft.AspNetCore.Mvc;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
-    [Route("api/[controller]/work")]
+    [Route("api/[controller]")]
     [ApiController]
     public class WorkController : ControllerBase
     {
         private readonly WorkService workService;
 
-
         public WorkController(WorkService workService)
         {
             this.workService = workService;
-
         }
 
-        [HttpGet("getAll")]
-        public async Task<ActionResult<List<WorkDto>>> GetWorks()
+        [HttpPost]
+        public async Task CreateWork([FromBody] WorkRequestDto workRequestDto)
         {
-            var works = await workService.GetAllAsync();
-            return Ok(works);
+            await workService.CreateWork(workRequestDto);
         }
 
-
-        [HttpPost("new")]
-        public async Task<ActionResult> SaveWork (WorkDto workDto)
+        [HttpPut("{id}")]
+        public async Task UpdateWork(int id, [FromBody] WorkRequestDto workRequestDto)
         {
-            var result = await workService.SaveAsync(workDto);
-            if (result)
+            if (id <= 0)
             {
-                return Ok("Trabajo guardado exitosamente.");
+                throw new Exception("Id invalido");
             }
-            return BadRequest("No se pudo guardar el trabajo.");
+            await workService.UpdateWork(id, workRequestDto);
         }
-
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<WorkDto>> GetWorkById(int id)
+        public async Task<ActionResult<WorkResponseDto>> GetWorkById(int id)
         {
-            var work = await workService.GetByIdAsync(id);
-            if (work == null)
+            if (id <= 0)
             {
-                return NotFound();
+                throw new Exception("Id invalido");
             }
-
+            var work = await workService.GetWorkById(id);
             return Ok(work);
         }
 
-
-        [HttpPut("update/{id}")]
-        public async Task<ActionResult> UpdateWorkById(int id, WorkDto workDto)
+        [HttpGet]
+        public async Task<ActionResult<List<WorkResponseDto>>> GetAllWorks()
         {
-            workDto.IdWork = id; // Ensure the ID is set correctly for updating
-            var result = await workService.UpdateAsync(workDto);
-            if (result)
-            {
-                return Ok("Cliente actualizado exitosamente.");
-            }
-            return BadRequest("No se pudo actualizar el cliente.");
+            return await workService.GetAllWorks();
         }
 
-
-        [HttpDelete("delete/{id}")]
-        public async Task<ActionResult> DeleteWorkById(int id)
+        [HttpPatch("{id}")]
+        public async Task DeleteWork(int id)
         {
-            try
+            if (id <= 0)
             {
-                var result = await workService.DeleteAsync(id);
-                if (result)
-                {
-                    return Ok("Registro eliminado :)");
-                }
-                return BadRequest("No se pudo eliminar el registro.");
+                throw new Exception("Id invalido");
             }
-            catch (Exception ex)
-            {
-                return BadRequest($"No se pudo eliminar el registro. El error es: {ex.Message}");
-            }
+            await workService.DeleteWork(id);
         }
+
     }
 }

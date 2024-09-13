@@ -1,79 +1,63 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using PresupuestitoBack.DTOs;
-using PresupuestitoBack.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
-    [Route("api/[controller]/item")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ItemController : ControllerBase
     {
-        private readonly ItemService _itemService;
+        private readonly ItemService itemService;
 
         public ItemController(ItemService itemService)
         {
-            this._itemService = itemService;
+            this.itemService = itemService;
         }
 
-        [HttpPost("new")]
-        public async Task<ActionResult> SaveItem(ItemDao itemDto)
+        [HttpPost]
+        public async Task CreateItem([FromBody] ItemRequestDto itemRequestDto)
         {
-            var result = await _itemService.SaveAsync(itemDto);
-            if (result)
+            await itemService.CreateItem(itemRequestDto);
+        }
+
+        [HttpPut("{id}")]
+        public async Task UpdateItem(int id, [FromBody] ItemRequestDto itemRequestDto)
+        {
+            if (id <= 0)
             {
-                return Ok("Item guardado exitosamente.");
+                throw new Exception("Id invalido");
             }
-            return BadRequest("No se pudo guardar el item.");
+            await itemService.UpdateItem(id, itemRequestDto);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ItemDao>> GetItemById(int id)
+        public async Task<ActionResult<ItemResponseDto>> GetItemById(int id)
         {
-            var item = await _itemService.GetByIdAsync(id);
-            if (item == null)
+            if (id <= 0)
             {
-                return NotFound();
+                throw new Exception("Id invalido");
             }
-
+            var item = await itemService.GetItemById(id);
             return Ok(item);
         }
-        [HttpGet("getAll")]
-        public async Task<ActionResult<List<ItemDao>>> GetAllItems()
+
+        [HttpGet]
+        public async Task<ActionResult<List<ItemResponseDto>>> GetAllItems()
         {
-            var items = await _itemService.GetAllAsync();
-            return Ok(items);
+            return await itemService.GetAllItems();
         }
 
-        [HttpPut("update/{id}")]
-        public async Task<ActionResult> UpdateItemById(int id, ItemDao itemDto)
+        [HttpPatch("{id}")]
+        public async Task DeleteItem(int id)
         {
-            itemDto.IdItem = id; // Ensure the ID is set correctly for updating
-            var result = await _itemService.UpdateAsync(itemDto);
-            if (result)
+            if (id <= 0)
             {
-                return Ok("Item actualizado exitosamente.");
+                throw new Exception("Id invalido");
             }
-            return BadRequest("No se pudo actualizar el item.");
+            await itemService.DeleteItem(id);
         }
 
-        [HttpDelete("delete/{id}")]
-        public async Task<ActionResult> DeleteItemById(int Id)
-        {
-            try
-            {
-                var result = await _itemService.DeleteAsync(Id);
-                if (result)
-                {
-                    return Ok("Registro eliminado :)");
-                }
-                return BadRequest("No se pudo eliminar el registro.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"No se pudo eliminar el registro. El error es: {ex.Message}");
-            }
-        }
     }
 }

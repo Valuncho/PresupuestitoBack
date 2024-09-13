@@ -33,7 +33,7 @@ namespace PresupuestitoBack.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ClientReponseDto>> GetClientById(int id)
+        public async Task<ActionResult<ClientResponseDto>> GetClientById(int id)
         {
             if (id <= 0)
             {
@@ -44,7 +44,7 @@ namespace PresupuestitoBack.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<ClientReponseDto>>> GetAllClients()
+        public async Task<ActionResult<List<ClientResponseDto>>> GetAllClients()
         {
             return await clientService.GetAllClients();
         }
@@ -58,5 +58,6 @@ namespace PresupuestitoBack.Controllers
             }
             await clientService.DeleteClient(id);
         }
+
     }
 }

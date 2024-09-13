@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PresupuestitoBack.DTOs;
-using PresupuestitoBack.Models;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("api/EmployeeHistory")]
     public class EmployeeHistoryController : ControllerBase
     {
         private readonly EmployeeHistoryService employeeHistoryService;
@@ -17,33 +17,47 @@ namespace PresupuestitoBack.Controllers
         }
 
         [HttpPost]
-        public async Task createEmployee(EmployeeHistoryDto employeeHistoryDto)
+        public async Task CreateEmployeeHistory([FromBody] EmployeeHistoryRequestDto employeeHistoryRequestDto)
         {
-            await employeeHistoryService.createEmployeeHistory(employeeHistoryDto);
+            await employeeHistoryService.CreateEmployeeHistory(employeeHistoryRequestDto);
         }
 
         [HttpPut("{id}")]
-        public async Task updateEmployee(EmployeeHistoryDto employeeHistoryDto)
+        public async Task UpdateEmployeeHistory(int id, [FromBody] EmployeeHistoryRequestDto employeeHistoryRequestDto)
         {
-            await employeeHistoryService.updateEmployeeHistory(employeeHistoryDto);
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            await employeeHistoryService.UpdateEmployeeHistory(id, employeeHistoryRequestDto);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<EmployeeHistory>> GetEmployeeHistoryById(int id)
+        public async Task<ActionResult<EmployeeHistoryResponseDto>> GetEmployeeHistoryById(int id)
         {
-            var employeeHistory = await employeeHistoryService.GetByIdAsync(id);
-            if (employeeHistory == null)
+            if (id <= 0)
             {
-                return NotFound();
+                throw new Exception("Id invalido");
             }
-
+            var employeeHistory = await employeeHistoryService.GetEmployeeHistoryById(id);
             return Ok(employeeHistory);
         }
 
         [HttpGet]
-        public async Task<List<EmployeeHistoryDto>> getAllEmployee()
+        public async Task<ActionResult<List<EmployeeHistoryResponseDto>>> GetAllEmployeeHistories()
         {
-            return await employeeHistoryService.getEmployeeHistorys();
+            return await employeeHistoryService.GetAllEmployeeHistories();
         }
+
+        [HttpPatch("{id}")]
+        public async Task DeleteEmployeeHistory(int id)
+        {
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            await employeeHistoryService.DeleteEmployeeHistory(id);
+        }
+
     }
 }

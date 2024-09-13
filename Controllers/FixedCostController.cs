@@ -1,84 +1,63 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PresupuestitoBack.DTOs;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("api/FixedCost")]
     public class FixedCostController : ControllerBase
     {
-        private readonly FixedCostService _fixedCostService;
-
+        private readonly FixedCostService fixedCostService;
 
         public FixedCostController(FixedCostService fixedCostService)
         {
-            this._fixedCostService = fixedCostService;
-
+            this.fixedCostService = fixedCostService;
         }
 
-        [HttpGet("getAll")]
-        public async Task<ActionResult<List<FixedCostDto>>> GetFixedCost()
+        [HttpPost]
+        public async Task CreateFixedCost([FromBody] FixedCostRequestDto fixedCostRequestDto)
         {
-            var fixedCosts = await _fixedCostService.GetAllAsync();
-            return Ok(fixedCosts);
+            await fixedCostService.CreateFixedCost(fixedCostRequestDto);
         }
 
-
-        [HttpPost("new")]
-        public async Task<ActionResult> SaveFixedCost(FixedCostDto fixedCostDto)
+        [HttpPut("{id}")]
+        public async Task UpdateFixedCost(int id, [FromBody] FixedCostRequestDto fixedCostRequestDto)
         {
-            var result = await _fixedCostService.SaveAsync(fixedCostDto);
-            if (result)
+            if (id <= 0)
             {
-                return Ok("Costo fijo guardado exitosamente.");
+                throw new Exception("Id invalido");
             }
-            return BadRequest("No se pudo guardar el costo fijo.");
+            await fixedCostService.UpdateFixedCost(id, fixedCostRequestDto);
         }
-
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<FixedCostDto>> GetFixedCostById(int id)
+        public async Task<ActionResult<FixedCostResponseDto>> GetFixedCostById(int id)
         {
-            var fixedCost = await _fixedCostService.GetByIdAsync(id);
-            if (fixedCost == null)
+            if (id <= 0)
             {
-                return NotFound();
+                throw new Exception("Id invalido");
             }
-
+            var fixedCost = await fixedCostService.GetFixedCostById(id);
             return Ok(fixedCost);
         }
 
-
-        [HttpPut("update/{id}")]
-        public async Task<ActionResult> UpdateFixedCostById(int id, FixedCostDto requestDto)
+        [HttpGet]
+        public async Task<ActionResult<List<FixedCostResponseDto>>> GetAllFixedCosts()
         {
-            requestDto.IdFixedCost = id; // Ensure the ID is set correctly for updating
-            var result = await _fixedCostService.UpdateAsync(requestDto);
-            if (result)
-            {
-                return Ok("Costo Fijo actualizado exitosamente.");
-            }
-            return BadRequest("No se pudo actualizar el costo Fijo.");
+            return await fixedCostService.GetAllFixedCosts();
         }
 
-
-        [HttpDelete("delete/{id}")]
-        public async Task<ActionResult> DeleteFixedCostById(int id)
+        [HttpPatch("{id}")]
+        public async Task DeleteFixedCost(int id)
         {
-            try
+            if (id <= 0)
             {
-                var result = await _fixedCostService.DeleteAsync(id);
-                if (result)
-                {
-                    return Ok("Registro eliminado :)");
-                }
-                return BadRequest("No se pudo eliminar el registro.");
+                throw new Exception("Id invalido");
             }
-            catch (Exception ex)
-            {
-                return BadRequest($"No se pudo eliminar el registro. El error es: {ex.Message}");
-            }
+            await fixedCostService.DeleteFixedCost(id);
         }
+
     }
 }

@@ -1,7 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using PresupuestitoBack.DTOs;
-using PresupuestitoBack.Repositories;
+﻿using Microsoft.AspNetCore.Mvc;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
@@ -10,46 +9,55 @@ namespace PresupuestitoBack.Controllers
     [ApiController]
     public class PersonController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly PersonService _personService;
+        private readonly PersonService personService;
 
-        public PersonController(IMapper mapper, PersonService personService)
+        public PersonController(PersonService personService)
         {
-            _mapper = mapper;
-            _personService = personService;
+            this.personService = personService;
         }
-        [HttpGet("{id}", Name = "GetPersonById")]
-        public async Task<ActionResult<PersonDto>> GetPerson(int id)
-        {
-            /*if (id == 0)
-            {
-                return BadRequest();
-            }*/
 
-            var person = await _personService.GetByIdAsync(id);
-            if (person != null)
+        [HttpPost]
+        public async Task CreatePerson([FromBody] PersonRequestDto personRequestDto)
+        {
+            await personService.CreatePerson(personRequestDto);
+        }
+
+        [HttpPut("{id}")]
+        public async Task UpdatePerson(int id, [FromBody] PersonRequestDto personRequestDto)
+        {
+            if (id <= 0)
             {
-                return Ok(_mapper.Map<PersonDto>(person));
+                throw new Exception("Id invalido");
             }
-
-            return NotFound();
+            await personService.UpdatePerson(id, personRequestDto);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PersonResponseDto>> GetPersonById(int id)
+        {
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            var person = await personService.GetPersonById(id);
+            return Ok(person);
+        }
+
         [HttpGet]
-        public async Task<ActionResult<List<PersonDto>>> GetAllPersons()
+        public async Task<ActionResult<List<PersonResponseDto>>> GetAllPersons()
         {
-            var persons = await _personService.GetAllAsync();
-            return Ok(_mapper.Map<List<PersonDto>>(persons));
+            return await personService.GetAllPersons();
         }
-        [HttpDelete]
-        public async Task<ActionResult<PersonDto>> Delete(int IdPerson)
+
+        [HttpPatch("{id}")]
+        public async Task DeletePerson(int id)
         {
-            if (IdPerson == 0) { return BadRequest();
-            }
-            else
+            if (id <= 0)
             {
-                await _personService.Delete(IdPerson);
-                return NoContent();
-            }       
+                throw new Exception("Id invalido");
+            }
+            await personService.DeletePerson(id);
         }
+
     }
 }

@@ -58,5 +58,6 @@ namespace PresupuestitoBack.Controllers
             }
             await categoryService.DeleteCategory(id);
         }
+
     }
 }

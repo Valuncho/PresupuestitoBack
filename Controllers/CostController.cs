@@ -1,86 +1,63 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using PresupuestitoBack.DTOs;
+﻿using Microsoft.AspNetCore.Mvc;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
-    [Route("api/[controller]/cost")]
+    [Route("api/[controller]")]
     [ApiController]
     public class CostController : ControllerBase
     {
-
-       
-        private readonly CostService _costService;
+        private readonly CostService costService;
 
         public CostController(CostService costService)
         {
-            this._costService = costService;
-
+            this.costService = costService;
         }
 
-        [HttpGet("getAll")]
-        public async Task<ActionResult<List<ClientDto>>> GetClientes()
+        [HttpPost]
+        public async Task CreateCost([FromBody] CostRequestDto costRequestDto)
         {
-            var costs = await _costService.GetAllAsync();
-            return Ok(costs);
+            await costService.CreateCost(costRequestDto);
         }
 
-
-        [HttpPost("new")]
-        public async Task<ActionResult> SaveCost(CostDto costDto)
+        [HttpPut("{id}")]
+        public async Task UpdateCost(int id, [FromBody] CostRequestDto costRequestDto)
         {
-            var result = await _costService.SaveAsync(costDto);
-            if (result)
+            if (id <= 0)
             {
-                return Ok("Costo guardado exitosamente.");
+                throw new Exception("Id invalido");
             }
-            return BadRequest("No se pudo guardar el costo.");
+            await costService.UpdateCost(id, costRequestDto);
         }
-
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<CostDto>> GetCostById(int id)
+        public async Task<ActionResult<CostResponseDto>> GetCostById(int id)
         {
-            var cost = await _costService.GetByIdAsync(id);
-            if (cost == null)
+            if (id <= 0)
             {
-                return NotFound();
+                throw new Exception("Id invalido");
             }
-
+            var cost = await costService.GetCostById(id);
             return Ok(cost);
         }
 
-
-        [HttpPut("update/{id}")]
-        public async Task<ActionResult> UpdateCostById(int id, CostDto costDto)
+        [HttpGet]
+        public async Task<ActionResult<List<CostResponseDto>>> GetAllCosts()
         {
-            costDto.IdCost = id; // Ensure the ID is set correctly for updating
-            var result = await _costService.UpdateAsync(costDto);
-            if (result)
-            {
-                return Ok("Costo actualizado exitosamente.");
-            }
-            return BadRequest("No se pudo actualizar el costo.");
+            return await costService.GetAllCosts();
         }
 
-
-        [HttpDelete("delete/{id}")]
-        public async Task<ActionResult> DeleteCostById(int id)
+        [HttpPatch("{id}")]
+        public async Task DeleteCost(int id)
         {
-            try
+            if (id <= 0)
             {
-                var result = await _costService.DeleteAsync(id);
-                if (result)
-                {
-                    return Ok("Registro eliminado :)");
-                }
-                return BadRequest("No se pudo eliminar el registro.");
+                throw new Exception("Id invalido");
             }
-            catch (Exception ex)
-            {
-                return BadRequest($"No se pudo eliminar el registro. El error es: {ex.Message}");
-            }
+            await costService.DeleteCost(id);
         }
+
     }
 }

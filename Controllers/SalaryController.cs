@@ -1,84 +1,63 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PresupuestitoBack.DTOs;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("api/Salary")]
     public class SalaryController : ControllerBase
     {
-        private readonly SalaryService _salaryService;
-
+        private readonly SalaryService salaryService;
 
         public SalaryController(SalaryService salaryService)
         {
-            this._salaryService = salaryService;
-
+            this.salaryService = salaryService;
         }
 
-        [HttpGet("getAll")]
-        public async Task<ActionResult<List<SalaryDto>>> GetSalarios()
+        [HttpPost]
+        public async Task CreateSalary([FromBody] SalaryRequestDto salaryRequestDto)
         {
-            var salaries = await _salaryService.GetAllAsync();
-            return Ok(salaries);
+            await salaryService.CreateSalary(salaryRequestDto);
         }
 
-
-        [HttpPost("new")]
-        public async Task<ActionResult> SaveSalario(SalaryDto salaryDto)
+        [HttpPut("{id}")]
+        public async Task UpdateSalary(int id, [FromBody] SalaryRequestDto salaryRequestDto)
         {
-            var result = await _salaryService.SaveAsync(salaryDto);
-            if (result)
+            if (id <= 0)
             {
-                return Ok("Salary guardado exitosamente.");
+                throw new Exception("Id invalido");
             }
-            return BadRequest("No se pudo guardar el salary.");
+            await salaryService.UpdateSalary(id, salaryRequestDto);
         }
-
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<SalaryDto>> GetSalaryById(int id)
+        public async Task<ActionResult<SalaryResponseDto>> GetSalaryById(int id)
         {
-            var salary = await _salaryService.GetByIdAsync(id);
-            if (salary == null)
+            if (id <= 0)
             {
-                return NotFound();
+                throw new Exception("Id invalido");
             }
-
+            var salary = await salaryService.GetSalaryById(id);
             return Ok(salary);
         }
 
-
-        [HttpPut("update/{id}")]
-        public async Task<ActionResult> UpdateSalaryById(int id, SalaryDto requestDto)
+        [HttpGet]
+        public async Task<ActionResult<List<SalaryResponseDto>>> GetAllSalaries()
         {
-            requestDto.IdSalary = id; // Ensure the ID is set correctly for updating
-            var result = await _salaryService.UpdateAsync(requestDto);
-            if (result)
-            {
-                return Ok("Salario actualizado exitosamente.");
-            }
-            return BadRequest("No se pudo actualizar el salario.");
+            return await salaryService.GetAllSalaries();
         }
 
-
-        [HttpDelete("delete/{id}")]
-        public async Task<ActionResult> DeleteSalaryById(int id)
+        [HttpPatch("{id}")]
+        public async Task DeleteSalary(int id)
         {
-            try
+            if (id <= 0)
             {
-                var result = await _salaryService.DeleteAsync(id);
-                if (result)
-                {
-                    return Ok("Registro eliminado :)");
-                }
-                return BadRequest("No se pudo eliminar el registro.");
+                throw new Exception("Id invalido");
             }
-            catch (Exception ex)
-            {
-                return BadRequest($"No se pudo eliminar el registro. El error es: {ex.Message}");
-            }
+            await salaryService.DeleteSalary(id);
         }
+
     }
 }

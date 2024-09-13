@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PresupuestitoBack.DTOs;
 using PresupuestitoBack.DTOs.Request;
 using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Services;
@@ -17,14 +16,14 @@ namespace PresupuestitoBack.Controllers
             this.budgetService = budgetService;
         }
 
-        [HttpPost("new")]
-        public async Task<ActionResult> CreateBudget([FromBody] BudgetRequestDto budgetRequestDto)
+        [HttpPost]
+        public async Task CreateBudget([FromBody] BudgetRequestDto budgetRequestDto)
         {
             await budgetService.CreateBudget(budgetRequestDto);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateBudget(int id, [FromBody] BudgetRequestDto budgetRequestDto)
+        public async Task UpdateBudget(int id, [FromBody] BudgetRequestDto budgetRequestDto)
         {
             if (id <= 0)
             {
@@ -59,14 +58,6 @@ namespace PresupuestitoBack.Controllers
             }
             await budgetService.DeleteBudget(id);
         }
-        
-
-
-        
-
-
-        
-
 
     }
 }

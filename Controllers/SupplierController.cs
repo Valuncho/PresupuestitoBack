@@ -1,54 +1,62 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using PresupuestitoBack.DTOs;
+﻿using Microsoft.AspNetCore.Mvc;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class SupplierController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly SupplierService _supplierService;
+        private readonly SupplierService supplierService;
 
-        public SupplierController(IMapper mapper, SupplierService supplierService)
+        public SupplierController(SupplierService supplierService)
         {
-            _mapper = mapper;
-            _supplierService = supplierService;
+            this.supplierService = supplierService;
         }
-        [HttpGet("{id}", Name = "GetSupplierById")]
-        public async Task<ActionResult<SupplierDto>> GetSupplier(int id)
+
+        [HttpPost]
+        public async Task CreateSupplier([FromBody] SupplierRequestDto supplierRequestDto)
         {
-            if (id == 0)
-            {
-                return BadRequest();
-            }
-
-            var supplier = await _supplierService.GetByIdAsync(id);
-            if (supplier != null)
-            {
-                return Ok(_mapper.Map<SupplierDto>(supplier));
-            }
-
-            return NotFound();
+            await supplierService.CreateSupplier(supplierRequestDto);
         }
+
+        [HttpPut("{id}")]
+        public async Task UpdateSupplier(int id, [FromBody] SupplierRequestDto supplierRequestDto)
+        {
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            await supplierService.UpdateSupplier(id, supplierRequestDto);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<SupplierResponseDto>> GetSupplierById(int id)
+        {
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            var supplier = await supplierService.GetSupplierById(id);
+            return Ok(supplier);
+        }
+
         [HttpGet]
-        public async Task<ActionResult<List<SupplierDto>>> GetAllSuppliers()
+        public async Task<ActionResult<List<SupplierResponseDto>>> GetAllSuppliers()
         {
-            var suppliers = await _supplierService.GetAllAsync();
-            return Ok(_mapper.Map<List<SupplierDto>>(suppliers));
+            return await supplierService.GetAllSuppliers();
         }
-        [HttpDelete]
-        public async Task<ActionResult<SupplierDto>> Delete(int IdSupplier)
+
+        [HttpPatch("{id}")]
+        public async Task DeleteSupplier(int id)
         {
-            if (IdSupplier == 0)
+            if (id <= 0)
             {
-                return BadRequest();
+                throw new Exception("Id invalido");
             }
-            else
-            {
-                await _supplierService.Delete(IdSupplier);
-                return NoContent();
-            }
+            await supplierService.DeleteSupplier(id);
         }
     }
 }
