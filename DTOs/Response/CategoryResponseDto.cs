@@ -2,8 +2,8 @@
 {
     public class CategoryResponseDto
     {
-        public int CategoryId;
-        public string CategoryName;
-        public string CategoryModel;
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
+        public string CategoryModel { get; set; }
     }
 }

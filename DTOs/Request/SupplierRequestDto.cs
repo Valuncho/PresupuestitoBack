@@ -1,7 +1,6 @@
 ﻿namespace PresupuestitoBack.DTOs.Request
 {
-    public class BudgetRequestDto
+    public class SupplierRequestDto
     {
-
     }
 }

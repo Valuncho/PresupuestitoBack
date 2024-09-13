@@ -1,6 +1,6 @@
 ﻿namespace PresupuestitoBack.DTOs.Response
 {
-    public class ClientResponseDto
+    public class SubCategoryMaterialResponseDto
     {
     }
 }
