@@ -1,51 +1,83 @@
 ﻿using AutoMapper;
-using PresupuestitoBack.DTOs;
+using Microsoft.AspNetCore.Mvc;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Models;
-using PresupuestitoBack.Repositories.IRepositories;
 using PresupuestitoBack.Repositories.IRepository;
-using System.Linq.Expressions;
 
 namespace PresupuestitoBack.Services
 {
     public class SalaryService
     {
-        private readonly ISalaryRepository _salaryRepository;
-        private readonly Mapper _mapper;
+        private readonly ISalaryRepository salaryRepository;
+        private readonly IMapper mapper;
 
-        public SalaryService(ISalaryRepository salaryRepository, Mapper mapper)
+        public SalaryService(ISalaryRepository salaryRepository, IMapper mapper)
         {
-            _salaryRepository = salaryRepository;
-            _mapper = mapper;
-        }
-        public async Task<Salary> GetByIdAsync(int id)
-        {
-            var salaryDto = await _salaryRepository.GetById(c => c.IdSalary == id);
-            var salary = _mapper.Map<Salary>(salaryDto);
-            return salary;
+            this.salaryRepository = salaryRepository;
+            this.mapper = mapper;
         }
 
-        public async Task<List<Salary>> GetAllAsync(Expression<Func<Salary, bool>>? filter = null)
+        public async Task CreateSalary(SalaryRequestDto salaryRequestDto)
         {
-            var salaryDto = await _salaryRepository.GetAll(filter);
-            var salaries = _mapper.Map<List<Salary>>(salaryDto);
-            return salaries;
+            var salary = mapper.Map<Salary>(salaryRequestDto);
+            salary.Status = true;
+            await salaryRepository.Insert(salary);
         }
 
-        public async Task<bool> DeleteAsync(int idSalary)
+        public async Task UpdateSalary(int id, SalaryRequestDto salaryRequestDto)
         {
-            return await _salaryRepository.Delete(idSalary);
+            var existingSalary = await salaryRepository.GetById(s => s.IdSalary == id);
+            if (existingSalary == null)
+            {
+                throw new KeyNotFoundException("El salario no existe.");
+            }
+            else
+            {
+                var salary = mapper.Map<Salary>(salaryRequestDto);
+                await salaryRepository.Update(salary);
+            }
         }
 
-        public async Task<bool> SaveAsync(SalaryDto salaryDto)
+        public async Task<ActionResult<SalaryResponseDto>> GetSalaryById(int id)
         {
-            var salary = _mapper.Map<Salary>(salaryDto);
-            return await _salaryRepository.Insert(salary);
+            var salary = await salaryRepository.GetById(s => s.IdSalary == id);
+            if (salary == null)
+            {
+                throw new KeyNotFoundException("El salario no fue encontrado.");
+            }
+            else
+            {
+                return mapper.Map<SalaryResponseDto>(salary);
+            }
         }
 
-        public async Task<bool> UpdateAsync(SalaryDto salaryDto)
+        public async Task<ActionResult<List<SalaryResponseDto>>> GetAllSalaries()
         {
-            var salary = _mapper.Map<Salary>(salaryDto);
-            return await _salaryRepository.Update(salary);
+            var salaries = await salaryRepository.GetAll();
+            if (salaries == null)
+            {
+                throw new Exception("Salarios no encontrados.");
+            }
+            else
+            {
+                return mapper.Map<List<SalaryResponseDto>>(salaries);
+            }
         }
+
+        public async Task DeleteSalary(int id)
+        {
+            var salary = await salaryRepository.GetById(s => s.IdSalary == id);
+            if (salary == null)
+            {
+                throw new KeyNotFoundException("El salario no fue encontrado.");
+            }
+            else
+            {
+                salary.Status = false;
+                await salaryRepository.Update(salary);
+            }
+        }
+
     }
 }

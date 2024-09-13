@@ -1,51 +1,83 @@
 ﻿using AutoMapper;
-using PresupuestitoBack.DTOs;
+using Microsoft.AspNetCore.Mvc;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Models;
-using PresupuestitoBack.Repositories.IRepositories;
 using PresupuestitoBack.Repositories.IRepository;
-using System.Linq.Expressions;
 
 namespace PresupuestitoBack.Services
 {
     public class FixedCostService
     {
-        private readonly IFixedCostRepository _fixedCostRepository;
-        private readonly Mapper _mapper;
+        private readonly IFixedCostRepository fixedCostRepository;
+        private readonly IMapper mapper;
 
-        public FixedCostService(IFixedCostRepository fixedCostRepository, Mapper mapper)
+        public FixedCostService(IFixedCostRepository fixedCostRepository, IMapper mapper)
         {
-            _fixedCostRepository = fixedCostRepository;
-            _mapper = mapper;
-        }
-        public async Task<FixedCost> GetByIdAsync(int id)
-        {
-            var fixedCostDto = await _fixedCostRepository.GetById(c => c.IdFixedCost == id);
-            var fixedCost = _mapper.Map<FixedCost>(fixedCostDto);
-            return fixedCost;
+            this.fixedCostRepository = fixedCostRepository;
+            this.mapper = mapper;
         }
 
-        public async Task<List<FixedCost>> GetAllAsync(Expression<Func<FixedCost, bool>>? filter = null)
+        public async Task CreateFixedCost(FixedCostRequestDto fixedCostRequestDto)
         {
-            var fixedCostDto = await _fixedCostRepository.GetAll(filter);
-            var fixedCosts = _mapper.Map<List<FixedCost>>(fixedCostDto);
-            return fixedCosts;
+            var fixedCost = mapper.Map<FixedCost>(fixedCostRequestDto);
+            fixedCost.Status = true;
+            await fixedCostRepository.Insert(fixedCost);
         }
 
-        public async Task<bool> DeleteAsync(int idFixedCost)
+        public async Task UpdateFixedCost(int id, FixedCostRequestDto fixedCostRequestDto)
         {
-            return await _fixedCostRepository.Delete(idFixedCost);
+            var existingFixedCost = await fixedCostRepository.GetById(f => f.IdFixedCost == id);
+            if (existingFixedCost == null)
+            {
+                throw new KeyNotFoundException("El costo fijo no existe.");
+            }
+            else
+            {
+                var fixedCost = mapper.Map<FixedCost>(fixedCostRequestDto);
+                await fixedCostRepository.Update(fixedCost);
+            }
         }
 
-        public async Task<bool> SaveAsync(FixedCostDto fixedCostDto)
+        public async Task<ActionResult<FixedCostResponseDto>> GetFixedCostById(int id)
         {
-            var fixedCost = _mapper.Map<FixedCost>(fixedCostDto);
-            return await _fixedCostRepository.Insert(fixedCost);
+            var fixedCost = await fixedCostRepository.GetById(f => f.IdFixedCost == id);
+            if (fixedCost == null)
+            {
+                throw new KeyNotFoundException("El costo fijo no fue encontrado.");
+            }
+            else
+            {
+                return mapper.Map<FixedCostResponseDto>(fixedCost);
+            }
         }
 
-        public async Task<bool> UpdateAsync(FixedCostDto fixedCostDto)
+        public async Task<ActionResult<List<FixedCostResponseDto>>> GetAllFixedCosts()
         {
-            var fixedCost = _mapper.Map<FixedCost>(fixedCostDto);
-            return await _fixedCostRepository.Update(fixedCost);
+            var fixedCosts = await fixedCostRepository.GetAll();
+            if (fixedCosts == null)
+            {
+                throw new Exception("Costos fijos no encontrados.");
+            }
+            else
+            {
+                return mapper.Map<List<FixedCostResponseDto>>(fixedCosts);
+            }
         }
+
+        public async Task DeleteFixedCost(int id)
+        {
+            var fixedCost = await fixedCostRepository.GetById(f => f.IdFixedCost == id);
+            if (fixedCost == null)
+            {
+                throw new KeyNotFoundException("El costo fijo no fue encontrado.");
+            }
+            else
+            {
+                fixedCost.Status = false;
+                await fixedCostRepository.Update(fixedCost);
+            }
+        }
+
     }
 }
