@@ -24,5 +24,6 @@ namespace PresupuestitoBack.DataAccess
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeHistory> EmployeeHistorys { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<ClientHistory> ClientHistories { get; set; }
     }
 }
