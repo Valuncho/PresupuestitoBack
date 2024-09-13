@@ -30,12 +30,12 @@ namespace PresupuestitoBack.Services
             var existingSalary = await salaryRepository.GetById(s => s.IdSalary == id);
             if (existingSalary == null)
             {
-                throw new KeyNotFoundException("El salario no existe.");
+                throw new Exception("El salario no existe");
             }
             else
             {
-                var salary = mapper.Map<Salary>(salaryRequestDto);
-                await salaryRepository.Update(salary);
+                mapper.Map(salaryRequestDto, existingSalary);
+                await salaryRepository.Update(existingSalary);
             }
         }
 

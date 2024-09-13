@@ -30,12 +30,12 @@ namespace PresupuestitoBack.Services
             var existingPayment = await paymentRepository.GetById(p => p.PaymentId == id);
             if (existingPayment == null)
             {
-                throw new KeyNotFoundException("El pago no existe.");
+                throw new Exception("El pago no existe");
             }
             else
             {
-                var payment = mapper.Map<Payment>(paymentRequestDto);
-                await paymentRepository.Update(payment);
+                mapper.Map(paymentRequestDto, existingPayment);
+                await paymentRepository.Update(existingPayment);
             }
         }
 

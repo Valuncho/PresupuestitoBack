@@ -27,16 +27,14 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdateClientHistory(int id, ClientHistoryRequestDto clientHistoryRequestDto)
         {
-            var existingClientHistory = await clientHistoryRepository.GetById(c => c.IdClientHistory == id);
+            var existingClientHistory = await clientHistoryRepository.GetById(ch => ch.IdClientHistory == id);
             if (existingClientHistory == null)
             {
-                throw new KeyNotFoundException("El historial del cliente no existe.");
+                throw new Exception("El historial del cliente no existe");
             }
-            else
-            {
-                var clientHistory = mapper.Map<ClientHistory>(clientHistoryRequestDto);
-                await clientHistoryRepository.Update(clientHistory);
-            }
+
+            mapper.Map(clientHistoryRequestDto, existingClientHistory);
+            await clientHistoryRepository.Update(existingClientHistory);
         }
 
         public async Task<ActionResult<ClientHistoryResponseDto>> GetClientHistoryById(int id)

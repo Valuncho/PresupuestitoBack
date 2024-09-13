@@ -30,12 +30,12 @@ namespace PresupuestitoBack.Services
             var existingSupplierHistory = await supplierHistoryRepository.GetById(s => s.SupplierHistoryId == id);
             if (existingSupplierHistory == null)
             {
-                throw new KeyNotFoundException("El historial del proveedor no existe.");
+                throw new Exception("El historial del proveedor no existe");
             }
             else
             {
-                var supplierHistory = mapper.Map<SupplierHistory>(supplierHistoryRequestDto);
-                await supplierHistoryRepository.Update(supplierHistory);
+                mapper.Map(supplierHistoryRequestDto, existingSupplierHistory);
+                await supplierHistoryRepository.Update(existingSupplierHistory);
             }
         }
 

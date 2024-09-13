@@ -30,13 +30,13 @@ namespace PresupuestitoBack.Services
             var existingClient = await clientRepository.GetById(c => c.IdClient == id);
             if (existingClient == null)
             {
-                throw new KeyNotFoundException("El cliente no existe.");
+                throw new Exception("El cliente no existe");
             }
             else
             {
-                var client = mapper.Map<Client>(clientRequestDto);
-                await clientRepository.Update(client);
-            }
+                mapper.Map(clientRequestDto, existingClient);
+                await clientRepository.Update(existingClient);
+            }            
         }
 
         public async Task<ActionResult<ClientResponseDto>> GetClientById(int id)

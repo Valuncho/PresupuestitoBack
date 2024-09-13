@@ -34,8 +34,8 @@ namespace PresupuestitoBack.Services
             }
             else
             {
-                var budget = mapper.Map<Budget>(budgetRequestDto);
-                await budgetRepository.Update(budget);
+                mapper.Map(budgetRequestDto, existyingBudget);
+                await budgetRepository.Update(existyingBudget);
             }
         }
 

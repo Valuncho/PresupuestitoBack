@@ -30,12 +30,12 @@ namespace PresupuestitoBack.Services
             var existingSubCategoryMaterial = await subCategoryMaterialRepository.GetById(s => s.SubCategoryMaterialId == id);
             if (existingSubCategoryMaterial == null)
             {
-                throw new KeyNotFoundException("La subcategoría de material no existe.");
+                throw new Exception("La subcategoría de material no existe");
             }
             else
             {
-                var subCategoryMaterial = mapper.Map<SubCategoryMaterial>(subCategoryMaterialRequestDto);
-                await subCategoryMaterialRepository.Update(subCategoryMaterial);
+                mapper.Map(subCategoryMaterialRequestDto, existingSubCategoryMaterial);
+                await subCategoryMaterialRepository.Update(existingSubCategoryMaterial);
             }
         }
 

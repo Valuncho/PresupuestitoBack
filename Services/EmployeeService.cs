@@ -27,17 +27,18 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdateEmployee(int id, EmployeeRequestDto employeeRequestDto)
         {
-            var existingEmployee = mapper.Map<Employee>(employeeRequestDto);
-            if (existingEmployee == null) 
+            var existingEmployee = await employeeRepository.GetById(e => e.IdEmployee == id);
+            if (existingEmployee == null)
             {
-                throw new KeyNotFoundException("El empleado no existe");
+                throw new Exception("El empleado no existe");
             }
             else
             {
-                var employee = mapper.Map<Employee>(employeeRequestDto);
-                await employeeRepository.Update(employee);
+                mapper.Map(employeeRequestDto, existingEmployee);
+                await employeeRepository.Update(existingEmployee);
             }
         }
+
 
         public async Task<ActionResult<EmployeeResponseDto>> GetEmployeeById(int id)
         {

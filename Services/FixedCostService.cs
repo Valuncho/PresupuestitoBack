@@ -30,12 +30,12 @@ namespace PresupuestitoBack.Services
             var existingFixedCost = await fixedCostRepository.GetById(f => f.IdFixedCost == id);
             if (existingFixedCost == null)
             {
-                throw new KeyNotFoundException("El costo fijo no existe.");
+                throw new Exception("El costo fijo no existe");
             }
             else
             {
-                var fixedCost = mapper.Map<FixedCost>(fixedCostRequestDto);
-                await fixedCostRepository.Update(fixedCost);
+                mapper.Map(fixedCostRequestDto, existingFixedCost);
+                await fixedCostRepository.Update(existingFixedCost);
             }
         }
 

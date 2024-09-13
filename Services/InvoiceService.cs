@@ -30,14 +30,15 @@ namespace PresupuestitoBack.Services
             var existingInvoice = await invoiceRepository.GetById(i => i.IdInvoice == id);
             if (existingInvoice == null)
             {
-                throw new KeyNotFoundException("La factura no existe.");
+                throw new Exception("La factura no existe");
             }
             else
             {
-                var invoice = mapper.Map<Invoice>(invoiceRequestDto);
-                await invoiceRepository.Update(invoice);
+                mapper.Map(invoiceRequestDto, existingInvoice);
+                await invoiceRepository.Update(existingInvoice);
             }
         }
+
 
         public async Task<ActionResult<InvoiceResponseDto>> GetInvoiceById(int id)
         {

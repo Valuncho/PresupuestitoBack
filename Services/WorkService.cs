@@ -30,12 +30,12 @@ namespace PresupuestitoBack.Services
             var existingWork = await workRepository.GetById(w => w.IdWork == id);
             if (existingWork == null)
             {
-                throw new KeyNotFoundException("El trabajo no existe.");
+                throw new Exception("El trabajo no existe");
             }
             else
             {
-                var work = mapper.Map<Work>(workRequestDto);
-                await workRepository.Update(work);
+                mapper.Map(workRequestDto, existingWork);
+                await workRepository.Update(existingWork);
             }
         }
 

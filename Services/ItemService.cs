@@ -30,12 +30,12 @@ namespace PresupuestitoBack.Services
             var existingItem = await itemRepository.GetById(i => i.IdItem == id);
             if (existingItem == null)
             {
-                throw new KeyNotFoundException("El ítem no existe.");
+                throw new Exception("El ítem no existe");
             }
             else
             {
-                var item = mapper.Map<Item>(itemRequestDto);                
-                await itemRepository.Update(item);
+                mapper.Map(itemRequestDto, existingItem);
+                await itemRepository.Update(existingItem);
             }
         }
 

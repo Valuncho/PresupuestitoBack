@@ -30,12 +30,12 @@ namespace PresupuestitoBack.Services
             var existingCost = await costRepository.GetById(c => c.IdCost == id);
             if (existingCost == null)
             {
-                throw new KeyNotFoundException("El costo no existe");
+                throw new Exception("El costo no existe");
             }
             else
             {
-                var cost = mapper.Map<Cost>(costRequestDto);
-                await costRepository.Update(cost);
+                mapper.Map(costRequestDto, existingCost);
+                await costRepository.Update(existingCost);
             }
         }
 

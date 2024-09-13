@@ -30,12 +30,12 @@ namespace PresupuestitoBack.Services
             var existingMaterial = await materialRepository.GetById(m => m.MaterialId == id);
             if (existingMaterial == null)
             {
-                throw new KeyNotFoundException("El material no existe.");
+                throw new Exception("El material no existe");
             }
             else
             {
-                var material = mapper.Map<Material>(materialRequestDto);
-                await materialRepository.Update(material);
+                mapper.Map(materialRequestDto, existingMaterial);
+                await materialRepository.Update(existingMaterial);
             }
         }
 

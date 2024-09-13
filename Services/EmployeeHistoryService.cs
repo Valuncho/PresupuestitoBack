@@ -30,12 +30,12 @@ namespace PresupuestitoBack.Services
             var existingEmployeeHistory = await employeeHistoryRepository.GetById(e => e.IdEmployeeHistory == id);
             if (existingEmployeeHistory == null)
             {
-                throw new KeyNotFoundException("El historial del empleado no existe.");
+                throw new Exception("El historial del empleado no existe");
             }
             else
             {
-                var employeeHistory = mapper.Map<EmployeeHistory>(employeeHistoryRequestDto);
-                await employeeHistoryRepository.Update(employeeHistory);
+                mapper.Map(employeeHistoryRequestDto, existingEmployeeHistory);
+                await employeeHistoryRepository.Update(existingEmployeeHistory);
             }
         }
 

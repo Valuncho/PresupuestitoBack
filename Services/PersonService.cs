@@ -30,12 +30,12 @@ namespace PresupuestitoBack.Services
             var existingPerson = await personRepository.GetById(p => p.IdPerson == id);
             if (existingPerson == null)
             {
-                throw new KeyNotFoundException("La persona no existe.");
+                throw new Exception("La persona no existe");
             }
             else
             {
-                var person = mapper.Map<Person>(personRequestDto);
-                await personRepository.Update(person);
+                mapper.Map(personRequestDto, existingPerson);
+                await personRepository.Update(existingPerson);
             }
         }
 

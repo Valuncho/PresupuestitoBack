@@ -34,9 +34,9 @@ namespace PresupuestitoBack.Services
             }
             else
             {
-                var category = mapper.Map<Category>(categoryRequestDto);
-                await categoryRepository.Update(category);
-            }               
+                mapper.Map(categoryRequestDto, existingCategory);
+                await categoryRepository.Update(existingCategory);
+            }                     
         }
 
         public async Task<ActionResult<CategoryResponseDto>> GetCategoryById(int id)

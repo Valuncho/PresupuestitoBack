@@ -30,12 +30,12 @@ namespace PresupuestitoBack.Services
             var existingSupplier = await supplierRepository.GetById(s => s.IdSupplier == id);
             if (existingSupplier == null)
             {
-                throw new KeyNotFoundException("El proveedor no existe.");
+                throw new Exception("El proveedor no existe");
             }
             else
             {
-                var supplier = mapper.Map<Supplier>(supplierRequestDto);
-                await supplierRepository.Update(supplier);
+                mapper.Map(supplierRequestDto, existingSupplier);
+                await supplierRepository.Update(existingSupplier);
             }
         }
 
