@@ -37,6 +37,7 @@ namespace PresupuestitoBack.Repositories
         {
             return await base.GetAll(filter);
         }
+
     }
 }
 
