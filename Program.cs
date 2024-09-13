@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using PresupuestitoBack.DataAccess;
+using PresupuestitoBack.Services;
+using PresupuestitoBack.Repositories;
+using PresupuestitoBack.Repositories.IRepository;
+using PresupuestitoBack;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,19 +17,27 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Add services to the container.
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddAutoMapper(typeof(Mapping));
 
-// Configurar la cadena de conexión para ApplicationDbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
+
+// Aca vamos a tener que agregar los servicios y los repositorios, hasta no encontrar una forma mas efectica
+// hay que cargarlos manualmente
+builder.Services.AddScoped<BudgetService>();
+builder.Services.AddScoped<IBudgetRepository, BudgetRepository>(); 
+
+builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
