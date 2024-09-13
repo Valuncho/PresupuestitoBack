@@ -1,50 +1,83 @@
 ﻿using AutoMapper;
-using PresupuestitoBack.DTOs;
+using Microsoft.AspNetCore.Mvc;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Models;
-using PresupuestitoBack.Repositories.IRepositories;
-using System.Linq.Expressions;
+using PresupuestitoBack.Repositories.IRepository;
 
 namespace PresupuestitoBack.Services
 {
     public class ClientService
     {
-        private readonly IClientRepository _clientRepository;
-        private readonly Mapper _mapper;
+        private readonly IClientRepository clientRepository;
+        private readonly IMapper mapper;
 
-        public ClientService(IClientRepository clientRepository, Mapper mapper)
+        public ClientService(IClientRepository clientRepository, IMapper mapper)
         {
-            _clientRepository = clientRepository;
-            _mapper = mapper; 
+            this.clientRepository = clientRepository;
+            this.mapper = mapper; 
         }
-        public async Task<Client> GetByIdAsync(int id) 
+        
+        public async Task CreateClient(ClientRequestDto clientRequestDto)
         {
-            var clientDto = await _clientRepository.GetById(c => c.IdClient == id);
-            var client = _mapper.Map<Client>(clientDto);
-            return client; 
-        }
-
-        public async Task<List<Client>> GetAllAsync(Expression<Func<Client, bool>>? filter = null) 
-        {
-            var clientDto = await _clientRepository.GetAll(filter);
-            var clients = _mapper.Map<List<Client>>(clientDto);
-            return clients; 
+            var client = mapper.Map<Client>(clientRequestDto);
+            client.Status = true;
+            await clientRepository.Insert(client);
         }
 
-        public async Task<bool> DeleteAsync(int idClient)
+        public async Task UpdateClient(int id, ClientRequestDto clientRequestDto)
         {
-            return await _clientRepository.Delete(idClient);
+            var existingClient = await clientRepository.GetById(c => c.IdClient == id);
+            if (existingClient == null)
+            {
+                throw new KeyNotFoundException("El cliente no existe.");
+            }
+            else
+            {
+                var client = mapper.Map<Client>(clientRequestDto);
+                await clientRepository.Update(client);
+            }
         }
 
-        public async Task<bool> SaveAsync(ClientDto clientDto)
+        public async Task<ActionResult<ClientResponseDto>> GetClientById(int id)
         {
-            var client = _mapper.Map<Client>(clientDto);
-            return await _clientRepository.Insert(client);
+            var client = await clientRepository.GetById(c => c.IdClient == id);
+            if (client == null)
+            {
+                throw new KeyNotFoundException("El cliente no fue encontrado.");
+            }
+            else
+            {
+                return mapper.Map<ClientResponseDto>(client);
+            }
         }
 
-        public async Task<bool> UpdateAsync(ClientDto clientDto)
+        public async Task<ActionResult<List<ClientResponseDto>>> GetAllClients()
         {
-            var client = _mapper.Map<Client>(clientDto);
-            return await _clientRepository.Update(client);
+            var clients = await clientRepository.GetAll();
+            if (clients == null)
+            {
+                throw new Exception("Clientes no encontradas");
+            }
+            else
+            {
+                return mapper.Map<List<ClientResponseDto>>(clients);
+            }
         }
+
+        public async Task DeleteClient(int id)
+        {
+            var client = await clientRepository.GetById(c => c.IdClient == id);
+            if(client == null)
+            {
+                throw new KeyNotFoundException("El cliente no fue encontrado");
+            }
+            else
+            {
+                client.Status = false;
+                await clientRepository.Update(client);
+            }
+        }
+
     }
 }

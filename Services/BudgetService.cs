@@ -1,51 +1,83 @@
 ﻿using AutoMapper;
-using PresupuestitoBack.DTOs;
+using Microsoft.AspNetCore.Mvc;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Models;
-using PresupuestitoBack.Repositories.IRepositories;
-using System.Linq.Expressions;
+using PresupuestitoBack.Repositories.IRepository;
 
 namespace PresupuestitoBack.Services
 {
     public class BudgetService
     {
-        private readonly IBudgetRepository _budgetRepository;
+        private readonly IBudgetRepository budgetRepository;
+        private readonly IMapper mapper;
 
-        private readonly Mapper _mapper;
-
-        public BudgetService(IBudgetRepository budgetRepository, Mapper mapper)
+        public BudgetService(IBudgetRepository budgetRepository, IMapper mapper)
         {
-            _budgetRepository = budgetRepository;
-            _mapper = mapper;
+            this.budgetRepository = budgetRepository;
+            this.mapper = mapper;
         }
-        public async Task<Budget> GetByIdAsync(int id)
+        
+        public async Task CreateBudget(BudgetRequestDto budgetRequestDto)
         {
-            var budgetDto = await _budgetRepository.GetById(c => c.IdBudget == id);
-            var budget = _mapper.Map<Budget>(budgetDto);
-            return budget;
-        }
-
-        public async Task<List<Budget>> GetAllAsync(Expression<Func<Budget, bool>>? filter = null)
-        {
-            var budgetDto = await _budgetRepository.GetAll(filter);
-            var budgets = _mapper.Map<List<Budget>>(budgetDto);
-            return budgets;
+            var budget = mapper.Map<Budget>(budgetRequestDto);
+            budget.Status = true;
+            await budgetRepository.Insert(budget);
         }
 
-        public async Task<bool> DeleteAsync(int idBudget)
+        public async Task UpdateBudget(int id, BudgetRequestDto budgetRequestDto)
         {
-            return await _budgetRepository.Delete(idBudget);
+            var existyingBudget = await budgetRepository.GetById(b => b.IdBudget == id);
+            if (existyingBudget == null)
+            {
+                throw new Exception("El presupuesto no existe");
+            }
+            else
+            {
+                var budget = mapper.Map<Budget>(budgetRequestDto);
+                await budgetRepository.Update(budget);
+            }
         }
 
-        public async Task<bool> SaveAsync(BudgetDto budgetDto)
+        public async Task<ActionResult<BudgetResponseDto>> GetBudgetById(int id)
         {
-            var budget = _mapper.Map<Budget>(budgetDto);
-            return await _budgetRepository.Insert(budget);
+            var budget = await budgetRepository.GetById(b => b.IdBudget == id);
+            if(budget == null)
+            {
+                throw new KeyNotFoundException("El presupuesto no fue encontrado");
+            }
+            else
+            {
+                return mapper.Map<BudgetResponseDto>(budget);   
+            }
         }
 
-        public async Task<bool> UpdateAsync(BudgetDto budgetDto)
+        public async Task<ActionResult<List<BudgetResponseDto>>> GetAllBudgets()
         {
-            var budget = _mapper.Map<Budget>(budgetDto);
-            return await _budgetRepository.Update(budget);  
+            var budgets = await budgetRepository.GetAll();
+            if (budgets == null)
+            {
+                throw new Exception("Presupuestos no encontrados");
+            }
+            else
+            {
+                return mapper.Map<List<BudgetResponseDto>>(budgets);    
+            }
         }
+
+        public async Task DeleteBudget(int id)
+        {
+            var budget = await budgetRepository.GetById(b => b.IdBudget == id);
+            if (budget == null)
+            {
+                throw new KeyNotFoundException("El presupuesto no fue encontrado");
+            }
+            else
+            {
+                budget.Status = false;
+                await budgetRepository.Update(budget);
+            }
+        }
+
     }
 }
