@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PresupuestitoBack.DTOs;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
@@ -16,27 +17,46 @@ namespace PresupuestitoBack.Controllers
         }
 
         [HttpPost]
-        public async Task createCategory(CategoryDto categoryDto)
+        public async Task CreateCategory([FromBody] CategoryRequestDto categoryRequestDto)
         {
-            await categoryService.CreateCategory(categoryDto);
+            await categoryService.CreateCategory(categoryRequestDto);
         }
 
         [HttpPut("{id}")]
-        public async Task updateCategory(CategoryDto categoryDto)
+        public async Task UpdateCategory(int id, [FromBody] CategoryRequestDto categoryRequestDto)
         {
-            await categoryService.UpdateCategory(categoryDto);
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            await categoryService.UpdateCategory(id, categoryRequestDto);
         }
 
         [HttpGet("{id}")]
-        public async Task<CategoryDto> getCategoryById(int id)
+        public async Task<ActionResult<CategoryResponseDto>> GetCategoryById(int id)
         {
-            return await categoryService.GetCategoryById(id);           
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            var category = await categoryService.GetCategoryById(id);
+            return Ok(category);
         }
 
         [HttpGet]
-        public async Task<List<CategoryDto>> getCategories()
+        public async Task<ActionResult<List<CategoryResponseDto>>> GetAllCategories()
         {
-            return await categoryService.GetCategories();
+            return await categoryService.GetAllCategories();
+        }
+
+        [HttpPatch("{id}")]
+        public async Task DeleteCategory(int id)
+        {
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            await categoryService.DeleteCategory(id);
         }
     }
 }
