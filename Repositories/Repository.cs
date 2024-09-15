@@ -85,7 +85,7 @@ namespace PresupuestitoBack.Repositories
 
 
 
-        public async Task<T> GetById(Expression<Func<T, bool>>? filter = null, bool tracked = true)
+        public async virtual Task<T> GetById(Expression<Func<T, bool>>? filter = null, bool tracked = true)
         {
             IQueryable<T> query = dbSet;
             if (!tracked)

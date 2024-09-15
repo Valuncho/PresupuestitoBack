@@ -1,38 +1,42 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PresupuestitoBack.DataAccess;
+﻿using PresupuestitoBack.DataAccess;
 using PresupuestitoBack.Models;
 using PresupuestitoBack.Repositories.IRepository;
+using System.Linq.Expressions;
 
 namespace PresupuestitoBack.Repositories
 {
     public class WorkRepository : Repository<Work>, IWorkRepository
     {
+
+        private readonly ApplicationDbContext context;
+
         public WorkRepository(ApplicationDbContext context) : base(context)
         {
+            this.context = context;
         }
 
-
-        public override async Task<bool> Insert(Work newWork)
+        public override async Task<bool> Insert(Work work)
         {
-            try
-            {
-                await base.Insert(newWork);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            await context.Works.AddAsync(work);
+            await context.SaveChangesAsync();
+            return true;
         }
 
-        public override async Task<bool> Update(Work updateService)
+        public override async Task<bool> Update(Work work)
         {
-            return await base.Update(updateService);
+            context.Works.Update(work);
+            await context.SaveChangesAsync();
+            return true;
         }
 
-        public override async Task<bool> Delete(int id)
+        public override async Task<Work> GetById(Expression<Func<Work, bool>>? filter = null, bool tracked = true)
         {
-            return await base.Delete(id);
+            return await base.GetById(filter, tracked);
+        }
+
+        public override async Task<List<Work>> GetAll(Expression<Func<Work, bool>>? filter = null)
+        {
+            return await base.GetAll(filter);
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PresupuestitoBack.DTOs;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
@@ -16,35 +17,47 @@ namespace PresupuestitoBack.Controllers
         }
 
         [HttpPost]
-        public async Task CreatePayment(PaymentDto paymentDto)
+        public async Task CreatePayment([FromBody] PaymentRequestDto paymentRequestDto)
         {
-            await paymentService.CreatePayment(paymentDto);
+            await paymentService.CreatePayment(paymentRequestDto);
         }
 
         [HttpPut("{id}")]
-        public async Task UpdatePaymentById(PaymentDto paymentDto)
+        public async Task UpdatePayment(int id, [FromBody] PaymentRequestDto paymentRequestDto)
         {
-            await paymentService.UpdatePayment(paymentDto);
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            await paymentService.UpdatePayment(id, paymentRequestDto);
         }
 
         [HttpGet("{id}")]
-        public async Task<PaymentDto> GetPaymentById(int id)
+        public async Task<ActionResult<PaymentResponseDto>> GetPaymentById(int id)
         {
-            return await paymentService.GetPaymentById(id);
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            var payment = await paymentService.GetPaymentById(id);
+            return Ok(payment);
         }
 
         [HttpGet]
-        public async Task<List<PaymentDto>> GetPayments()
+        public async Task<ActionResult<List<PaymentResponseDto>>> GetAllPayments()
         {
-            return await paymentService.GetPayments();
+            return await paymentService.GetAllPayments();
         }
 
-        
+        [HttpPatch("{id}")]
+        public async Task DeletePayment(int id)
+        {
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            await paymentService.DeletePayment(id);
+        }
 
-
-        
-
-
-        
     }
 }

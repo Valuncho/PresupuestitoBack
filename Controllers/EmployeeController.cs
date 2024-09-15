@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PresupuestitoBack.DTOs;
-using PresupuestitoBack.Models;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("api/Employee")]
     public class EmployeeController : ControllerBase
     {
         private readonly EmployeeService employeeService;
@@ -17,33 +17,48 @@ namespace PresupuestitoBack.Controllers
         }
 
         [HttpPost]
-        public async Task createEmployee(EmployeeDto employeeDto)
+        public async Task CreateEmployee([FromBody] EmployeeRequestDto employeeRequestDto)
         {
-            await employeeService.createEmployee(employeeDto);
+            await employeeService.CreateEmployee(employeeRequestDto);
         }
 
         [HttpPut("{id}")]
-        public async Task updateEmployee(EmployeeDto employeeDto)
+        public async Task UpdateEmployee(int id,[FromBody] EmployeeRequestDto employeeRequestDto)
         {
-            await employeeService.updateEmployee(employeeDto);
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            await employeeService.UpdateEmployee(id, employeeRequestDto);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<EmployeeDto>> GetEmployeeById(int id)
+        public async Task<ActionResult<EmployeeResponseDto>> GetEmployeeById(int id)
         {
-            var employee = await employeeService.GetByIdAsync(id);
-            if (employee == null)
+            
+            if (id <= 0)
             {
-                return NotFound();
+                throw new Exception("Id invalido");
             }
-
+            var employee = await employeeService.GetEmployeeById(id);
             return Ok(employee);
         }
 
         [HttpGet]
-        public async Task<List<EmployeeDto>> getAllEmployee()
+        public async Task<ActionResult<List<EmployeeResponseDto>>> getAllEmployees()
         {
-            return await employeeService.getEmployees();
+            return await employeeService.GetAllEmployees();
         }
+
+        [HttpPatch]
+        public async Task DeleteEmployee(int id)
+        {
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            await employeeService.DeleteEmployee(id);
+        }
+
     }
 }

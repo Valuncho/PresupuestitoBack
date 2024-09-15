@@ -24,6 +24,6 @@ namespace PresupuestitoBack.Models
         public bool Status { get; set; }
 
         // Propiedad de navegación para las SubCategories
-        public ICollection<SubCategory> SubCategories { get; set; } = new List<SubCategory>();
+        public ICollection<SubCategoryMaterial> SubCategories { get; set; } = new List<SubCategoryMaterial>();
     }
 }

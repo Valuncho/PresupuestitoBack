@@ -1,89 +1,63 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using PresupuestitoBack.DTOs;
-using PresupuestitoBack.Models;
-using PresupuestitoBack.Repositories;
+﻿using Microsoft.AspNetCore.Mvc;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("api/cliente")]
     public class ClientController : ControllerBase
     {
-
-
-        private readonly ClientService clientService;
-        
+        private readonly ClientService clientService;        
 
         public ClientController(ClientService clientService)
         {
-            this.clientService = clientService;
-            
+            this.clientService = clientService;           
         }
 
-        [HttpGet("getAll")]
-        public async Task<ActionResult<List<ClientDto>>> GetClientes()
+        [HttpPost]
+        public async Task CreateClient([FromBody] ClientRequestDto clientRequestDto)
         {
-            var clients = await clientService.GetAllAsync();
-            return Ok(clients);
+            await clientService.CreateClient(clientRequestDto);
         }
 
-       
-        [HttpPost("new")]
-        public async Task<ActionResult> SaveCliente(ClientDto clienteDto)
+        [HttpPut("{id}")]
+        public async Task UpdateClient(int id, [FromBody] ClientRequestDto clientRequestDto)
         {
-            var result = await clientService.SaveAsync(clienteDto);
-            if (result)
+            if (id <= 0)
             {
-                return Ok("Cliente guardado exitosamente.");
+                throw new Exception("Id invalido");
             }
-            return BadRequest("No se pudo guardar el cliente.");
+            await clientService.UpdateClient(id, clientRequestDto);
         }
-        
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ClientDto>> GetClienteById(int id)
+        public async Task<ActionResult<ClientResponseDto>> GetClientById(int id)
         {
-            var client = await clientService.GetByIdAsync(id);
-            if (client == null)
+            if (id <= 0)
             {
-                return NotFound();
+                throw new Exception("Id invalido");
             }
-            
+            var client = await clientService.GetClientById(id);
             return Ok(client);
         }
 
-       
-        [HttpPut("update/{id}")]
-        public async Task<ActionResult> UpdateClienteById(int id, ClientDto requestDto)
+        [HttpGet]
+        public async Task<ActionResult<List<ClientResponseDto>>> GetAllClients()
         {
-            requestDto.IdClient = id; // Ensure the ID is set correctly for updating
-            var result = await clientService.UpdateAsync(requestDto);
-            if (result)
-            {
-                return Ok("Cliente actualizado exitosamente.");
-            }
-            return BadRequest("No se pudo actualizar el cliente.");
+            return await clientService.GetAllClients();
         }
-        
 
-        [HttpDelete("delete/{id}")]
-        public async Task<ActionResult> DeleteClienteById(int id)
+        [HttpPatch("{id}")]
+        public async Task DeleteClient(int id)
         {
-            try
+            if (id <= 0)
             {
-                var result = await clientService.DeleteAsync(id);
-                if (result)
-                {
-                    return Ok("Registro eliminado :)");
-                }
-                return BadRequest("No se pudo eliminar el registro.");
+                throw new Exception("Id invalido");
             }
-            catch (Exception ex)
-            {
-                return BadRequest($"No se pudo eliminar el registro. El error es: {ex.Message}");
-            }
+            await clientService.DeleteClient(id);
         }
+
     }
 }

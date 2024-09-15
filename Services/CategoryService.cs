@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
-using PresupuestitoBack.DTOs;
+using Microsoft.AspNetCore.Mvc;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Models;
 using PresupuestitoBack.Repositories.IRepository;
 
@@ -16,27 +18,28 @@ namespace PresupuestitoBack.Services
             this.mapper = mapper;
         }
 
-        public async Task CreateCategory(CategoryDto categoryDto)
+        public async Task CreateCategory(CategoryRequestDto categoryRequestDto)
         {
-            var category = mapper.Map<Category>(categoryDto);     
+            var category = mapper.Map<Category>(categoryRequestDto);
+            category.Status = true;
             await categoryRepository.Insert(category);
         }
 
-        public async Task UpdateCategory(CategoryDto categoryDto)
+        public async Task UpdateCategory(int id, CategoryRequestDto categoryRequestDto)
         {
-            var existingCategory = await categoryRepository.GetById(c => c.CategoryId == categoryDto.CategoryId);
+            var existingCategory = await categoryRepository.GetById(c => c.CategoryId == id);
             if (existingCategory == null)
             {
                 throw new KeyNotFoundException("La categoria no existe.");
             }
             else
             {
-                var category = mapper.Map<Category>(categoryDto);
-                await categoryRepository.Update(category);
-            }               
+                mapper.Map(categoryRequestDto, existingCategory);
+                await categoryRepository.Update(existingCategory);
+            }                     
         }
 
-        public async Task<CategoryDto> GetCategoryById(int id)
+        public async Task<ActionResult<CategoryResponseDto>> GetCategoryById(int id)
         {
             var category = await categoryRepository.GetById(c => c.CategoryId == id);
             if (category == null)
@@ -45,14 +48,36 @@ namespace PresupuestitoBack.Services
             }
             else
             {
-                return mapper.Map<CategoryDto>(category);
+                return mapper.Map<CategoryResponseDto>(category);
             }           
         }
 
-        public async Task<List<CategoryDto>> GetCategories()
+        public async Task<ActionResult<List<CategoryResponseDto>>> GetAllCategories()
         {
-            var categories = await categoryRepository.GetAll();           
-            return mapper.Map<List<CategoryDto>>(categories);
+            var categories = await categoryRepository.GetAll();   
+            if (categories == null)
+            {
+                throw new Exception("Categorias no encontradas");
+            }
+            else
+            {
+                return mapper.Map<List<CategoryResponseDto>>(categories);
+            }                        
         }
+
+        public async Task DeleteCategory(int id)
+        {
+            var category = await categoryRepository.GetById(c => c.CategoryId == id);
+            if (category == null)
+            {
+                throw new KeyNotFoundException("La categoria no fue encontrada.");
+            }
+            else
+            {
+                category.Status = false;
+                await categoryRepository.Update(category);
+            }
+        }
+
     }
 }

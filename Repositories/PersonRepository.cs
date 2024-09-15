@@ -1,66 +1,43 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PresupuestitoBack.DataAccess;
+﻿using PresupuestitoBack.DataAccess;
 using PresupuestitoBack.Models;
-using PresupuestitoBack.Repositories.IRepositories;
+using PresupuestitoBack.Repositories.IRepository;
+using System.Linq.Expressions;
 
 namespace PresupuestitoBack.Repositories
 {
     public class PersonRepository : Repository<Person>, IPersonRepository
     {
 
-    
-    public PersonRepository(ApplicationDbContext context) : base(context){}
+        private readonly ApplicationDbContext context;
 
-    public override async Task<bool> Update(Person updatePerson)
-    {
-        var Person = await _context.Persons.FirstOrDefaultAsync(x => x.IdPerson == updatePerson.IdPerson);
-        if (Person == null) { return false; }
-
-        Person.Name = updatePerson.Name;
-        Person.LastName = updatePerson.LastName;
-        Person.Address = updatePerson.Address;
-        Person.PhoneNumber = updatePerson.PhoneNumber;
-        Person.Email = updatePerson.Email;
-        Person.DNI = updatePerson.DNI;
-        Person.CUIT = updatePerson.CUIT;
-        _context.Persons.Update(Person);
-        await _context.SaveChangesAsync();
-        return true;
-    }
-
-    public override async Task<bool> Delete(int id)
-    {
-        var person = await _context.Persons.Where(x => x.IdPerson == id).FirstOrDefaultAsync();
-        if (person != null)
+        public PersonRepository(ApplicationDbContext context) : base(context)
         {
-            _context.Persons.Remove(person);
-            await _context.SaveChangesAsync();
+            this.context = context;
         }
 
-        return true;
-    }
-
-    public override async Task<bool> Insert(Person newPerson)
-    {
-        try
+        public override async Task<bool> Insert(Person person)
         {
-            var personExisting = await _context.Persons.FirstOrDefaultAsync(x => x.IdPerson == newPerson.IdPerson);
-
-            if (personExisting != null)
-            {
-                return false;
-            }
-
-            _context.Persons.Add(newPerson);
-            await _context.SaveChangesAsync();
+            await context.People.AddAsync(person);
+            await context.SaveChangesAsync();
             return true;
         }
-        catch (Exception)
+
+        public override async Task<bool> Update(Person person)
         {
-            return false;
+            context.People.Update(person);
+            await context.SaveChangesAsync();
+            return true;
         }
+
+        public override async Task<Person> GetById(Expression<Func<Person, bool>>? filter = null, bool tracked = true)
+        {
+            return await base.GetById(filter, tracked);
+        }
+
+        public override async Task<List<Person>> GetAll(Expression<Func<Person, bool>>? filter = null)
+        {
+            return await base.GetAll(filter);
+        }
+
     }
-  }
 }
-
-

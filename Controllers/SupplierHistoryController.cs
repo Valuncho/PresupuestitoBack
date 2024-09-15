@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PresupuestitoBack.DTOs;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
@@ -16,27 +17,47 @@ namespace PresupuestitoBack.Controllers
         }
 
         [HttpPost]
-        public async Task CreateSupplierHistory(SupplierHistoryDto supplierHistoryDto)
+        public async Task CreateSupplierHistory([FromBody] SupplierHistoryRequestDto supplierHistoryRequestDto)
         {
-            await supplierHistoryService.CreateSupplierHistory(supplierHistoryDto);
+            await supplierHistoryService.CreateSupplierHistory(supplierHistoryRequestDto);
         }
 
         [HttpPut("{id}")]
-        public async Task UpdateSupplierHistory(SupplierHistoryDto supplierHistoryDto)
+        public async Task UpdateSupplierHistory(int id, [FromBody] SupplierHistoryRequestDto supplierHistoryRequestDto)
         {
-            await supplierHistoryService.UpdateSupplierHistory(supplierHistoryDto);
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            await supplierHistoryService.UpdateSupplierHistory(id, supplierHistoryRequestDto);
         }
 
         [HttpGet("{id}")]
-        public async Task<SupplierHistoryDto> GetSupplierHistoryById(int id)
+        public async Task<ActionResult<SupplierHistoryResponseDto>> GetSupplierHistoryById(int id)
         {
-            return await supplierHistoryService.GetSupplierHistoryById(id);
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            var supplierHistory = await supplierHistoryService.GetSupplierHistoryById(id);
+            return Ok(supplierHistory);
         }
 
         [HttpGet]
-        public async Task<List<SupplierHistoryDto>> GetSupplierHistories()
+        public async Task<ActionResult<List<SupplierHistoryResponseDto>>> GetAllSupplierHistories()
         {
-            return await supplierHistoryService.GetSupplierHistories();
+            return await supplierHistoryService.GetAllSupplierHistories();
         }
+
+        [HttpPatch("{id}")]
+        public async Task DeleteSupplierHistory(int id)
+        {
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            await supplierHistoryService.DeleteSupplierHistory(id);
+        }
+
     }
 }
