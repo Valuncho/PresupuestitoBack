@@ -4,6 +4,5 @@
     {
         public int ClientId { get; set; }
         public PersonResponseDto OPerson { get; set; }
-
     }
 }
