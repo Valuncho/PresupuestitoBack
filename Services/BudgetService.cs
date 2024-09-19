@@ -79,5 +79,17 @@ namespace PresupuestitoBack.Services
             }
         }
 
+        public async Task<decimal> CalculateTotalBudgetPrice(int BudgetId)
+        {
+            decimal BudgetTotalPrice = 0;
+            var budget = await budgetRepository.GetById(b => b.IdBudget == BudgetId);
+            foreach(var work in budget.Works)
+            {
+                int WorkId = work.IdWork;
+                BudgetTotalPrice += await WorkService.CalculateTotalWorkPrice(WorkId);
+            }          
+            return BudgetTotalPrice;
+        }
+
     }
 }
