@@ -79,5 +79,18 @@ namespace PresupuestitoBack.Services
             }
         }
 
+        public async Task<decimal> CalculateTotalWorkPrice(int WorkId)
+        {
+            decimal WorkPrice = 0;
+            var work = await workRepository.GetById(w => w.IdWork == WorkId);
+            foreach(var item in work.Materials)
+            {
+                int MaterialId = item.IdMaterial;
+                decimal MaterialQuantity = item.Quantity;
+                WorkPrice += await MaterialService.CalculateSubTotal(MaterialId, MaterialQuantity);
+            }
+            return WorkPrice;
+        }
+
     }
 }
