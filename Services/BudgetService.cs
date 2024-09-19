@@ -79,7 +79,7 @@ namespace PresupuestitoBack.Services
             }
         }
 
-        public async Task<decimal> CalculateTotalBudgetPrice(int BudgetId)
+        public async Task<decimal> CalculateTotalPriceBudget(int BudgetId)
         {
             decimal BudgetTotalPrice = 0;
             var budget = await budgetRepository.GetById(b => b.IdBudget == BudgetId);
