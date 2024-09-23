@@ -74,7 +74,8 @@ namespace PresupuestitoBack
             CreateMap<SubCategoryMaterialRequestDto, SubCategoryMaterial>().ReverseMap();
 
             // Supplier
-            CreateMap<Supplier, SupplierResponseDto>().ReverseMap();
+            CreateMap<Supplier, SupplierResponseDto>()
+            .ForMember(dest => dest.IdPerson, opt => opt.MapFrom(src => src.OPerson));
             CreateMap<SupplierRequestDto, Supplier>().ReverseMap();
 
             // SupplierHistory

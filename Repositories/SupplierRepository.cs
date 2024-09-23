@@ -1,4 +1,5 @@
-﻿using PresupuestitoBack.DataAccess;
+﻿using Microsoft.EntityFrameworkCore;
+using PresupuestitoBack.DataAccess;
 using PresupuestitoBack.Models;
 using PresupuestitoBack.Repositories.IRepository;
 using System.Linq.Expressions;
@@ -36,7 +37,8 @@ namespace PresupuestitoBack.Repositories
 
         public override async Task<List<Supplier>> GetAll(Expression<Func<Supplier, bool>>? filter = null)
         {
-            return await base.GetAll(filter);
+            return await context.Suppliers.Include(s => s.OPerson) // Incluir la entidad Person
+            .ToListAsync();
         }
 
     }

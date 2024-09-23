@@ -2,7 +2,7 @@
 {
     public class SupplierRequestDto
     {
-        public int PersonId { get; set; }
+        public int IdPerson { get; set; }
         
     }
 }
