@@ -7,18 +7,18 @@ namespace PresupuestitoBack.Models
     public class PaymentBudget
     {
         [Key]
-        [Column(TypeName = "INT")]
+        [Column("PaymentBudgetId",TypeName = "INT")]
         public int PaymentBudgetId { get; set; }
 
         [Required]
         [ForeignKey("PaymentId")]
         public int PaymentId { get; set; }
-        public Payment OPayment { get; set; }
+        public virtual Payment OPayment { get; set; }
 
         [Required]
         [ForeignKey("BudgetId")]
         public int BudgetId { get; set; }
-        public Budget OBudget { get; set; }
+        public virtual Budget OBudget { get; set; }
 
         [Column(TypeName = ("bit"))]
         public bool Status { get => Status; set { Status = true; } }

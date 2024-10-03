@@ -8,8 +8,8 @@ namespace PresupuestitoBack.Models
     public class FixedCost
     {
         [Key]
-        [Column(TypeName = "INT")]
-        public int IdFixedCost { get; set; }
+        [Column("FixedCostId",TypeName = "INT")]
+        public int FixedCostId { get; set; }
 
 
         [Required]

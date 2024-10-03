@@ -7,13 +7,13 @@ namespace PresupuestitoBack.Models
     public class Employee
     {
         [Key]
-        [Column("IdEmployee", TypeName = "INT")]
-        public int IdEmployee { get; set; }
+        [Column("EmployeeId", TypeName = "INT")]
+        public int EmployeeId { get; set; }
 
         [Required]
-        [ForeignKey("IdPerson")]
-        public int IdPerson { get; set; }
-        public Person OPerson { get; set; }
+        [ForeignKey("PersonId")]
+        public int PersonId { get; set; }
+        public virtual Person OPerson { get; set; }
 
         [Required]
         [Column(TypeName = "DECIMAL(18, 2)")]

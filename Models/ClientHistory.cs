@@ -7,13 +7,13 @@ namespace PresupuestitoBack.Models
     public class ClientHistory
     {
         [Key]
-        [Column(TypeName = "INT")]
-        public int IdClientHistory { get; set; }
+        [Column("ClientHistoryId",TypeName = "INT")]
+        public int ClientHistoryId { get; set; }
 
         [Required]
-        [ForeignKey("Client")]
+        [ForeignKey("ClientId")]
         public int ClientId { get; set; } 
-        public Client Oclient { get; set; } 
+        public virtual Client Oclient { get; set; } 
 
         public virtual ICollection<Budget> Budgets { get; set; }
 

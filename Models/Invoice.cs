@@ -9,8 +9,8 @@ namespace PresupuestitoBack.Models
     {
         
         [Key]
-        [Column(TypeName = "INT")]
-        public int IdInvoice { get; set; }
+        [Column("InvoiceId",TypeName = "INT")]
+        public int InvoiceId { get; set; }
 
         [Required]
         [Column(TypeName = "DATE")]
@@ -23,9 +23,9 @@ namespace PresupuestitoBack.Models
 
         // Relación con SupplierHistory
         [Required]
-        [ForeignKey("SupplierHistory")]
+        [ForeignKey("SupplierHistoryId")]
         public int SuplierHistoryId { get; set; } // Clave foránea
-        public SupplierHistory OSupplierHistory { get; set; } // Propiedad de navegación
+        public virtual SupplierHistory OSupplierHistory { get; set; } // Propiedad de navegación
 
         public virtual ICollection<Payment> Payments { get; set; }
 

@@ -7,17 +7,17 @@ namespace PresupuestitoBack.Models
     public class Item
     {
         [Key]
-        [Column(TypeName = "INT")]
-        public int IdItem { get; set; }
+        [Column("ItemId",TypeName = "INT")]
+        public int ItemId { get; set; }
 
         [Required]
-        [ForeignKey("IdMaterial")]
-        public int IdMaterial { get; set; }        
-        public Material OMaterial { get; set; }
+        [ForeignKey("MaterialId")]
+        public int MaterialId { get; set; }        
+        public virtual Material OMaterial { get; set; }
 
         [Required]
-        [ForeignKey("IdWork")]
-        public int IdWork { get; set; }     
+        [ForeignKey("WorkId")]
+        public int WorkId { get; set; }     
         public Work OWork { get; set; }
 
         [Required]

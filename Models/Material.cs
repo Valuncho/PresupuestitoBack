@@ -7,7 +7,7 @@ namespace PresupuestitoBack.Models
     public class Material
     {
         [Key]
-        [Column(TypeName = "INT")]
+        [Column("MaterialId",TypeName = "INT")]
         public int MaterialId { get; set; }
 
 
@@ -41,7 +41,7 @@ namespace PresupuestitoBack.Models
         public string MaterialUnitMeasure { get; set; }
 
         [Required]
-        [ForeignKey("SubCategory")]
+        [ForeignKey("SubCategoryId")]
         public int SubCategoryId { get; set; } 
         public virtual SubCategoryMaterial OSubcategory { get; set; } 
 

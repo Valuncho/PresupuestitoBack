@@ -7,11 +7,11 @@ namespace PresupuestitoBack.Models
     public class Client
     {
         [Key]
-        [Column(TypeName = "INT")]
-        public int IdClient { get; set; }
+        [Column("ClientId",TypeName = "INT")]
+        public int ClientId { get; set; }
 
-        [ForeignKey("IdPerson")]
-        public int IdPerson { get; set; }
+        [ForeignKey("PersonId")]
+        public int PersonId { get; set; }
         public virtual Person OPerson { get; set; }
 
         public virtual ICollection<ClientHistory> ClientsHistory { get; set; } 

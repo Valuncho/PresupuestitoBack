@@ -7,10 +7,8 @@ namespace PresupuestitoBack.Models
     public class Budget
     {
         [Key]
-        [Column(TypeName = "INT")]
-        public int IdBudget { get; set; }
-
-        //List Works
+        [Column("BudgetId",TypeName = "INT")]
+        public int BudgetId { get; set; }
         public virtual ICollection<Work> Works { get; set; } 
 
         [Required]
@@ -31,7 +29,7 @@ namespace PresupuestitoBack.Models
 
         // Relación con ClientHistory 
         [Required]
-        [ForeignKey("ClientHistory")]
+        [ForeignKey("ClientHistoryId")]
         public int ClientHistoryId { get; set; } // Clave foránea
         public virtual ClientHistory OclientHistory { get; set; } // Propiedad de navegación
 

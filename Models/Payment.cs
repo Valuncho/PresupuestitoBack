@@ -7,7 +7,7 @@ namespace PresupuestitoBack.Models
     public class Payment
     {
         [Key]
-        [Column(TypeName = "INT")]
+        [Column("PaymentId",TypeName = "INT")]
         public int PaymentId { get; set; }
 
         [Required]
@@ -23,13 +23,13 @@ namespace PresupuestitoBack.Models
         public string? DescriptionPayment { get; set; }
 
         [Required]        
-        [ForeignKey("IdInvoice")]
-        public int IdInvoice { get; set; }
+        [ForeignKey("InvoiceId")]
+        public int InvoiceId { get; set; }
         public virtual Invoice? OInvoice { get; set; }
 
         [Required]
-        [ForeignKey("IdBudget")]
-        public int IdBudget { get; set; }      
+        [ForeignKey("BudgetId")]
+        public int BudgetId { get; set; }      
         public virtual Budget? OBudget { get; set; }
 
         [Required]

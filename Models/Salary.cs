@@ -8,7 +8,8 @@ namespace PresupuestitoBack.Models
     public class Salary
     {
         [Key]
-        public int IdSalary { get; set; }
+        [Column("SalaryId", TypeName = "INT")]
+        public int SalaryId { get; set; }
 
         [Required]
         [Column(TypeName = "DECIMAL(18,2)")]
@@ -19,8 +20,8 @@ namespace PresupuestitoBack.Models
         public DateTime BillDate { get; set; }
 
         [Required]
-        [ForeignKey("IdPayment")]
-        public int IdPayments { get; set; }
+        [ForeignKey("PaymentId")]
+        public int PaymentsId { get; set; }
         public virtual Payment OPayment { get; set; }
 
         [Required]

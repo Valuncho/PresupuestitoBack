@@ -7,11 +7,12 @@ namespace PresupuestitoBack.Models
     public class InvoiceItem
     {
         [Key]
-        public int IdInvoiceItem { get; set; }
+        [Column("InvoiceItemId", TypeName = "INT")]
+        public int InvoiceItemId { get; set; }
         
         [ForeignKey("IdMaterial")]
         public int IdMaterial { get; set; }        
-        public Material OMaterial { get; set; } 
+        public virtual Material OMaterial { get; set; } 
 
         [Required]
         [Column(TypeName = "DECIMAL(18, 2)")]
@@ -27,9 +28,9 @@ namespace PresupuestitoBack.Models
 
 
         [Required]
-        [ForeignKey("Invoice")]
+        [ForeignKey("InvoiceId")]
         public int InvoiceId { get; set; } 
-        public Invoice OInvoice { get; set; } 
+        public virtual Invoice OInvoice { get; set; } 
     }
 }
 

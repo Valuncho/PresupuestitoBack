@@ -7,11 +7,11 @@ namespace PresupuestitoBack.Models
     public class SupplierHistory
     {
         [Key]
-        [Column(TypeName = "INT")]
+        [Column("SupplierHistoryId",TypeName = "INT")]
         public int SupplierHistoryId { get; set; }
 
         [Required]
-        [ForeignKey("IdSupplier")]
+        [ForeignKey("SupplierId")]
         public int SuplierId { get; set; } 
         public virtual Supplier Osupplier { get; set; }
 
