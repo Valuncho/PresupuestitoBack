@@ -10,20 +10,16 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "INT")]
         public int IdClientHistory { get; set; }
 
-        // Relación con Client
         [Required]
         [ForeignKey("Client")]
-        public int ClientId { get; set; } // Clave foránea
+        public int ClientId { get; set; } 
+        public Client Oclient { get; set; } 
 
-        public Client Oclient { get; set; } // Propiedad de navegación
-
-
-        //List Budgets
-        public ICollection<Budget> Budgets { get; set; }
+        public virtual ICollection<Budget> Budgets { get; set; }
 
         [Required]
         [Column(TypeName = "bit")]
-        public bool Status { get; set; }
+        public bool Status { get => Status; set { Status = true; } }
 
     }
 }

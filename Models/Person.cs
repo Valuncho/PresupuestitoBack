@@ -11,44 +11,36 @@ namespace PresupuestitoBack.Models
         public int IdPerson { get; set; }
 
         [Required]
-        [Column(TypeName = "VARCHAR(50)")]        
+        [Column(TypeName = "NVARCHAR(50)")]        
         public string Name { get; set; }
         
         [Required]
-        [Column(TypeName = "VARCHAR(100)")]
+        [Column(TypeName = "NVARCHAR(100)")]
         public string LastName { get; set; }
 
         [Required]
-        [Column(TypeName = "VARCHAR(250)")]
+        [Column(TypeName = "NVARCHAR(250)")]
         public string Address { get; set; }
 
         [Required]
-        [Column(TypeName = "VARCHAR(100)")]
+        [Column(TypeName = "NVARCHAR(100)")]
         public string PhoneNumber { get; set; }
 
         [Required]
-        [Column(TypeName = "VARCHAR(150)")]
+        [Column(TypeName = "NVARCHAR(150)")]
         public string Email { get; set; }
 
         [Required]
-        [Column(TypeName = "VARCHAR(20)")]
+        [Column(TypeName = "NVARCHAR(20)")]
         public string DNI { get; set; } 
 
         [Required]
-        [Column(TypeName = "VARCHAR(20)")]
+        [Column(TypeName = "NVARCHAR(20)")]
         public string CUIT { get; set; }
 
-        
-        //Navigation properties
-        public ICollection<Supplier> Suppliers { get; set; } = new List<Supplier>();
 
-        public ICollection<Client> Clients { get; set; } = new List<Client>();
-
-        public ICollection<Employee> Employees { get; set; } = new List<Employee>();
-
-        [Required]
-        [Column(TypeName = "bit")]
-        public bool Status { get; set; }
+        [Column(TypeName = ("bit"))]
+        public bool Status { get => Status; set { Status = true; } }
 
     }
 }

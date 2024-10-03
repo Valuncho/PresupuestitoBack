@@ -12,45 +12,42 @@ namespace PresupuestitoBack.Models
 
 
         [Required]
-        [Column(TypeName = "VARCHAR(100)")]
+        [Column(TypeName = "NVARCHAR(100)")]
         public string MaterialName { get; set; }
 
 
         [Required]
-        [Column(TypeName = "VARCHAR(400)")]
+        [Column(TypeName = "NVARCHAR(400)")]
         public string MaterialDescription { get; set; }
 
 
         [Required]
-        [Column(TypeName = "VARCHAR(50)")]
+        [Column(TypeName = "NVARCHAR(50)")]
         public string MaterialColor { get; set; }
 
 
         [Required]
-        [Column(TypeName = "VARCHAR(100)")]
+        [Column(TypeName = "NVARCHAR(100)")]
         public string MaterialBrand { get; set; }
 
 
         [Required]
-        [Column(TypeName = "VARCHAR(50)")]
+        [Column(TypeName = "NVARCHAR(50)")]
         public string MaterialMeasure { get; set; }
 
 
         [Required]
-        [Column(TypeName = "VARCHAR(50)")]
+        [Column(TypeName = "NVARCHAR(50)")]
         public string MaterialUnitMeasure { get; set; }
 
-        // Relación con SubCategory
         [Required]
         [ForeignKey("SubCategory")]
-        public int SubCategoryId { get; set; } // Clave foránea
-
-        public SubCategoryMaterial OSubcategory { get; set; } // Propiedad de navegación
-
+        public int SubCategoryId { get; set; } 
+        public virtual SubCategoryMaterial OSubcategory { get; set; } 
 
         [Required]
         [Column(TypeName = "bit")]
-        public bool Status { get; set; }
+        public bool Status { get => Status; set { Status = true; } }
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using PresupuestitoBack.DataAccess;
+﻿using Microsoft.EntityFrameworkCore;
+using PresupuestitoBack.DataAccess;
 using PresupuestitoBack.Models;
 using PresupuestitoBack.Repositories.IRepository;
 using System.Linq.Expressions;
@@ -36,7 +37,19 @@ namespace PresupuestitoBack.Repositories
 
         public override async Task<List<Material>> GetAll(Expression<Func<Material, bool>>? filter = null)
         {
-            return await base.GetAll(filter);
+            return await context
+                        .Materials
+                        .Include(m => m.OSubcategory)
+                        .ToListAsync();
+        }
+
+        public async Task<InvoiceItem?> GetMaterialPrice(int MaterialId)
+        {          
+            return await context
+                   .InvoiceItems
+                   .Where(i => i.IdMaterial == MaterialId)
+                   .Include(i => i.OMaterial)
+                   .FirstOrDefaultAsync();
         }
 
     }

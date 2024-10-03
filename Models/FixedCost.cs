@@ -13,7 +13,7 @@ namespace PresupuestitoBack.Models
 
 
         [Required]
-        [Column(TypeName = "VARCHAR(500)")]
+        [Column(TypeName = "NVARCHAR(500)")]
         public string Description { get; set; }
 
 
@@ -38,7 +38,7 @@ namespace PresupuestitoBack.Models
 
         [Required]
         [Column(TypeName = "bit")]
-        public bool Status { get; set; }
+        public bool Status { get => Status; set { Status = true; } }
 
 
     }

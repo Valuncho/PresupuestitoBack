@@ -18,13 +18,13 @@ namespace PresupuestitoBack.Models
         public decimal CostValue { get; set; }
 
         [Required]
-        [Column(TypeName = "VARCHAR(500)")]
+        [Column(TypeName = "NVARCHAR(500)")]
         public string Description { get; set; }
 
 
         [Required]
         [Column(TypeName = "bit")]
-        public bool Status { get; set; }
+        public bool Status { get => Status; set { Status = true; } }
     }
 }
 

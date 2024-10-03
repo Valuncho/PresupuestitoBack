@@ -10,17 +10,15 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "INT")]
         public int IdClient { get; set; }
 
-        public int IdPerson { get; set; }
         [ForeignKey("IdPerson")]
-        public Person OPerson { get; set; }
+        public int IdPerson { get; set; }
+        public virtual Person OPerson { get; set; }
 
-
-        //Navigation properties
-        public ICollection<ClientHistory> ClientsHistory { get; set; } = new List<ClientHistory>();
+        public virtual ICollection<ClientHistory> ClientsHistory { get; set; } 
 
         [Required]
         [Column(TypeName = "bit")]
-        public bool Status { get; set; }
+        public bool Status { get => Status; set { Status = true; } }
 
     }
 }

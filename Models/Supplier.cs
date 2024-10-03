@@ -12,17 +12,13 @@ namespace PresupuestitoBack.Models
 
         // Clave foránea hacia Person
         [Required]
-        public int IdPerson { get; set; }
-
-        // Relación con la clase Person
         [ForeignKey("IdPerson")]
-        public Person OPerson { get; set; }
+        public int IdPerson { get; set; }
+        public virtual Person OPerson { get; set; }
 
-        [Required]
-        [Column(TypeName = "bit")]
-        public bool Status { get; set; }
+        [Column(TypeName = ("bit"))]
+        public bool Status { get => Status; set { Status = true; } }
 
-        public ICollection<SupplierHistory> SupplierHistorys { get; set;} = new List<SupplierHistory>();
     }
 }
 

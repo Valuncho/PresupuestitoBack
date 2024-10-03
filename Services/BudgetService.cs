@@ -11,11 +11,13 @@ namespace PresupuestitoBack.Services
     {
         private readonly IBudgetRepository budgetRepository;
         private readonly IMapper mapper;
+        private readonly WorkService workService;
 
-        public BudgetService(IBudgetRepository budgetRepository, IMapper mapper)
+        public BudgetService(IBudgetRepository budgetRepository, IMapper mapper, WorkService workService)
         {
             this.budgetRepository = budgetRepository;
             this.mapper = mapper;
+            this.workService = workService;
         }
         
         public async Task CreateBudget(BudgetRequestDto budgetRequestDto)
@@ -79,5 +81,18 @@ namespace PresupuestitoBack.Services
             }
         }
 
+        
+        public async Task<decimal> CalculateTotalPriceBudget(int BudgetId)
+        {
+            decimal BudgetTotalPrice = 0;
+            var budget = await budgetRepository.GetById(b => b.IdBudget == BudgetId);
+            foreach(var work in budget.Works)
+            {
+                int WorkId = work.IdWork;
+                BudgetTotalPrice += await this.workService.CalculateTotalWorkPrice(WorkId);
+            }          
+            return BudgetTotalPrice;
+        }
+        
     }
 }

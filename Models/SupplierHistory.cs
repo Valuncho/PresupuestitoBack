@@ -10,18 +10,13 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "INT")]
         public int SupplierHistoryId { get; set; }
 
-        // Relación con Supplier
         [Required]
         [ForeignKey("IdSupplier")]
-        public int SuplierId { get; set; } // Clave foránea
+        public int SuplierId { get; set; } 
+        public virtual Supplier Osupplier { get; set; }
 
-        public Supplier Osupplier { get; set; } // Propiedad de navegación
-
-        public ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
-
-        [Required]
-        [Column(TypeName = "bit")]
-        public bool Status { get; set; }
+        [Column(TypeName = ("bit"))]
+        public bool Status { get => Status; set { Status = true; } }
 
     } 
 }

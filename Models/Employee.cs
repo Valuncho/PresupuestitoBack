@@ -11,9 +11,8 @@ namespace PresupuestitoBack.Models
         public int IdEmployee { get; set; }
 
         [Required]
-        public int IdPerson { get; set; }
-
         [ForeignKey("IdPerson")]
+        public int IdPerson { get; set; }
         public Person OPerson { get; set; }
 
         [Required]
@@ -22,9 +21,7 @@ namespace PresupuestitoBack.Models
 
         [Required]
         [Column(TypeName = "bit")]
-        public bool Status { get; set; }
+        public bool Status { get => Status; set { Status = true; } }
 
-        // Relación con EmployeeHistory (Historial del empleado)
-        public ICollection<EmployeeHistory> Histories { get; set; } = new List<EmployeeHistory>(); // Propiedad de navegación
     }
 }

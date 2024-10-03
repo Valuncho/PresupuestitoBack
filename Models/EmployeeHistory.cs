@@ -7,7 +7,7 @@ namespace PresupuestitoBack.Models
     public class EmployeeHistory
     {
         [Key]
-        [Column("IdEmployeeHistory", TypeName = "INT")]
+        [Column(TypeName = "INT")]
         public int IdEmployeeHistory { get; set; }
 
         [Required]
@@ -20,13 +20,12 @@ namespace PresupuestitoBack.Models
 
         [Required]
         [Column(TypeName = "bit")]
-        public bool Status { get; set; }
+        public bool Status { get => Status; set { Status = true; } }
 
         // Relación con Employee
         [Required]
         [ForeignKey("Employee")]
         public int EmployeeId { get; set; } // Clave foránea
-
         public Employee OEmployee { get; set; } // Propiedad de navegación
     }
 }

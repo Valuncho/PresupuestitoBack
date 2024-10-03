@@ -11,11 +11,13 @@ namespace PresupuestitoBack.Services
     {
         private readonly IWorkRepository workRepository;
         private readonly IMapper mapper;
+        private readonly MaterialService materialService;
 
-        public WorkService(IWorkRepository workRepository, IMapper mapper)
+        public WorkService(IWorkRepository workRepository, IMapper mapper, MaterialService materialService)
         {
             this.workRepository = workRepository;
             this.mapper = mapper;
+            this.materialService = materialService;
         }
 
         public async Task CreateWork(WorkRequestDto workRequestDto)
@@ -78,6 +80,19 @@ namespace PresupuestitoBack.Services
                 await workRepository.Update(work);
             }
         }
-
+        
+        public async Task<decimal> CalculateTotalWorkPrice(int WorkId)
+        {
+            decimal WorkPrice = 0;
+            var work = await workRepository.GetById(w => w.IdWork == WorkId);
+            foreach(var item in work.Materials)
+            {
+                int MaterialId = item.IdMaterial;
+                decimal MaterialQuantity = item.Quantity;
+                WorkPrice += await materialService.CalculateSubTotal(MaterialId, MaterialQuantity);
+            }
+            return WorkPrice;
+        }
+        
     }
 }

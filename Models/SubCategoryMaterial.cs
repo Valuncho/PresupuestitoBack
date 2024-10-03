@@ -11,19 +11,17 @@ namespace PresupuestitoBack.Models
         public int SubCategoryMaterialId { get; set; }
 
         [Required]
-        [Column(TypeName = "VARCHAR(100)")]
+        [Column(TypeName = "NVARCHAR(100)")]
         public string SubCategoryName { get; set; }
 
         // Relación con Category
         [Required]
-        public int CategoryId { get; set; }
-
         [ForeignKey("CategoryId")]
-        public Category OCategory { get; set; }
+        public int CategoryId { get; set; }       
+        public virtual Category OCategory { get; set; }
 
-        [Required]
-        [Column(TypeName = "bit")]
-        public bool Status { get; set; }
+        [Column(TypeName = ("bit"))]
+        public bool Status { get => Status; set { Status = true; } }
     }
 }
 
