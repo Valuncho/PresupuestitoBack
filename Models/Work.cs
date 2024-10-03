@@ -10,8 +10,8 @@ namespace PresupuestitoBack.Models
     public class Work
     {
         [Key]
-        [Column(TypeName = "INT")]
-        public int IdWork { get; set; }
+        [Column("WorkId",TypeName = "INT")]
+        public int WorkId { get; set; }
 
         [Required]
         [Column(TypeName = "INT")]

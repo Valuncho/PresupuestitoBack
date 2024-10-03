@@ -10,8 +10,8 @@ namespace PresupuestitoBack.Models
     public class Cost
     {
         [Key]
-        [Column(TypeName = "INT")]
-        public int IdCost { get; set; }
+        [Column("CostId",TypeName = "INT")]
+        public int CostId { get; set; }
 
         [Required]
         [Column(TypeName = "DECIMAL(18, 2)")]

@@ -7,13 +7,12 @@ namespace PresupuestitoBack.Models
     public class Supplier
     {
         [Key]
-        [Column("IdSupplier", TypeName = "INT")]
-        public int IdSupplier { get; set; }
+        [Column("SupplierId", TypeName = "INT")]
+        public int SupplierId { get; set; }
 
-        // Clave foránea hacia Person
         [Required]
-        [ForeignKey("IdPerson")]
-        public int IdPerson { get; set; }
+        [ForeignKey("PersonId")]
+        public int PersonId { get; set; }
         public virtual Person OPerson { get; set; }
 
         [Column(TypeName = ("bit"))]

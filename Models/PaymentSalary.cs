@@ -7,7 +7,7 @@ namespace PresupuestitoBack.Models
     public class PaymentSalary
     {
         [Key]
-        [Column(TypeName = "INT")]
+        [Column("PaymentSalaryId",TypeName = "INT")]
         public int PaymentSalaryId { get; set; }
 
         [Required]

@@ -7,8 +7,8 @@ namespace PresupuestitoBack.Models
     public class Person
     {
         [Key]
-        [Column(TypeName = "INT")]
-        public int IdPerson { get; set; }
+        [Column("PersonId",TypeName = "INT")]
+        public int PersonId { get; set; }
 
         [Required]
         [Column(TypeName = "NVARCHAR(50)")]        

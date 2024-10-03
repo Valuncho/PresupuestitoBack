@@ -8,7 +8,7 @@ namespace PresupuestitoBack.Models
     public class Category
     {
         [Key]
-        [Column(TypeName = "INT")]
+        [Column("CategoryId",TypeName = "INT")]
         public int CategoryId { get; set; }
 
         [Required]
@@ -22,7 +22,6 @@ namespace PresupuestitoBack.Models
         [Required]
         [Column(TypeName = "bit")]
         public bool Status { get => Status; set { Status = true; } }
-
 
         public virtual ICollection<SubCategoryMaterial> SubCategories { get; set; } 
     }

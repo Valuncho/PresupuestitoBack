@@ -7,14 +7,13 @@ namespace PresupuestitoBack.Models
     public class SubCategoryMaterial
     {
         [Key]
-        [Column(TypeName = "INT")]
+        [Column("SubCategoryId",TypeName = "INT")]
         public int SubCategoryId { get; set; }
 
         [Required]
         [Column(TypeName = "NVARCHAR(100)")]
         public string SubCategoryName { get; set; }
 
-        // Relación con Category
         [Required]
         [ForeignKey("CategoryId")]
         public int CategoryId { get; set; }       
