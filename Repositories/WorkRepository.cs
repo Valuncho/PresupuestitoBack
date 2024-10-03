@@ -33,7 +33,7 @@ namespace PresupuestitoBack.Repositories
         public override async Task<Work> GetById(int id)
         {
             return await context.Works.Include(o => o.OMaterials)
-                .Where(o => o.Status == true && o.IdWork == id).FirstAsync();
+                .Where(o => o.Status == true && o.WorkId == id).FirstAsync();
         }
 
         public override async Task<List<Work>> GetAll(Expression<Func<Work, bool>>? filter = null)

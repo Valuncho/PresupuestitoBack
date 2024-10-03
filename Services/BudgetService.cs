@@ -88,7 +88,7 @@ namespace PresupuestitoBack.Services
             var budget = await budgetRepository.GetById(BudgetId);
             foreach(var work in budget.Works)
             {
-                int WorkId = work.IdWork;
+                int WorkId = work.WorkId;
                 BudgetTotalPrice += await this.workService.CalculateTotalWorkPrice(WorkId);
             }          
             return BudgetTotalPrice;

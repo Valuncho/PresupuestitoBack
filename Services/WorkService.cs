@@ -87,7 +87,7 @@ namespace PresupuestitoBack.Services
             var work = await workRepository.GetById(WorkId);
             foreach(var item in work.OMaterials)
             {
-                int MaterialId = item.IdMaterial;
+                int MaterialId = item.MaterialId;
                 decimal MaterialQuantity = item.Quantity;
                 WorkPrice += await materialService.CalculateSubTotal(MaterialId, MaterialQuantity);
             }
