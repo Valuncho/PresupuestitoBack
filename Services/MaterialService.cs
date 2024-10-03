@@ -83,7 +83,7 @@ namespace PresupuestitoBack.Services
         {
             var material = await materialRepository.GetById(m => m.MaterialId == MaterialId);
             var InvoiceMaterial = await materialRepository.GetMaterialPrice(MaterialId);
-            decimal MaterialPrice = InvoiceMaterial.Price;
+            decimal MaterialPrice = InvoiceMaterial!.Price;
             return (MaterialQuantity * MaterialPrice);
         }
 
