@@ -27,5 +27,8 @@ namespace PresupuestitoBack.DataAccess
         public DbSet<Material> Materials { get; set; }
         public DbSet<SubCategoryMaterial> SubCategoryMaterials { get; set; }
         public DbSet<SupplierHistory> SupplierHistories { get; set; }
+        public DbSet<PaymentBudget> PaymentsBudget { get; set; }
+        public DbSet<PaymentSalary> PaymentsSalary { get; set;}
+        public DbSet<PaymentInvoice> PaymentsInvoice { get; set; }
     }
 }
