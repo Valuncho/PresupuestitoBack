@@ -25,23 +25,20 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "DECIMAL(18, 2)")]
         public decimal CostPrice { get; set; }
 
-        // Lista de Items
-        public ICollection<Item> Materials { get; set; } = new List<Item>();
+        public virtual ICollection<Item> Materials { get; set; }
+
+        [Column(TypeName = ("bit"))]
+        public bool Status { get => Status; set { Status = true; } }
 
         [Required]
-        [Column(TypeName = "bit")]
-        public bool Status { get; set; }
-
-        [Required]
-        [Column(TypeName = "VARCHAR(500)")]
+        [Column(TypeName = "NVARCHAR(500)")]
         public string Notes { get; set; }
 
-        // Relación con Budget (Presupuesto)
         [Required]
-        public int BudgetId { get; set; } // Clave foránea
-
         [ForeignKey("BudgetId")]
-        public Budget Budget { get; set; } // Propiedad de navegación
+        public int BudgetId { get; set; } 
+        public Budget Budget { get; set; } 
+
     }
 }
 

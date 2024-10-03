@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata.Ecma335;
 
 namespace PresupuestitoBack.Models
 {
@@ -8,7 +9,6 @@ namespace PresupuestitoBack.Models
     {
         [Key]
         public int IdSalary { get; set; }
-
 
         [Required]
         [Column(TypeName = "DECIMAL(18,2)")]
@@ -19,12 +19,12 @@ namespace PresupuestitoBack.Models
         public DateTime BillDate { get; set; }
 
         [Required]
-        public int IdPayments { get; set; }
         [ForeignKey("IdPayment")]
-        public Payment OPayment { get; set; }
+        public int IdPayments { get; set; }
+        public virtual Payment OPayment { get; set; }
 
         [Required]
         [Column(TypeName = "bit")]
-        public bool Status { get; set; }
+        public bool Status { get => Status; set { Status = true; } }
     }
 }

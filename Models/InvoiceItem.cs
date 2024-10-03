@@ -8,12 +8,10 @@ namespace PresupuestitoBack.Models
     {
         [Key]
         public int IdInvoiceItem { get; set; }
-
-        // Relación con Material
-        public int IdMaterial { get; set; }
-
+        
         [ForeignKey("IdMaterial")]
-        public Material OMaterial { get; set; } // Propiedad de navegación para el Material
+        public int IdMaterial { get; set; }        
+        public Material OMaterial { get; set; } 
 
         [Required]
         [Column(TypeName = "DECIMAL(18, 2)")]
@@ -25,14 +23,13 @@ namespace PresupuestitoBack.Models
 
         [Required]
         [Column(TypeName = "bit")]
-        public bool Status { get; set; }
+        public bool Status { get => Status; set { Status = true; } }
 
-        // Relación con Invoice
+
         [Required]
         [ForeignKey("Invoice")]
-        public int InvoiceId { get; set; } // Clave foránea
-
-        public Invoice OInvoice { get; set; } // Propiedad de navegación para la Invoice
+        public int InvoiceId { get; set; } 
+        public Invoice OInvoice { get; set; } 
     }
 }
 

@@ -25,20 +25,15 @@ namespace PresupuestitoBack.Models
         [Required]
         [ForeignKey("SupplierHistory")]
         public int SuplierHistoryId { get; set; } // Clave foránea
-
         public SupplierHistory OSupplierHistory { get; set; } // Propiedad de navegación
 
-        //List Payments
-        public ICollection<Payment> Payments { get; set; }
+        public virtual ICollection<Payment> Payments { get; set; }
 
-
-        //List InvoiceItems
-        public ICollection<InvoiceItem> InvoiceItems { get; set; } = new List<InvoiceItem>();
-
+        public virtual ICollection<InvoiceItem> InvoiceItems { get; set; } = new List<InvoiceItem>();
 
         [Required]
         [Column(TypeName = "bit")]
-        public bool Status { get; set; }
+        public bool Status { get => Status; set { Status = true; } }
 
 
 

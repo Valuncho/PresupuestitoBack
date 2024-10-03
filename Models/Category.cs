@@ -12,18 +12,18 @@ namespace PresupuestitoBack.Models
         public int CategoryId { get; set; }
 
         [Required]
-        [Column(TypeName = "VARCHAR(100)")]
+        [Column(TypeName = "NVARCHAR(100)")]
         public string CategoryName { get; set; }
 
         [Required]
-        [Column(TypeName = "VARCHAR(100)")]
+        [Column(TypeName = "NVARCHAR(100)")]
         public string CategoryModel { get; set; }
 
         [Required]
         [Column(TypeName = "bit")]
-        public bool Status { get; set; }
+        public bool Status { get => Status; set { Status = true; } }
 
-        // Propiedad de navegación para las SubCategories
-        public ICollection<SubCategoryMaterial> SubCategories { get; set; } = new List<SubCategoryMaterial>();
+
+        public virtual ICollection<SubCategoryMaterial> SubCategories { get; set; } 
     }
 }

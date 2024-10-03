@@ -20,23 +20,21 @@ namespace PresupuestitoBack.Models
 
         [Required]
         [Column(TypeName = "VARCHAR(400)")]
-        public string DescriptionPayment { get; set; }
+        public string? DescriptionPayment { get; set; }
 
         [Required]        
         [ForeignKey("IdInvoice")]
         public int IdInvoice { get; set; }
-
-        public Invoice OInvoice { get; set; }
+        public virtual Invoice? OInvoice { get; set; }
 
         [Required]
         [ForeignKey("IdBudget")]
-        public int IdBudget { get; set; }
-        
-        public Budget OBudget { get; set; }
+        public int IdBudget { get; set; }      
+        public virtual Budget? OBudget { get; set; }
 
         [Required]
         [Column(TypeName = "bit")]
-        public bool Status { get; set; }
+        public bool Status { get => Status; set { Status = true; } }
 
     }
 }
