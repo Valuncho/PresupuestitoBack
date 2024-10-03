@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PresupuestitoBack.Migrations
 {
     /// <inheritdoc />
-    public partial class firstInstance : Migration
+    public partial class haber : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,8 +17,8 @@ namespace PresupuestitoBack.Migrations
                 {
                     CategoryId = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryName = table.Column<string>(type: "VARCHAR(100)", nullable: false),
-                    CategoryModel = table.Column<string>(type: "VARCHAR(100)", nullable: false),
+                    CategoryName = table.Column<string>(type: "NVARCHAR(100)", nullable: false),
+                    CategoryModel = table.Column<string>(type: "NVARCHAR(100)", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -33,7 +33,7 @@ namespace PresupuestitoBack.Migrations
                     IdCost = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CostValue = table.Column<decimal>(type: "DECIMAL(18,2)", nullable: false),
-                    Description = table.Column<string>(type: "VARCHAR(500)", nullable: false),
+                    Description = table.Column<string>(type: "NVARCHAR(500)", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -47,7 +47,7 @@ namespace PresupuestitoBack.Migrations
                 {
                     IdFixedCost = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "VARCHAR(500)", nullable: false),
+                    Description = table.Column<string>(type: "NVARCHAR(500)", nullable: false),
                     Amount = table.Column<decimal>(type: "DECIMAL(18,2)", nullable: false),
                     WorkingDays = table.Column<int>(type: "INT", nullable: false),
                     HoursWorked = table.Column<int>(type: "INT", nullable: false),
@@ -65,13 +65,13 @@ namespace PresupuestitoBack.Migrations
                 {
                     IdPerson = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "VARCHAR(50)", nullable: false),
-                    LastName = table.Column<string>(type: "VARCHAR(100)", nullable: false),
-                    Address = table.Column<string>(type: "VARCHAR(250)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "VARCHAR(100)", nullable: false),
-                    Email = table.Column<string>(type: "VARCHAR(150)", nullable: false),
-                    DNI = table.Column<string>(type: "VARCHAR(20)", nullable: false),
-                    CUIT = table.Column<string>(type: "VARCHAR(20)", nullable: false),
+                    Name = table.Column<string>(type: "NVARCHAR(50)", nullable: false),
+                    LastName = table.Column<string>(type: "NVARCHAR(100)", nullable: false),
+                    Address = table.Column<string>(type: "NVARCHAR(250)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "NVARCHAR(100)", nullable: false),
+                    Email = table.Column<string>(type: "NVARCHAR(150)", nullable: false),
+                    DNI = table.Column<string>(type: "NVARCHAR(20)", nullable: false),
+                    CUIT = table.Column<string>(type: "NVARCHAR(20)", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -83,15 +83,15 @@ namespace PresupuestitoBack.Migrations
                 name: "SubCategories",
                 columns: table => new
                 {
-                    SubCategoryId = table.Column<int>(type: "INT", nullable: false)
+                    SubCategoryMaterialId = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SubCategoryName = table.Column<string>(type: "VARCHAR(100)", nullable: false),
+                    SubCategoryName = table.Column<string>(type: "NVARCHAR(100)", nullable: false),
                     CategoryId = table.Column<int>(type: "INT", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SubCategories", x => x.SubCategoryId);
+                    table.PrimaryKey("PK_SubCategories", x => x.SubCategoryMaterialId);
                     table.ForeignKey(
                         name: "FK_SubCategories_Categories_CategoryId",
                         column: x => x.CategoryId,
@@ -106,15 +106,16 @@ namespace PresupuestitoBack.Migrations
                 {
                     IdClient = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdPerson = table.Column<int>(type: "INT", nullable: false),
+                    IdPerson = table.Column<int>(type: "int", nullable: false),
+                    OPersonIdPerson = table.Column<int>(type: "INT", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Clients", x => x.IdClient);
                     table.ForeignKey(
-                        name: "FK_Clients_People_IdPerson",
-                        column: x => x.IdPerson,
+                        name: "FK_Clients_People_OPersonIdPerson",
+                        column: x => x.OPersonIdPerson,
                         principalTable: "People",
                         principalColumn: "IdPerson",
                         onDelete: ReferentialAction.Cascade);
@@ -126,7 +127,8 @@ namespace PresupuestitoBack.Migrations
                 {
                     IdEmployee = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdPerson = table.Column<int>(type: "INT", nullable: false),
+                    IdPerson = table.Column<int>(type: "int", nullable: false),
+                    OPersonIdPerson = table.Column<int>(type: "INT", nullable: false),
                     Salary = table.Column<decimal>(type: "DECIMAL(18,2)", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -134,8 +136,8 @@ namespace PresupuestitoBack.Migrations
                 {
                     table.PrimaryKey("PK_Employees", x => x.IdEmployee);
                     table.ForeignKey(
-                        name: "FK_Employees_People_IdPerson",
-                        column: x => x.IdPerson,
+                        name: "FK_Employees_People_OPersonIdPerson",
+                        column: x => x.OPersonIdPerson,
                         principalTable: "People",
                         principalColumn: "IdPerson",
                         onDelete: ReferentialAction.Cascade);
@@ -147,15 +149,16 @@ namespace PresupuestitoBack.Migrations
                 {
                     IdSupplier = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdPerson = table.Column<int>(type: "INT", nullable: false),
+                    IdPerson = table.Column<int>(type: "int", nullable: false),
+                    OPersonIdPerson = table.Column<int>(type: "INT", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Suppliers", x => x.IdSupplier);
                     table.ForeignKey(
-                        name: "FK_Suppliers_People_IdPerson",
-                        column: x => x.IdPerson,
+                        name: "FK_Suppliers_People_OPersonIdPerson",
+                        column: x => x.OPersonIdPerson,
                         principalTable: "People",
                         principalColumn: "IdPerson",
                         onDelete: ReferentialAction.Cascade);
@@ -167,23 +170,24 @@ namespace PresupuestitoBack.Migrations
                 {
                     MaterialId = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MaterialName = table.Column<string>(type: "VARCHAR(100)", nullable: false),
-                    MaterialDescription = table.Column<string>(type: "VARCHAR(400)", nullable: false),
-                    MaterialColor = table.Column<string>(type: "VARCHAR(50)", nullable: false),
-                    MaterialBrand = table.Column<string>(type: "VARCHAR(100)", nullable: false),
-                    MaterialMeasure = table.Column<string>(type: "VARCHAR(50)", nullable: false),
-                    MaterialUnitMeasure = table.Column<string>(type: "VARCHAR(50)", nullable: false),
-                    SubCategoryId = table.Column<int>(type: "INT", nullable: false),
+                    MaterialName = table.Column<string>(type: "NVARCHAR(100)", nullable: false),
+                    MaterialDescription = table.Column<string>(type: "NVARCHAR(400)", nullable: false),
+                    MaterialColor = table.Column<string>(type: "NVARCHAR(50)", nullable: false),
+                    MaterialBrand = table.Column<string>(type: "NVARCHAR(100)", nullable: false),
+                    MaterialMeasure = table.Column<string>(type: "NVARCHAR(50)", nullable: false),
+                    MaterialUnitMeasure = table.Column<string>(type: "NVARCHAR(50)", nullable: false),
+                    SubCategoryId = table.Column<int>(type: "int", nullable: false),
+                    OSubcategorySubCategoryMaterialId = table.Column<int>(type: "INT", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Materials", x => x.MaterialId);
                     table.ForeignKey(
-                        name: "FK_Materials_SubCategories_SubCategoryId",
-                        column: x => x.SubCategoryId,
+                        name: "FK_Materials_SubCategories_OSubcategorySubCategoryMaterialId",
+                        column: x => x.OSubcategorySubCategoryMaterialId,
                         principalTable: "SubCategories",
-                        principalColumn: "SubCategoryId",
+                        principalColumn: "SubCategoryMaterialId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -257,7 +261,7 @@ namespace PresupuestitoBack.Migrations
                     IdBudget = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Cost = table.Column<decimal>(type: "DECIMAL(18,2)", nullable: false),
-                    DescriptionBudget = table.Column<string>(type: "VARCHAR(400)", nullable: false),
+                    DescriptionBudget = table.Column<string>(type: "NVARCHAR(400)", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false),
                     ClientHistoryId = table.Column<int>(type: "INT", nullable: false)
                 },
@@ -305,7 +309,7 @@ namespace PresupuestitoBack.Migrations
                     DeadLine = table.Column<DateTime>(type: "DATE", nullable: false),
                     CostPrice = table.Column<decimal>(type: "DECIMAL(18,2)", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false),
-                    Notes = table.Column<string>(type: "VARCHAR(500)", nullable: false),
+                    Notes = table.Column<string>(type: "NVARCHAR(500)", nullable: false),
                     BudgetId = table.Column<int>(type: "INT", nullable: false)
                 },
                 constraints: table =>
@@ -325,7 +329,8 @@ namespace PresupuestitoBack.Migrations
                 {
                     IdInvoiceItem = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdMaterial = table.Column<int>(type: "INT", nullable: false),
+                    IdMaterial = table.Column<int>(type: "int", nullable: false),
+                    OMaterialMaterialId = table.Column<int>(type: "INT", nullable: false),
                     Quantity = table.Column<decimal>(type: "DECIMAL(18,2)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false),
@@ -341,8 +346,8 @@ namespace PresupuestitoBack.Migrations
                         principalColumn: "IdInvoice",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_InvoicesItems_Materials_IdMaterial",
-                        column: x => x.IdMaterial,
+                        name: "FK_InvoicesItems_Materials_OMaterialMaterialId",
+                        column: x => x.OMaterialMaterialId,
                         principalTable: "Materials",
                         principalColumn: "MaterialId",
                         onDelete: ReferentialAction.Cascade);
@@ -358,9 +363,9 @@ namespace PresupuestitoBack.Migrations
                     Amount = table.Column<decimal>(type: "DECIMAL(18,2)", nullable: false),
                     DescriptionPayment = table.Column<string>(type: "VARCHAR(400)", nullable: false),
                     IdInvoice = table.Column<int>(type: "int", nullable: false),
-                    OInvoiceIdInvoice = table.Column<int>(type: "INT", nullable: false),
+                    OInvoiceIdInvoice = table.Column<int>(type: "INT", nullable: true),
                     IdBudget = table.Column<int>(type: "int", nullable: false),
-                    OBudgetIdBudget = table.Column<int>(type: "INT", nullable: false),
+                    OBudgetIdBudget = table.Column<int>(type: "INT", nullable: true),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -384,8 +389,10 @@ namespace PresupuestitoBack.Migrations
                 {
                     IdItem = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdMaterial = table.Column<int>(type: "INT", nullable: false),
-                    IdWork = table.Column<int>(type: "INT", nullable: false),
+                    IdMaterial = table.Column<int>(type: "int", nullable: false),
+                    OMaterialMaterialId = table.Column<int>(type: "INT", nullable: false),
+                    IdWork = table.Column<int>(type: "int", nullable: false),
+                    OWorkIdWork = table.Column<int>(type: "INT", nullable: false),
                     Quantity = table.Column<decimal>(type: "DECIMAL(18,2)", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -393,16 +400,70 @@ namespace PresupuestitoBack.Migrations
                 {
                     table.PrimaryKey("PK_Items", x => x.IdItem);
                     table.ForeignKey(
-                        name: "FK_Items_Materials_IdMaterial",
-                        column: x => x.IdMaterial,
+                        name: "FK_Items_Materials_OMaterialMaterialId",
+                        column: x => x.OMaterialMaterialId,
                         principalTable: "Materials",
                         principalColumn: "MaterialId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Items_Works_IdWork",
-                        column: x => x.IdWork,
+                        name: "FK_Items_Works_OWorkIdWork",
+                        column: x => x.OWorkIdWork,
                         principalTable: "Works",
                         principalColumn: "IdWork",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PaymentsBudget",
+                columns: table => new
+                {
+                    PaymentBudgetId = table.Column<int>(type: "INT", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PaymentId = table.Column<int>(type: "INT", nullable: false),
+                    BudgetId = table.Column<int>(type: "INT", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentsBudget", x => x.PaymentBudgetId);
+                    table.ForeignKey(
+                        name: "FK_PaymentsBudget_Budgets_BudgetId",
+                        column: x => x.BudgetId,
+                        principalTable: "Budgets",
+                        principalColumn: "IdBudget",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PaymentsBudget_Payments_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "Payments",
+                        principalColumn: "PaymentId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PaymentsInvoice",
+                columns: table => new
+                {
+                    PaymentInvoiceId = table.Column<int>(type: "INT", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PaymentId = table.Column<int>(type: "INT", nullable: false),
+                    InvoiceId = table.Column<int>(type: "INT", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentsInvoice", x => x.PaymentInvoiceId);
+                    table.ForeignKey(
+                        name: "FK_PaymentsInvoice_Invoices_InvoiceId",
+                        column: x => x.InvoiceId,
+                        principalTable: "Invoices",
+                        principalColumn: "IdInvoice",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PaymentsInvoice_Payments_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "Payments",
+                        principalColumn: "PaymentId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -415,18 +476,45 @@ namespace PresupuestitoBack.Migrations
                     Amount = table.Column<decimal>(type: "DECIMAL(18,2)", nullable: false),
                     BillDate = table.Column<DateTime>(type: "DATETIME", nullable: false),
                     IdPayments = table.Column<int>(type: "int", nullable: false),
-                    IdPayment = table.Column<int>(type: "INT", nullable: false),
+                    OPaymentPaymentId = table.Column<int>(type: "INT", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Salaries", x => x.IdSalary);
                     table.ForeignKey(
-                        name: "FK_Salaries_Payments_IdPayment",
-                        column: x => x.IdPayment,
+                        name: "FK_Salaries_Payments_OPaymentPaymentId",
+                        column: x => x.OPaymentPaymentId,
                         principalTable: "Payments",
                         principalColumn: "PaymentId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PaymentsSalary",
+                columns: table => new
+                {
+                    PaymentSalaryId = table.Column<int>(type: "INT", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PaymentId = table.Column<int>(type: "INT", nullable: false),
+                    SalaryId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentsSalary", x => x.PaymentSalaryId);
+                    table.ForeignKey(
+                        name: "FK_PaymentsSalary_Payments_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "Payments",
+                        principalColumn: "PaymentId",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_PaymentsSalary_Salaries_SalaryId",
+                        column: x => x.SalaryId,
+                        principalTable: "Salaries",
+                        principalColumn: "IdSalary",
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(
@@ -435,9 +523,9 @@ namespace PresupuestitoBack.Migrations
                 column: "ClientHistoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Clients_IdPerson",
+                name: "IX_Clients_OPersonIdPerson",
                 table: "Clients",
-                column: "IdPerson");
+                column: "OPersonIdPerson");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClientsHistorys_ClientId",
@@ -450,9 +538,9 @@ namespace PresupuestitoBack.Migrations
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_IdPerson",
+                name: "IX_Employees_OPersonIdPerson",
                 table: "Employees",
-                column: "IdPerson");
+                column: "OPersonIdPerson");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoices_OSupplierHistorySupplierHistoryId",
@@ -460,29 +548,29 @@ namespace PresupuestitoBack.Migrations
                 column: "OSupplierHistorySupplierHistoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InvoicesItems_IdMaterial",
-                table: "InvoicesItems",
-                column: "IdMaterial");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_InvoicesItems_InvoiceId",
                 table: "InvoicesItems",
                 column: "InvoiceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Items_IdMaterial",
-                table: "Items",
-                column: "IdMaterial");
+                name: "IX_InvoicesItems_OMaterialMaterialId",
+                table: "InvoicesItems",
+                column: "OMaterialMaterialId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Items_IdWork",
+                name: "IX_Items_OMaterialMaterialId",
                 table: "Items",
-                column: "IdWork");
+                column: "OMaterialMaterialId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Materials_SubCategoryId",
+                name: "IX_Items_OWorkIdWork",
+                table: "Items",
+                column: "OWorkIdWork");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Materials_OSubcategorySubCategoryMaterialId",
                 table: "Materials",
-                column: "SubCategoryId");
+                column: "OSubcategorySubCategoryMaterialId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_OBudgetIdBudget",
@@ -495,9 +583,39 @@ namespace PresupuestitoBack.Migrations
                 column: "OInvoiceIdInvoice");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Salaries_IdPayment",
+                name: "IX_PaymentsBudget_BudgetId",
+                table: "PaymentsBudget",
+                column: "BudgetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaymentsBudget_PaymentId",
+                table: "PaymentsBudget",
+                column: "PaymentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaymentsInvoice_InvoiceId",
+                table: "PaymentsInvoice",
+                column: "InvoiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaymentsInvoice_PaymentId",
+                table: "PaymentsInvoice",
+                column: "PaymentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaymentsSalary_PaymentId",
+                table: "PaymentsSalary",
+                column: "PaymentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaymentsSalary_SalaryId",
+                table: "PaymentsSalary",
+                column: "SalaryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Salaries_OPaymentPaymentId",
                 table: "Salaries",
-                column: "IdPayment");
+                column: "OPaymentPaymentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubCategories_CategoryId",
@@ -510,9 +628,9 @@ namespace PresupuestitoBack.Migrations
                 column: "OsupplierIdSupplier");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Suppliers_IdPerson",
+                name: "IX_Suppliers_OPersonIdPerson",
                 table: "Suppliers",
-                column: "IdPerson");
+                column: "OPersonIdPerson");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Works_BudgetId",
@@ -539,7 +657,13 @@ namespace PresupuestitoBack.Migrations
                 name: "Items");
 
             migrationBuilder.DropTable(
-                name: "Salaries");
+                name: "PaymentsBudget");
+
+            migrationBuilder.DropTable(
+                name: "PaymentsInvoice");
+
+            migrationBuilder.DropTable(
+                name: "PaymentsSalary");
 
             migrationBuilder.DropTable(
                 name: "Employees");
@@ -551,19 +675,22 @@ namespace PresupuestitoBack.Migrations
                 name: "Works");
 
             migrationBuilder.DropTable(
-                name: "Payments");
+                name: "Salaries");
 
             migrationBuilder.DropTable(
                 name: "SubCategories");
+
+            migrationBuilder.DropTable(
+                name: "Payments");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Budgets");
 
             migrationBuilder.DropTable(
                 name: "Invoices");
-
-            migrationBuilder.DropTable(
-                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "ClientsHistorys");
