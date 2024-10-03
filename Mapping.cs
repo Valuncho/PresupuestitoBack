@@ -91,8 +91,7 @@ namespace PresupuestitoBack
 
             // Work
             CreateMap<Work, WorkResponseDto>()
-                .ForMember(dest => dest.IdItems, opt => opt.MapFrom(src => src.OMaterials))
-                .ForMember(dest => dest.IdWork, opt => opt.MapFrom(src => src.IdWork));
+                .ForMember(dest => dest.IdItems, opt => opt.MapFrom(src => src.OMaterials));
             CreateMap<WorkRequestDto, Work>().ReverseMap();
         }
     }
