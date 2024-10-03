@@ -3,7 +3,7 @@
     public class EmployeeResponseDto
     {
         public int EmployeeId { get; set; }
-        public PersonResponseDto Person { get; set; }
+        public PersonResponseDto IdPerson { get; set; }
         public decimal Salary { get; set; }
     }
 }

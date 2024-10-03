@@ -27,7 +27,7 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdateEmployee(int id, EmployeeRequestDto employeeRequestDto)
         {
-            var existingEmployee = await employeeRepository.GetById(e => e.IdEmployee == id);
+            var existingEmployee = await employeeRepository.GetById(id);
             if (existingEmployee == null)
             {
                 throw new Exception("El empleado no existe");
@@ -42,7 +42,7 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<EmployeeResponseDto>> GetEmployeeById(int id)
         {
-            var employee = await employeeRepository.GetById(c => c.IdEmployee == id);
+            var employee = await employeeRepository.GetById(id);
             if(employee == null)
             {
                 throw new KeyNotFoundException("El empleado no existe");
@@ -68,7 +68,7 @@ namespace PresupuestitoBack.Services
 
         public async Task DeleteEmployee(int id)
         {
-            var employee = await employeeRepository.GetById(c => c.IdEmployee == id);
+            var employee = await employeeRepository.GetById(id);
             if (employee == null)
             {
                 throw new KeyNotFoundException("El empleado no existe");

@@ -27,7 +27,7 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdateInvoice(int id, InvoiceRequestDto invoiceRequestDto)
         {
-            var existingInvoice = await invoiceRepository.GetById(i => i.IdInvoice == id);
+            var existingInvoice = await invoiceRepository.GetById(id);
             if (existingInvoice == null)
             {
                 throw new Exception("La factura no existe");
@@ -42,7 +42,7 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<InvoiceResponseDto>> GetInvoiceById(int id)
         {
-            var invoice = await invoiceRepository.GetById(i => i.IdInvoice == id);
+            var invoice = await invoiceRepository.GetById(id);
             if (invoice == null)
             {
                 throw new KeyNotFoundException("La factura no fue encontrada.");
@@ -68,7 +68,7 @@ namespace PresupuestitoBack.Services
 
         public async Task DeleteInvoice(int id)
         {
-            var invoice = await invoiceRepository.GetById(i => i.IdInvoice == id);
+            var invoice = await invoiceRepository.GetById(id);
             if (invoice == null)
             {
                 throw new KeyNotFoundException("La factura no fue encontrada.");

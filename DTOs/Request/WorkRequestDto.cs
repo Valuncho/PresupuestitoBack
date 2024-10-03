@@ -9,7 +9,7 @@ namespace PresupuestitoBack.DTOs.Request
         public decimal CostPrice { get; set; }
 
         // Lista de Items
-        public List<int> Materials { get; set; }
+        public List<int> IdItems { get; set; }
         public string StatusSerialized { get; set; }
         public string Notes { get; set; }
         public string Image { get; set; }

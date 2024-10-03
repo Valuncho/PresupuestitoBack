@@ -29,10 +29,11 @@ namespace PresupuestitoBack.Repositories
             await context.SaveChangesAsync();
             return true;
         }
-
-        public override async Task<Supplier> GetById(Expression<Func<Supplier, bool>>? filter = null, bool tracked = true)
+        
+        public override async Task<Supplier> GetById(int id)
         {
-            return await base.GetById(filter, tracked);
+            return await context.Suppliers.Include(o => o.OPerson)
+                .Where(o => o.Status == true && o.IdSupplier == id).FirstAsync();
         }
 
         public override async Task<List<Supplier>> GetAll(Expression<Func<Supplier, bool>>? filter = null)

@@ -27,7 +27,7 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdateItem(int id, ItemRequestDto itemRequestDto)
         {
-            var existingItem = await itemRepository.GetById(i => i.IdItem == id);
+            var existingItem = await itemRepository.GetById(id);
             if (existingItem == null)
             {
                 throw new Exception("El ítem no existe");
@@ -41,7 +41,7 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<ItemResponseDto>> GetItemById(int id)
         {
-            var item = await itemRepository.GetById(i => i.IdItem == id);
+            var item = await itemRepository.GetById(id);
             if (item == null)
             {
                 throw new KeyNotFoundException("El ítem no fue encontrado.");
@@ -67,7 +67,7 @@ namespace PresupuestitoBack.Services
 
         public async Task DeleteItem(int id)
         {
-            var item = await itemRepository.GetById(i => i.IdItem == id);
+            var item = await itemRepository.GetById(id);
             if (item == null)
             {
                 throw new KeyNotFoundException("El ítem no fue encontrado.");

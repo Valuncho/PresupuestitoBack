@@ -27,7 +27,7 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdateSalary(int id, SalaryRequestDto salaryRequestDto)
         {
-            var existingSalary = await salaryRepository.GetById(s => s.IdSalary == id);
+            var existingSalary = await salaryRepository.GetById(id);
             if (existingSalary == null)
             {
                 throw new Exception("El salario no existe");
@@ -41,7 +41,7 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<SalaryResponseDto>> GetSalaryById(int id)
         {
-            var salary = await salaryRepository.GetById(s => s.IdSalary == id);
+            var salary = await salaryRepository.GetById(id);
             if (salary == null)
             {
                 throw new KeyNotFoundException("El salario no fue encontrado.");
@@ -67,7 +67,7 @@ namespace PresupuestitoBack.Services
 
         public async Task DeleteSalary(int id)
         {
-            var salary = await salaryRepository.GetById(s => s.IdSalary == id);
+            var salary = await salaryRepository.GetById(id);
             if (salary == null)
             {
                 throw new KeyNotFoundException("El salario no fue encontrado.");

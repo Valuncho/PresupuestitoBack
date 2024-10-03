@@ -27,7 +27,7 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdateInvoiceItem(int id, InvoiceItemRequestDto invoiceItemRequestDto)
         {
-            var existingInvoiceItem = await invoiceItemRepository.GetById(i => i.IdInvoiceItem == id);
+            var existingInvoiceItem = await invoiceItemRepository.GetById(id);
             if (existingInvoiceItem == null)
             {
                 throw new Exception("El ítem de factura no existe");
@@ -41,7 +41,7 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<InvoiceItemResponseDto>> GetInvoiceItemById(int id)
         {
-            var invoiceItem = await invoiceItemRepository.GetById(i => i.IdInvoiceItem == id);
+            var invoiceItem = await invoiceItemRepository.GetById(id);
             if (invoiceItem == null)
             {
                 throw new KeyNotFoundException("El ítem de factura no fue encontrado.");
@@ -67,7 +67,7 @@ namespace PresupuestitoBack.Services
 
         public async Task DeleteInvoiceItem(int id)
         {
-            var invoiceItem = await invoiceItemRepository.GetById(i => i.IdInvoiceItem == id);
+            var invoiceItem = await invoiceItemRepository.GetById(id);
             if (invoiceItem == null)
             {
                 throw new KeyNotFoundException("El ítem de factura no fue encontrado.");

@@ -9,6 +9,6 @@
         public string MaterialBrand { get; set; }
         public string MaterialMeasure { get; set; }
         public string MaterialUnitMeasure { get; set; }
-        public SubCategoryMaterialResponseDto SubCategory { get; set; }
+        public SubCategoryMaterialResponseDto IdSubCategory { get; set; }
     }
 }

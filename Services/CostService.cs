@@ -27,7 +27,7 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdateCost(int id, CostRequestDto costRequestDto)
         {
-            var existingCost = await costRepository.GetById(c => c.IdCost == id);
+            var existingCost = await costRepository.GetById(id);
             if (existingCost == null)
             {
                 throw new Exception("El costo no existe");
@@ -41,7 +41,7 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<CostResponseDto>> GetCostById(int id)
         {
-            var cost = await costRepository.GetById(c => c.IdCost == id);
+            var cost = await costRepository.GetById(id);
             if(cost == null)
             {
                 throw new KeyNotFoundException("El costo no fue encontrado");
@@ -67,7 +67,7 @@ namespace PresupuestitoBack.Services
 
         public async Task DeleteCost(int id)
         {
-            var cost = await costRepository.GetById(c => c.IdCost == id);
+            var cost = await costRepository.GetById(id);
             if(cost == null)
             {
                 throw new KeyNotFoundException("El costo no fue encontrado");

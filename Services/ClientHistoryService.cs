@@ -27,7 +27,7 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdateClientHistory(int id, ClientHistoryRequestDto clientHistoryRequestDto)
         {
-            var existingClientHistory = await clientHistoryRepository.GetById(ch => ch.IdClientHistory == id);
+            var existingClientHistory = await clientHistoryRepository.GetById(id);
             if (existingClientHistory == null)
             {
                 throw new Exception("El historial del cliente no existe");
@@ -39,7 +39,7 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<ClientHistoryResponseDto>> GetClientHistoryById(int id)
         {
-            var clientHistory = await clientHistoryRepository.GetById(c => c.IdClientHistory == id);
+            var clientHistory = await clientHistoryRepository.GetById(id);
             if (clientHistory == null)
             {
                 throw new KeyNotFoundException("El historial del cliente no fue encontrado.");
@@ -65,7 +65,7 @@ namespace PresupuestitoBack.Services
 
         public async Task DeleteClientHistory(int id)
         {
-            var clientHistory = await clientHistoryRepository.GetById(c => c.IdClientHistory == id);
+            var clientHistory = await clientHistoryRepository.GetById(id);
             if (clientHistory == null)
             {
                 throw new KeyNotFoundException("El historial del cliente no fue encontrado.");

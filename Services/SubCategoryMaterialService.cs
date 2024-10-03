@@ -27,7 +27,7 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdateSubCategoryMaterial(int id, SubCategoryMaterialRequestDto subCategoryMaterialRequestDto)
         {
-            var existingSubCategoryMaterial = await subCategoryMaterialRepository.GetById(s => s.SubCategoryMaterialId == id);
+            var existingSubCategoryMaterial = await subCategoryMaterialRepository.GetById(id);
             if (existingSubCategoryMaterial == null)
             {
                 throw new Exception("La subcategoría de material no existe");
@@ -41,7 +41,7 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<SubCategoryMaterialResponseDto>> GetSubCategoryMaterialById(int id)
         {
-            var subCategoryMaterial = await subCategoryMaterialRepository.GetById(s => s.SubCategoryMaterialId == id);
+            var subCategoryMaterial = await subCategoryMaterialRepository.GetById(id);
             if (subCategoryMaterial == null)
             {
                 throw new KeyNotFoundException("La subcategoría de material no fue encontrada.");
@@ -67,7 +67,7 @@ namespace PresupuestitoBack.Services
 
         public async Task DeleteSubCategoryMaterial(int id)
         {
-            var subCategoryMaterial = await subCategoryMaterialRepository.GetById(s => s.SubCategoryMaterialId == id);
+            var subCategoryMaterial = await subCategoryMaterialRepository.GetById(id);
             if (subCategoryMaterial == null)
             {
                 throw new KeyNotFoundException("La subcategoría de material no fue encontrada.");

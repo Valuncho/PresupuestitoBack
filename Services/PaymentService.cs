@@ -27,7 +27,7 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdatePayment(int id, PaymentRequestDto paymentRequestDto)
         {
-            var existingPayment = await paymentRepository.GetById(p => p.PaymentId == id);
+            var existingPayment = await paymentRepository.GetById(id);
             if (existingPayment == null)
             {
                 throw new Exception("El pago no existe");
@@ -41,7 +41,7 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<PaymentResponseDto>> GetPaymentById(int id)
         {
-            var payment = await paymentRepository.GetById(p => p.PaymentId == id);
+            var payment = await paymentRepository.GetById(id);
             if (payment == null)
             {
                 throw new KeyNotFoundException("El pago no fue encontrado.");
@@ -67,7 +67,7 @@ namespace PresupuestitoBack.Services
 
         public async Task DeletePayment(int id)
         {
-            var payment = await paymentRepository.GetById(p => p.PaymentId == id);
+            var payment = await paymentRepository.GetById(id);
             if (payment == null)
             {
                 throw new KeyNotFoundException("El pago no fue encontrado.");

@@ -26,7 +26,7 @@ namespace PresupuestitoBack.Models
         public decimal CostPrice { get; set; }
 
         // Lista de Items
-        public ICollection<Item> Materials { get; set; } = new List<Item>();
+        public ICollection<Item> OMaterials { get; set; } = new List<Item>();
 
         [Required]
         [Column(TypeName = "bit")]
@@ -41,7 +41,7 @@ namespace PresupuestitoBack.Models
         public int BudgetId { get; set; } // Clave foránea
 
         [ForeignKey("BudgetId")]
-        public Budget Budget { get; set; } // Propiedad de navegación
+        public Budget OBudget { get; set; } // Propiedad de navegación
     }
 }
 

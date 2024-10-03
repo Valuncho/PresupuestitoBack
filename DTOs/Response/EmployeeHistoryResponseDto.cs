@@ -5,6 +5,6 @@
         public int EmployeeHistoryId { get; set; }
         public decimal Quantity { get; set; }
         public DateTime Date { get; set; }
-        public EmployeeResponseDto OEmployee { get; set; }
+        public EmployeeResponseDto IdEmployee { get; set; }
     }
 }

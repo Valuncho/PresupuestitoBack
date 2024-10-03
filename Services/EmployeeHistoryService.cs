@@ -27,7 +27,7 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdateEmployeeHistory(int id, EmployeeHistoryRequestDto employeeHistoryRequestDto)
         {
-            var existingEmployeeHistory = await employeeHistoryRepository.GetById(e => e.IdEmployeeHistory == id);
+            var existingEmployeeHistory = await employeeHistoryRepository.GetById(id);
             if (existingEmployeeHistory == null)
             {
                 throw new Exception("El historial del empleado no existe");
@@ -41,7 +41,7 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<EmployeeHistoryResponseDto>> GetEmployeeHistoryById(int id)
         {
-            var employeeHistory = await employeeHistoryRepository.GetById(eh => eh.IdEmployeeHistory == id);
+            var employeeHistory = await employeeHistoryRepository.GetById(id);
             if (employeeHistory == null)
             {
                 throw new KeyNotFoundException("El historial del empleado no fue encontrado.");
@@ -67,7 +67,7 @@ namespace PresupuestitoBack.Services
 
         public async Task DeleteEmployeeHistory(int id)
         {
-            var employeeHistory = await employeeHistoryRepository.GetById(e => e.IdEmployeeHistory == id);
+            var employeeHistory = await employeeHistoryRepository.GetById(id);
             if (employeeHistory == null)
             {
                 throw new KeyNotFoundException("El historial del empleado no fue encontrado.");
