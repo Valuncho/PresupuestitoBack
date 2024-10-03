@@ -27,7 +27,7 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdateCategory(int id, CategoryRequestDto categoryRequestDto)
         {
-            var existingCategory = await categoryRepository.GetById(c => c.CategoryId == id);
+            var existingCategory = await categoryRepository.GetById(id);
             if (existingCategory == null)
             {
                 throw new KeyNotFoundException("La categoria no existe.");
@@ -41,7 +41,7 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<CategoryResponseDto>> GetCategoryById(int id)
         {
-            var category = await categoryRepository.GetById(c => c.CategoryId == id);
+            var category = await categoryRepository.GetById(id);
             if (category == null)
             {
                 throw new KeyNotFoundException("La categoria no fue encontrada.");
@@ -67,7 +67,7 @@ namespace PresupuestitoBack.Services
 
         public async Task DeleteCategory(int id)
         {
-            var category = await categoryRepository.GetById(c => c.CategoryId == id);
+            var category = await categoryRepository.GetById(id);
             if (category == null)
             {
                 throw new KeyNotFoundException("La categoria no fue encontrada.");

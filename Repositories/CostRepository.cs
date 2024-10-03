@@ -1,4 +1,5 @@
-﻿using PresupuestitoBack.DataAccess;
+﻿using Microsoft.EntityFrameworkCore;
+using PresupuestitoBack.DataAccess;
 using PresupuestitoBack.Models;
 using PresupuestitoBack.Repositories.IRepository;
 using System.Linq.Expressions;
@@ -29,14 +30,15 @@ namespace PresupuestitoBack.Repositories
             return true;
         }
 
-        public override async Task<Cost> GetById(Expression<Func<Cost, bool>>? filter = null, bool tracked = true)
+
+        public override async Task<Cost> GetById(int id)
         {
-            return await base.GetById(filter, tracked);
+            return await context.Costs.FirstAsync();
         }
 
         public override async Task<List<Cost>> GetAll(Expression<Func<Cost, bool>>? filter = null)
         {
-            return await base.GetAll(filter);
+            return await context.Costs.ToListAsync();
         }
 
     }

@@ -27,7 +27,7 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdateFixedCost(int id, FixedCostRequestDto fixedCostRequestDto)
         {
-            var existingFixedCost = await fixedCostRepository.GetById(f => f.IdFixedCost == id);
+            var existingFixedCost = await fixedCostRepository.GetById(id);
             if (existingFixedCost == null)
             {
                 throw new Exception("El costo fijo no existe");
@@ -41,7 +41,7 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<FixedCostResponseDto>> GetFixedCostById(int id)
         {
-            var fixedCost = await fixedCostRepository.GetById(f => f.IdFixedCost == id);
+            var fixedCost = await fixedCostRepository.GetById(id);
             if (fixedCost == null)
             {
                 throw new KeyNotFoundException("El costo fijo no fue encontrado.");
@@ -67,7 +67,7 @@ namespace PresupuestitoBack.Services
 
         public async Task DeleteFixedCost(int id)
         {
-            var fixedCost = await fixedCostRepository.GetById(f => f.IdFixedCost == id);
+            var fixedCost = await fixedCostRepository.GetById(id);
             if (fixedCost == null)
             {
                 throw new KeyNotFoundException("El costo fijo no fue encontrado.");

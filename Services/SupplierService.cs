@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PresupuestitoBack.DTOs.Request;
 using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Models;
@@ -11,13 +12,14 @@ namespace PresupuestitoBack.Services
     {
         private readonly ISupplierRepository supplierRepository;
         private readonly IMapper mapper;
+        private readonly DbContext context;
 
         public SupplierService(ISupplierRepository supplierRepository, IMapper mapper)
         {
             this.supplierRepository = supplierRepository;
             this.mapper = mapper;
         }
-
+      
         public async Task CreateSupplier(SupplierRequestDto supplierRequestDto)
         {
             var supplier = mapper.Map<Supplier>(supplierRequestDto);
@@ -27,7 +29,7 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdateSupplier(int id, SupplierRequestDto supplierRequestDto)
         {
-            var existingSupplier = await supplierRepository.GetById(s => s.IdSupplier == id);
+            var existingSupplier = await supplierRepository.GetById(id);
             if (existingSupplier == null)
             {
                 throw new Exception("El proveedor no existe");
@@ -41,7 +43,7 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<SupplierResponseDto>> GetSupplierById(int id)
         {
-            var supplier = await supplierRepository.GetById(s => s.IdSupplier == id);
+            var supplier = await supplierRepository.GetById(id);
             if (supplier == null)
             {
                 throw new KeyNotFoundException("El proveedor no fue encontrado.");
@@ -67,7 +69,7 @@ namespace PresupuestitoBack.Services
 
         public async Task DeleteSupplier(int id)
         {
-            var supplier = await supplierRepository.GetById(s => s.IdSupplier == id);
+            var supplier = await supplierRepository.GetById(id);
             if (supplier == null)
             {
                 throw new KeyNotFoundException("El proveedor no fue encontrado.");

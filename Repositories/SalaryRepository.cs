@@ -1,4 +1,5 @@
-﻿using PresupuestitoBack.DataAccess;
+﻿using Microsoft.EntityFrameworkCore;
+using PresupuestitoBack.DataAccess;
 using PresupuestitoBack.Models;
 using PresupuestitoBack.Repositories.IRepository;
 using System.Linq.Expressions;
@@ -29,14 +30,16 @@ namespace PresupuestitoBack.Repositories
             return true;
         }
 
-        public override async Task<Salary> GetById(Expression<Func<Salary, bool>>? filter = null, bool tracked = true)
+        public override async Task<Salary> GetById(int id)
         {
-            return await base.GetById(filter, tracked);
+            return await context.Salaries.Include(o => o.OPayment)
+                .Where(o => o.Status == true && o.IdSalary == id).FirstAsync();
         }
 
         public override async Task<List<Salary>> GetAll(Expression<Func<Salary, bool>>? filter = null)
         {
-            return await base.GetAll(filter);
+            return await context.Salaries.Include(c => c.OPayment)
+            .ToListAsync();
         }
 
     }

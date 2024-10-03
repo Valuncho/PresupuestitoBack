@@ -29,7 +29,7 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdateBudget(int id, BudgetRequestDto budgetRequestDto)
         {
-            var existyingBudget = await budgetRepository.GetById(b => b.IdBudget == id);
+            var existyingBudget = await budgetRepository.GetById(id);
             if (existyingBudget == null)
             {
                 throw new Exception("El presupuesto no existe");
@@ -43,7 +43,7 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<BudgetResponseDto>> GetBudgetById(int id)
         {
-            var budget = await budgetRepository.GetById(b => b.IdBudget == id);
+            var budget = await budgetRepository.GetById(id);
             if(budget == null)
             {
                 throw new KeyNotFoundException("El presupuesto no fue encontrado");
@@ -69,7 +69,7 @@ namespace PresupuestitoBack.Services
 
         public async Task DeleteBudget(int id)
         {
-            var budget = await budgetRepository.GetById(b => b.IdBudget == id);
+            var budget = await budgetRepository.GetById(id);
             if (budget == null)
             {
                 throw new KeyNotFoundException("El presupuesto no fue encontrado");

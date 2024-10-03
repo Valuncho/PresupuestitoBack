@@ -29,7 +29,7 @@ namespace PresupuestitoBack.Repositories
             return true;
         }
 
-        public override async Task<Payment> GetById(Expression<Func<Payment, bool>>? filter = null, bool tracked = true)
+ /*       public override async Task<Payment> GetById(Expression<Func<Payment, bool>>? filter = null, bool tracked = true)
         {
             return await base.GetById(filter, tracked);
         }
@@ -38,6 +38,6 @@ namespace PresupuestitoBack.Repositories
         {
             return await base.GetAll(filter);
         }
-
+ */
     }
 }

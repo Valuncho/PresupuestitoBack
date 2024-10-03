@@ -27,7 +27,7 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdateMaterial(int id, MaterialRequestDto materialRequestDto)
         {
-            var existingMaterial = await materialRepository.GetById(m => m.MaterialId == id);
+            var existingMaterial = await materialRepository.GetById(id);
             if (existingMaterial == null)
             {
                 throw new Exception("El material no existe");
@@ -41,7 +41,7 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<MaterialResponseDto>> GetMaterialById(int id)
         {
-            var material = await materialRepository.GetById(m => m.MaterialId == id);
+            var material = await materialRepository.GetById(id);
             if (material == null)
             {
                 throw new KeyNotFoundException("El material no fue encontrado.");
@@ -67,7 +67,7 @@ namespace PresupuestitoBack.Services
 
         public async Task DeleteMaterial(int id)
         {
-            var material = await materialRepository.GetById(m => m.MaterialId == id);
+            var material = await materialRepository.GetById(id);
             if (material == null)
             {
                 throw new KeyNotFoundException("El material no fue encontrado.");

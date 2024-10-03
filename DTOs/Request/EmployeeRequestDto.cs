@@ -2,7 +2,7 @@
 {
     public class EmployeeRequestDto
     {
-        public int PersonId { get; set; }
+        public int IdPerson { get; set; }
         public decimal Salary { get; set; }
 
     }

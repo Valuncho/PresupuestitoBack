@@ -1,4 +1,5 @@
-﻿using PresupuestitoBack.DataAccess;
+﻿using Microsoft.EntityFrameworkCore;
+using PresupuestitoBack.DataAccess;
 using PresupuestitoBack.Models;
 using PresupuestitoBack.Repositories.IRepository;
 using System.Linq.Expressions;
@@ -29,14 +30,16 @@ namespace PresupuestitoBack.Repositories
             return true;
         }
 
-        public override async Task<ClientHistory> GetById(Expression<Func<ClientHistory, bool>>? filter = null, bool tracked = true)
+        public override async Task<ClientHistory> GetById(int id)
         {
-            return await base.GetById(filter, tracked);
+            return await context.ClientHistories.Include(o => o.Oclient)
+                .Where(o => o.Status == true && o.ClientId == id).FirstAsync();
         }
 
         public override async Task<List<ClientHistory>> GetAll(Expression<Func<ClientHistory, bool>>? filter = null)
         {
-            return await base.GetAll(filter);
+            return await context.ClientHistories.Include(c => c.Oclient) // Incluir la entidad Client
+            .ToListAsync();
         }
 
     }

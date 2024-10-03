@@ -2,7 +2,7 @@
 {
     public class ClientHistoryRequestDto
     {
-        public int OClient {  get; set; }
-        public List<int> BudgetsId { get; set; }
+        public int IdClient {  get; set; }
+        public List<int> IdBudgets { get; set; }
     }
 }

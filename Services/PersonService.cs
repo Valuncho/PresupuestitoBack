@@ -27,7 +27,7 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdatePerson(int id, PersonRequestDto personRequestDto)
         {
-            var existingPerson = await personRepository.GetById(p => p.IdPerson == id);
+            var existingPerson = await personRepository.GetById(id);
             if (existingPerson == null)
             {
                 throw new Exception("La persona no existe");
@@ -41,7 +41,7 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<PersonResponseDto>> GetPersonById(int id)
         {
-            var person = await personRepository.GetById(p => p.IdPerson == id);
+            var person = await personRepository.GetById(id);
             if (person == null)
             {
                 throw new KeyNotFoundException("La persona no fue encontrada.");
@@ -67,7 +67,7 @@ namespace PresupuestitoBack.Services
 
         public async Task DeletePerson(int id)
         {
-            var person = await personRepository.GetById(p => p.IdPerson == id);
+            var person = await personRepository.GetById(id);
             if (person == null)
             {
                 throw new KeyNotFoundException("La persona no fue encontrada.");

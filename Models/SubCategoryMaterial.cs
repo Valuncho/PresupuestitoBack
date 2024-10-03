@@ -8,7 +8,7 @@ namespace PresupuestitoBack.Models
     {
         [Key]
         [Column(TypeName = "INT")]
-        public int SubCategoryMaterialId { get; set; }
+        public int SubCategoryId { get; set; }
 
         [Required]
         [Column(TypeName = "NVARCHAR(100)")]

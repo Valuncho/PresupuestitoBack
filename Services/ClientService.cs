@@ -27,7 +27,7 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdateClient(int id, ClientRequestDto clientRequestDto)
         {
-            var existingClient = await clientRepository.GetById(c => c.IdClient == id);
+            var existingClient = await clientRepository.GetById(id);
             if (existingClient == null)
             {
                 throw new Exception("El cliente no existe");
@@ -41,7 +41,7 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<ClientResponseDto>> GetClientById(int id)
         {
-            var client = await clientRepository.GetById(c => c.IdClient == id);
+            var client = await clientRepository.GetById(id);
             if (client == null)
             {
                 throw new KeyNotFoundException("El cliente no fue encontrado.");
@@ -67,7 +67,7 @@ namespace PresupuestitoBack.Services
 
         public async Task DeleteClient(int id)
         {
-            var client = await clientRepository.GetById(c => c.IdClient == id);
+            var client = await clientRepository.GetById(id);
             if(client == null)
             {
                 throw new KeyNotFoundException("El cliente no fue encontrado");

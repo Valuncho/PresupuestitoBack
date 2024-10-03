@@ -4,6 +4,6 @@
     {
         public decimal Quantity { get; set; }
         public DateTime Date { get; set; }
-        public int EmployeeId {  get; set; }
+        public int IdEmployee {  get; set; }
     }
 }

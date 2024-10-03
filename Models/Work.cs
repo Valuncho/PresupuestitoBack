@@ -25,10 +25,15 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "DECIMAL(18, 2)")]
         public decimal CostPrice { get; set; }
 
+<<<<<<< HEAD
+        // Lista de Items
+        public ICollection<Item> OMaterials { get; set; } = new List<Item>();
+=======
         public virtual ICollection<Item> Materials { get; set; }
 
         [Column(TypeName = ("bit"))]
         public bool Status { get => Status; set { Status = true; } }
+>>>>>>> e123f0df7fcca694f1ecdfb27c067c0ac5d1e441
 
         [Required]
         [Column(TypeName = "NVARCHAR(500)")]
@@ -36,9 +41,13 @@ namespace PresupuestitoBack.Models
 
         [Required]
         [ForeignKey("BudgetId")]
+<<<<<<< HEAD
+        public Budget OBudget { get; set; } // Propiedad de navegación
+=======
         public int BudgetId { get; set; } 
         public Budget Budget { get; set; } 
 
+>>>>>>> e123f0df7fcca694f1ecdfb27c067c0ac5d1e441
     }
 }
 

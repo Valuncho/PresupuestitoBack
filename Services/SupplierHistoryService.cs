@@ -27,7 +27,7 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdateSupplierHistory(int id, SupplierHistoryRequestDto supplierHistoryRequestDto)
         {
-            var existingSupplierHistory = await supplierHistoryRepository.GetById(s => s.SupplierHistoryId == id);
+            var existingSupplierHistory = await supplierHistoryRepository.GetById(id);
             if (existingSupplierHistory == null)
             {
                 throw new Exception("El historial del proveedor no existe");
@@ -41,7 +41,7 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<SupplierHistoryResponseDto>> GetSupplierHistoryById(int id)
         {
-            var supplierHistory = await supplierHistoryRepository.GetById(s => s.SupplierHistoryId == id);
+            var supplierHistory = await supplierHistoryRepository.GetById(id);
             if (supplierHistory == null)
             {
                 throw new KeyNotFoundException("El historial del proveedor no fue encontrado.");
@@ -67,7 +67,7 @@ namespace PresupuestitoBack.Services
 
         public async Task DeleteSupplierHistory(int id)
         {
-            var supplierHistory = await supplierHistoryRepository.GetById(s => s.SupplierHistoryId == id);
+            var supplierHistory = await supplierHistoryRepository.GetById(id);
             if (supplierHistory == null)
             {
                 throw new KeyNotFoundException("El historial del proveedor no fue encontrado.");

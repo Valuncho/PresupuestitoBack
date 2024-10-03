@@ -29,7 +29,7 @@ namespace PresupuestitoBack.Services
 
         public async Task UpdateWork(int id, WorkRequestDto workRequestDto)
         {
-            var existingWork = await workRepository.GetById(w => w.IdWork == id);
+            var existingWork = await workRepository.GetById(id);
             if (existingWork == null)
             {
                 throw new Exception("El trabajo no existe");
@@ -43,7 +43,7 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<WorkResponseDto>> GetWorkById(int id)
         {
-            var work = await workRepository.GetById(w => w.IdWork == id);
+            var work = await workRepository.GetById(id);
             if (work == null)
             {
                 throw new KeyNotFoundException("El trabajo no fue encontrado.");
@@ -69,7 +69,7 @@ namespace PresupuestitoBack.Services
 
         public async Task DeleteWork(int id)
         {
-            var work = await workRepository.GetById(w => w.IdWork == id);
+            var work = await workRepository.GetById(id);
             if (work == null)
             {
                 throw new KeyNotFoundException("El trabajo no fue encontrado.");
