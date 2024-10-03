@@ -21,7 +21,6 @@ namespace PresupuestitoBack.Services
         public async Task CreateSalary(SalaryRequestDto salaryRequestDto)
         {
             var salary = mapper.Map<Salary>(salaryRequestDto);
-            salary.Status = true;
             await salaryRepository.Insert(salary);
         }
 

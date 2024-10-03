@@ -10,20 +10,14 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "INT")]
         public int IdItem { get; set; }
 
-        // Clave foránea hacia Material
         [Required]
-        public int IdMaterial { get; set; }
-
-        // Relación con la clase Material
         [ForeignKey("IdMaterial")]
+        public int IdMaterial { get; set; }        
         public Material OMaterial { get; set; }
 
-        // Clave foránea hacia Work
         [Required]
-        public int IdWork { get; set; }
-
-        // Relación con la clase Work
         [ForeignKey("IdWork")]
+        public int IdWork { get; set; }     
         public Work OWork { get; set; }
 
         [Required]
@@ -32,6 +26,6 @@ namespace PresupuestitoBack.Models
 
         [Required]
         [Column(TypeName = "bit")]
-        public bool Status { get; set; }
+        public bool Status { get => Status; set { Status = true; } }
     }
 }
