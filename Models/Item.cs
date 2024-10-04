@@ -18,7 +18,7 @@ namespace PresupuestitoBack.Models
         [Required]
         [ForeignKey("WorkId")]
         public int WorkId { get; set; }     
-        public Work OWork { get; set; }
+        public virtual Work OWork { get; set; }
 
         [Required]
         [Column(TypeName = "DECIMAL(18, 2)")]

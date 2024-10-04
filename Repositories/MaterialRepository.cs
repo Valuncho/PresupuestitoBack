@@ -32,13 +32,13 @@ namespace PresupuestitoBack.Repositories
 
         public override async Task<Material> GetById(int id)
         {
-            return await context.Materials.Include(o => o.OSubcategory)
+            return await context.Materials.Include(o => o.OSubcategoryMaterial)
                 .Where(o => o.Status == true && o.MaterialId == id).FirstAsync();
         }
 
         public override async Task<List<Material>> GetAll(Expression<Func<Material, bool>>? filter = null)
         {
-            return await context.Materials.Include(m => m.OSubcategory) // Incluir la entidad Subcategory
+            return await context.Materials.Include(m => m.OSubcategoryMaterial) // Incluir la entidad Subcategory
             .ToListAsync();
         }
 
@@ -46,7 +46,7 @@ namespace PresupuestitoBack.Repositories
         {          
             return await context
                    .InvoiceItems
-                   .Where(i => i.IdMaterial == MaterialId)
+                   .Where(i => i.MaterialId == MaterialId)
                    .Include(i => i.OMaterial)
                    .FirstOrDefaultAsync();
         }

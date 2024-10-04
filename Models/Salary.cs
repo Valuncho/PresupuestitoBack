@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection.Metadata.Ecma335;
 
 namespace PresupuestitoBack.Models
 {
@@ -21,7 +20,7 @@ namespace PresupuestitoBack.Models
 
         [Required]
         [ForeignKey("PaymentId")]
-        public int PaymentsId { get; set; }
+        public int PaymentId { get; set; }
         public virtual Payment OPayment { get; set; }
 
         [Required]

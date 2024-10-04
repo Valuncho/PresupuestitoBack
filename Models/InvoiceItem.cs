@@ -9,9 +9,9 @@ namespace PresupuestitoBack.Models
         [Key]
         [Column("InvoiceItemId", TypeName = "INT")]
         public int InvoiceItemId { get; set; }
-        
-        [ForeignKey("IdMaterial")]
-        public int IdMaterial { get; set; }        
+
+        [ForeignKey("MaterialId")]
+        public int MaterialId { get; set; }        
         public virtual Material OMaterial { get; set; } 
 
         [Required]
