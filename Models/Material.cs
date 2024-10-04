@@ -41,9 +41,9 @@ namespace PresupuestitoBack.Models
         public string MaterialUnitMeasure { get; set; }
 
         [Required]
-        [ForeignKey("SubCategoryId")]
-        public int SubCategoryId { get; set; } 
-        public virtual SubCategoryMaterial OSubcategory { get; set; } 
+        [ForeignKey("SubCategoryMaterialId")]
+        public int SubCategoryMaterialId { get; set; } 
+        public virtual SubCategoryMaterial OSubcategoryMaterial { get; set; } 
 
         [Required]
         [Column(TypeName = "bit")]

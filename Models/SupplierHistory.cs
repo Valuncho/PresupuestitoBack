@@ -12,7 +12,7 @@ namespace PresupuestitoBack.Models
 
         [Required]
         [ForeignKey("SupplierId")]
-        public int SuplierId { get; set; } 
+        public int SupplierId { get; set; } 
         public virtual Supplier Osupplier { get; set; }
 
         [Column(TypeName = ("bit"))]

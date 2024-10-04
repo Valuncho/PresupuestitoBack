@@ -7,8 +7,8 @@ namespace PresupuestitoBack.Models
     public class SubCategoryMaterial
     {
         [Key]
-        [Column("SubCategoryId",TypeName = "INT")]
-        public int SubCategoryId { get; set; }
+        [Column("SubCategoryMaterialId",TypeName = "INT")]
+        public int SubCategoryMaterialId { get; set; }
 
         [Required]
         [Column(TypeName = "NVARCHAR(100)")]
