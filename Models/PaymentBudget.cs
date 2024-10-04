@@ -21,7 +21,12 @@ namespace PresupuestitoBack.Models
         public virtual Budget OBudget { get; set; }
 
         [Column(TypeName = ("bit"))]
-        public bool Status { get => Status; set { Status = true; } }
+        private bool _Status;
+        public bool Status
+        {
+            get => Status;
+            set { Status = value; }
+        }
 
     }
 }

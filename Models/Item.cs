@@ -26,6 +26,11 @@ namespace PresupuestitoBack.Models
 
         [Required]
         [Column(TypeName = "bit")]
-        public bool Status { get => Status; set { Status = true; } }
+        private bool _Status;
+        public bool Status
+        {
+            get => Status;
+            set { Status = value; }
+        }
     }
 }
