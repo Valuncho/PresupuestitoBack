@@ -2,6 +2,6 @@
 {
     public class ClientRequestDto
     {
-        public int IdPerson {  get; set; }
+        public int PersonId {  get; set; }
     }
 }

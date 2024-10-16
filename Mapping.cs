@@ -19,7 +19,7 @@ namespace PresupuestitoBack
 
             // Client
             CreateMap<Client, ClientResponseDto>()
-                .ForMember(dest => dest.IdPerson, opt => opt.MapFrom(src => src.OPerson));
+                .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.OPerson));
             CreateMap<ClientRequestDto, Client>().ReverseMap();
 
             // ClientHistory
