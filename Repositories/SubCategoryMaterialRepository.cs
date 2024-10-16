@@ -33,7 +33,7 @@ namespace PresupuestitoBack.Repositories
         public override async Task<SubCategoryMaterial> GetById(int id)
         {
             return await context.SubCategoryMaterials.Include(o => o.OCategory)
-                .Where(o => o.Status == true && o.CategoryId == id).FirstAsync();
+                .Where(o => o.Status == true && o.SubCategoryMaterialId == id).FirstAsync();
         }
 
         public override async Task<List<SubCategoryMaterial>> GetAll(Expression<Func<SubCategoryMaterial, bool>>? filter = null)

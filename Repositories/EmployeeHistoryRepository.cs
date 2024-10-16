@@ -32,7 +32,8 @@ namespace PresupuestitoBack.Repositories
 
         public override async Task<EmployeeHistory> GetById(int id)
         {
-            return await context.EmployeeHistories.Include(o => o.OEmployee).Where(o => o.Status == true && o.EmployeeId == id).FirstAsync();
+            return await context.EmployeeHistories.Include(o => o.OEmployee)
+                .Where(o => o.Status == true && o.EmployeeHistoryId == id).FirstAsync();
         }
 
         public override async Task<List<EmployeeHistory>> GetAll(Expression<Func<EmployeeHistory, bool>>? filter = null)

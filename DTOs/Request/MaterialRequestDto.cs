@@ -8,6 +8,6 @@
         public string MaterialBrand { get; set; }
         public string MaterialMeasure {  get; set; }
         public string MaterialUnitMeasure { get; set; }
-        public int SubCategoryId { get; set; }
+        public int SubCategoryMaterialId { get; set; }
     }
 }

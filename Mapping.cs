@@ -56,7 +56,7 @@ namespace PresupuestitoBack
 
             // Material
             CreateMap<Material, MaterialResponseDto>()
-                .ForMember(dest => dest.SubCategoryId, opt => opt.MapFrom(src => src.OSubcategoryMaterial));
+                .ForMember(dest => dest.SubCategoryMaterialId, opt => opt.MapFrom(src => src.OSubcategoryMaterial));
             CreateMap<MaterialRequestDto, Material>().ReverseMap();
 
             // Item
