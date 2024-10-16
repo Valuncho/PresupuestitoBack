@@ -21,11 +21,11 @@ namespace PresupuestitoBack.Models
 
         [Required]
         [Column(TypeName = "bit")]
-        private bool _Status;
+        private bool _Status; 
         public bool Status
         {
-            get => Status;
-            set { Status = value; }
+            get => _Status;  
+            set { _Status = value; }  
         }
 
         public virtual ICollection<SubCategoryMaterial> SubCategories { get; set; } 

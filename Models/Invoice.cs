@@ -36,8 +36,8 @@ namespace PresupuestitoBack.Models
         private bool _Status;
         public bool Status
         {
-            get => Status;
-            set { Status = value; }
+            get => _Status;
+            set { _Status = value; }
         }
 
 
