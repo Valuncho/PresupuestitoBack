@@ -24,8 +24,8 @@ namespace PresupuestitoBack
 
             // ClientHistory
             CreateMap<ClientHistory, ClientHistoryResponseDto>()
-                .ForMember(dest => dest.IdClient, opt => opt.MapFrom(src => src.Oclient))
-                .ForMember(dest => dest.IdBudgets, opt => opt.MapFrom(src => src.Budgets)); ;
+                .ForMember(dest => dest.ClientId, opt => opt.MapFrom(src => src.Oclient))
+                .ForMember(dest => dest.BudgetsId, opt => opt.MapFrom(src => src.Budgets)); ;
             CreateMap<ClientHistoryRequestDto, ClientHistory>().ReverseMap();
 
             // Cost

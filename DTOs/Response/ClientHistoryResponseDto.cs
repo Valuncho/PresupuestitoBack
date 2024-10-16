@@ -3,7 +3,7 @@
     public class ClientHistoryResponseDto
     {
         public int ClientHistoryId { get; set; }
-        public ClientResponseDto IdClient {  get; set; }
-        public List<BudgetResponseDto> IdBudgets { get; set; }
+        public ClientResponseDto ClientId {  get; set; }
+        public List<BudgetResponseDto> BudgetsId { get; set; }
     }
 }
