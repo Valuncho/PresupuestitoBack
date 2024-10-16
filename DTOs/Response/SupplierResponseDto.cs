@@ -2,7 +2,7 @@
 {
     public class SupplierResponseDto
     {
-        public int IdSupplier { get; set; }
-        public PersonResponseDto IdPerson { get; set; }
+        public int SupplierId { get; set; }
+        public PersonResponseDto PersonId { get; set; }
     }
 }

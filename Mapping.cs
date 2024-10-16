@@ -82,7 +82,7 @@ namespace PresupuestitoBack
 
             // Supplier
             CreateMap<Supplier, SupplierResponseDto>()
-            .ForMember(dest => dest.IdPerson, opt => opt.MapFrom(src => src.OPerson));
+                .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.OPerson)); 
             CreateMap<SupplierRequestDto, Supplier>().ReverseMap();
 
             // SupplierHistory
