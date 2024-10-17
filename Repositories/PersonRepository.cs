@@ -41,5 +41,14 @@ namespace PresupuestitoBack.Repositories
             return await base.GetAll(filter);
         }
 
+        public async Task<Person> GetById2()
+        {
+            return await context.People
+                .Where(p => p.Status == true)
+                .OrderDescending()
+                .FirstOrDefaultAsync();
+        }
+
+
     }
 }

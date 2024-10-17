@@ -17,9 +17,9 @@ namespace PresupuestitoBack.Controllers
         }
 
         [HttpPost]
-        public async Task CreateClient([FromBody] ClientRequestDto clientRequestDto)
+        public async Task CreateClient([FromBody] PersonRequestDto personRequestDto)
         {
-            await clientService.CreateClient(clientRequestDto);
+            await clientService.CreateClient(personRequestDto);
         }
 
         [HttpPut("{id}")]

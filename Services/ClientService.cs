@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PresupuestitoBack.DTOs.Request;
 using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Models;
+using PresupuestitoBack.Repositories;
 using PresupuestitoBack.Repositories.IRepository;
 
 namespace PresupuestitoBack.Services
@@ -10,19 +11,23 @@ namespace PresupuestitoBack.Services
     public class ClientService
     {
         private readonly IClientRepository clientRepository;
+        private readonly PersonService personService;
         private readonly IMapper mapper;
 
-        public ClientService(IClientRepository clientRepository, IMapper mapper)
+        public ClientService(IClientRepository clientRepository, IMapper mapper, PersonService personService)
         {
             this.clientRepository = clientRepository;
-            this.mapper = mapper; 
+            this.mapper = mapper;
+            this.personService = personService;
         }
         
-        public async Task CreateClient(ClientRequestDto clientRequestDto)
+        public async Task CreateClient(PersonRequestDto personRequestDto)
         {
-            var client = mapper.Map<Client>(clientRequestDto);
-            client.Status = true;
-            await clientRepository.Insert(client);
+            var client = await personService.CreatePerson(personRequestDto);
+            Client cliente = new Client();
+            cliente.PersonId = client.PersonId;
+            await clientRepository.Insert(cliente);
+            
         }
 
         public async Task UpdateClient(int id, ClientRequestDto clientRequestDto)

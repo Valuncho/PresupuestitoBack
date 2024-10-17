@@ -18,11 +18,12 @@ namespace PresupuestitoBack.Services
             this.mapper = mapper;
         }
 
-        public async Task CreatePerson(PersonRequestDto personRequestDto)
+        public async Task <Person> CreatePerson(PersonRequestDto personRequestDto)
         {
             var person = mapper.Map<Person>(personRequestDto);
             person.Status = true;
             await personRepository.Insert(person);
+            return await personRepository.GetById2();
         }
 
         public async Task UpdatePerson(int id, PersonRequestDto personRequestDto)
