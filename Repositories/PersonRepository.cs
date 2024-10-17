@@ -45,7 +45,7 @@ namespace PresupuestitoBack.Repositories
         {
             return await context.People
                 .Where(p => p.Status == true)
-                .OrderDescending()
+                .OrderByDescending(p => p.PersonId)  
                 .FirstOrDefaultAsync();
         }
 
