@@ -19,6 +19,7 @@ namespace PresupuestitoBack.Controllers
         [HttpPost]
         public async Task CreateSupplier([FromBody] SupplierRequestDto supplierRequestDto)
         {
+
             await supplierService.CreateSupplier(supplierRequestDto);
         }
 
