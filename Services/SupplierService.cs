@@ -11,20 +11,23 @@ namespace PresupuestitoBack.Services
     public class SupplierService
     {
         private readonly ISupplierRepository supplierRepository;
+        private readonly PersonService personService;
         private readonly IMapper mapper;
         private readonly DbContext context;
 
-        public SupplierService(ISupplierRepository supplierRepository, IMapper mapper)
+        public SupplierService(ISupplierRepository supplierRepository, IMapper mapper, PersonService personService)
         {
             this.supplierRepository = supplierRepository;
             this.mapper = mapper;
+            this.personService = personService;
         }
       
-        public async Task CreateSupplier(SupplierRequestDto supplierRequestDto)
+        public async Task CreateSupplier(PersonRequestDto personRequestDto)
         {
-            var supplier = mapper.Map<Supplier>(supplierRequestDto);
-            supplier.Status = true;
-            await supplierRepository.Insert(supplier);
+            var supplier = await personService.CreatePerson(personRequestDto);
+            Supplier proveedor = new Supplier();
+            proveedor.PersonId = supplier.PersonId;
+            await supplierRepository.Insert(proveedor);
         }
 
         public async Task UpdateSupplier(int id, SupplierRequestDto supplierRequestDto)
