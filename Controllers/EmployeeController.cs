@@ -17,9 +17,9 @@ namespace PresupuestitoBack.Controllers
         }
 
         [HttpPost]
-        public async Task CreateEmployee([FromBody] EmployeeRequestDto employeeRequestDto)
+        public async Task CreateEmployee([FromBody] PersonRequestDto personRequestDto)
         {
-            await employeeService.CreateEmployee(employeeRequestDto);
+            await employeeService.CreateEmployee(personRequestDto);
         }
 
         [HttpPut("{id}")]

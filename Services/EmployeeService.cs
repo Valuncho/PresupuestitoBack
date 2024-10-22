@@ -10,19 +10,22 @@ namespace PresupuestitoBack.Services
     public class EmployeeService
     {
         private readonly IEmployeeRepository employeeRepository;
+        private readonly PersonService personService;
         private readonly IMapper mapper;
 
-        public EmployeeService(IEmployeeRepository employeeRepository, IMapper mapper)
+        public EmployeeService(IEmployeeRepository employeeRepository, IMapper mapper, PersonService personService)
         {
             this.employeeRepository = employeeRepository;
             this.mapper = mapper;
+            this.personService = personService;
         }
 
-        public async Task CreateEmployee(EmployeeRequestDto employeeRequestDto)
+        public async Task CreateEmployee(PersonRequestDto personRequestDto)
         {
-            var employee = mapper.Map<Employee>(employeeRequestDto);
-            employee.Status = true;
-            await employeeRepository.Insert(employee);
+            var employee = await personService.CreatePerson(personRequestDto);
+            Employee empleado = new Employee();
+            empleado.PersonId = employee.PersonId;
+            await employeeRepository.Insert(empleado);
         }
 
         public async Task UpdateEmployee(int id, EmployeeRequestDto employeeRequestDto)
