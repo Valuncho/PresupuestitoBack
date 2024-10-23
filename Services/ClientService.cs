@@ -26,6 +26,7 @@ namespace PresupuestitoBack.Services
             var client = await personService.CreatePerson(personRequestDto);
             Client cliente = new Client();
             cliente.PersonId = client.PersonId;
+            cliente.Status = true;
             await clientRepository.Insert(cliente);
             
         }

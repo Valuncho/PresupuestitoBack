@@ -39,7 +39,8 @@ namespace PresupuestitoBack.Repositories
         public override async Task<List<Client>> GetAll(Expression<Func<Client, bool>>? filter = null)
         {
             return await context.Clients.Include(c => c.OPerson) // Incluir la entidad Person
-            .ToListAsync();
+                .Where(o => o.Status == true)
+                .ToListAsync();
         }
 
     }
