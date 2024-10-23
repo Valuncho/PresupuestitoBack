@@ -27,6 +27,7 @@ namespace PresupuestitoBack.Services
             var supplier = await personService.CreatePerson(personRequestDto);
             Supplier proveedor = new Supplier();
             proveedor.PersonId = supplier.PersonId;
+            proveedor.Status = true;
             await supplierRepository.Insert(proveedor);
         }
 
