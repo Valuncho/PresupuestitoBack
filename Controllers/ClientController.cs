@@ -23,13 +23,13 @@ namespace PresupuestitoBack.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task UpdateClient(int id, [FromBody] ClientRequestDto clientRequestDto)
+        public async Task UpdateClient(int id, [FromBody] PersonRequestDto personRequestDto)
         {
             if (id <= 0)
             {
                 throw new Exception("Id invalido");
             }
-            await clientService.UpdateClient(id, clientRequestDto);
+            await clientService.UpdateClient(id, personRequestDto);
         }
 
         [HttpGet("{id}")]

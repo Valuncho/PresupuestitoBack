@@ -31,7 +31,7 @@ namespace PresupuestitoBack.Services
             
         }
 
-        public async Task UpdateClient(int id, ClientRequestDto clientRequestDto)
+        public async Task UpdateClient(int id, PersonRequestDto personRequestDto)
         {
             var existingClient = await clientRepository.GetById(id);
             if (existingClient == null)
@@ -40,7 +40,13 @@ namespace PresupuestitoBack.Services
             }
             else
             {
-                mapper.Map(clientRequestDto, existingClient);
+                // Actualiza la persona relacionada con el cliente
+                var idPersona = existingClient.PersonId;
+                await personService.UpdatePerson(idPersona, personRequestDto);
+
+                // Si necesitas también actualizar los datos del cliente, debes tener un `clientRequestDto`
+                // mapper.Map(clientRequestDto, existingClient);
+
                 await clientRepository.Update(existingClient);
             }            
         }
