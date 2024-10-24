@@ -38,8 +38,9 @@ namespace PresupuestitoBack.Repositories
 
         public override async Task<List<Invoice>> GetAll(Expression<Func<Invoice, bool>>? filter = null)
         {
-            return await context.Invoices.Include(c => c.InvoiceItems) 
-            .ToListAsync();
+            return await context.Invoices.Include(c => c.InvoiceItems)
+                .Where(o => o.Status == true)
+                .ToListAsync();
         }
 
     }

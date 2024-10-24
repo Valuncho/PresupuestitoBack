@@ -39,7 +39,8 @@ namespace PresupuestitoBack.Repositories
         public override async Task<List<EmployeeHistory>> GetAll(Expression<Func<EmployeeHistory, bool>>? filter = null)
         {
             return await context.EmployeeHistories.Include(e => e.OEmployee)
-            .ToListAsync();
+                .Where(o => o.Status == true)
+                .ToListAsync();
         }
 
     }

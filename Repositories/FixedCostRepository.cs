@@ -37,7 +37,9 @@ namespace PresupuestitoBack.Repositories
 
         public override async Task<List<FixedCost>> GetAll(Expression<Func<FixedCost, bool>>? filter = null)
         {
-            return await context.FixedCosts.ToListAsync();
+            return await context.FixedCosts
+                .Where(o => o.Status == true)
+                .ToListAsync();
         }
 
     }

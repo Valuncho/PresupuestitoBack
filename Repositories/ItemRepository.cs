@@ -39,7 +39,8 @@ namespace PresupuestitoBack.Repositories
         public override async Task<List<Item>> GetAll(Expression<Func<Item, bool>>? filter = null)
         {
             return await context.Items.Include(c => c.OMaterial) // Incluir la entidad Person
-            .ToListAsync();
+                .Where(o => o.Status == true)
+                .ToListAsync();
         }
 
     }

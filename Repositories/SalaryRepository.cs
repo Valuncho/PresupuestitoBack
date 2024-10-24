@@ -39,7 +39,8 @@ namespace PresupuestitoBack.Repositories
         public override async Task<List<Salary>> GetAll(Expression<Func<Salary, bool>>? filter = null)
         {
             return await context.Salaries.Include(c => c.OPayment)
-            .ToListAsync();
+                .Where(o => o.Status == true)
+                .ToListAsync();
         }
 
     }
