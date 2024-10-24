@@ -29,7 +29,7 @@ namespace PresupuestitoBack.Services
             await employeeRepository.Insert(empleado);
         }
 
-        public async Task UpdateEmployee(int id, EmployeeRequestDto employeeRequestDto)
+        public async Task UpdateEmployee(int id, PersonRequestDto personRequestDto)
         {
             var existingEmployee = await employeeRepository.GetById(id);
             if (existingEmployee == null)
@@ -38,7 +38,8 @@ namespace PresupuestitoBack.Services
             }
             else
             {
-                mapper.Map(employeeRequestDto, existingEmployee);
+                var idPersona = existingEmployee.PersonId;
+                await personService.UpdatePerson(idPersona, personRequestDto);
                 await employeeRepository.Update(existingEmployee);
             }
         }

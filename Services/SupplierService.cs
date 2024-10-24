@@ -31,7 +31,7 @@ namespace PresupuestitoBack.Services
             await supplierRepository.Insert(proveedor);
         }
 
-        public async Task UpdateSupplier(int id, SupplierRequestDto supplierRequestDto)
+        public async Task UpdateSupplier(int id, PersonRequestDto personRequestDto)
         {
             var existingSupplier = await supplierRepository.GetById(id);
             if (existingSupplier == null)
@@ -40,7 +40,8 @@ namespace PresupuestitoBack.Services
             }
             else
             {
-                mapper.Map(supplierRequestDto, existingSupplier);
+                var idPersona = existingSupplier.PersonId;
+                await personService.UpdatePerson(idPersona, personRequestDto);
                 await supplierRepository.Update(existingSupplier);
             }
         }
