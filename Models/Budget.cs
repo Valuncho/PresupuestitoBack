@@ -16,6 +16,18 @@ namespace PresupuestitoBack.Models
         public decimal Cost { get; set; }
 
         [Required]
+        [Column(TypeName = "NVARCHAR(100)")]
+        public string BudgetStatus { get; set; }
+
+        [Required]
+        [Column(TypeName = "DATE")]
+        public DateTime DateCreated { get; set; }
+
+        [Required]
+        [Column(TypeName = "DATE")]
+        public DateTime DeadLine { get; set; }
+
+        [Required]
         [Column(TypeName = "NVARCHAR(400)")]
         public string DescriptionBudget { get; set; }
 
@@ -34,9 +46,9 @@ namespace PresupuestitoBack.Models
 
         // Relación con ClientHistory 
         [Required]
-        [ForeignKey("ClientHistoryId")]
-        public int ClientHistoryId { get; set; } // Clave foránea
-        public virtual ClientHistory OclientHistory { get; set; } // Propiedad de navegación
+        [ForeignKey("ClientId")]
+        public int ClientId { get; set; } // Clave foránea
+        public virtual Client Oclient { get; set; } // Propiedad de navegación
 
     }
 }

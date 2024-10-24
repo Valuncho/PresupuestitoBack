@@ -31,11 +31,24 @@ namespace PresupuestitoBack.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BudgetId"));
 
-                    b.Property<int>("ClientHistoryId")
+                    b.Property<string>("BudgetStatus")
+                        .IsRequired()
+                        .HasColumnType("NVARCHAR(100)");
+
+                    b.Property<int?>("ClientHistoryId")
+                        .HasColumnType("INT");
+
+                    b.Property<int>("ClientId")
                         .HasColumnType("INT");
 
                     b.Property<decimal>("Cost")
                         .HasColumnType("DECIMAL(18, 2)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("DATE");
+
+                    b.Property<DateTime>("DeadLine")
+                        .HasColumnType("DATE");
 
                     b.Property<string>("DescriptionBudget")
                         .IsRequired()
@@ -48,6 +61,8 @@ namespace PresupuestitoBack.Migrations
 
                     b.HasIndex("ClientHistoryId");
 
+                    b.HasIndex("ClientId");
+
                     b.ToTable("Budgets");
                 });
 
@@ -59,10 +74,6 @@ namespace PresupuestitoBack.Migrations
                         .HasColumnName("CategoryId");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
-
-                    b.Property<string>("CategoryModel")
-                        .IsRequired()
-                        .HasColumnType("NVARCHAR(100)");
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
@@ -665,13 +676,17 @@ namespace PresupuestitoBack.Migrations
 
             modelBuilder.Entity("PresupuestitoBack.Models.Budget", b =>
                 {
-                    b.HasOne("PresupuestitoBack.Models.ClientHistory", "OclientHistory")
+                    b.HasOne("PresupuestitoBack.Models.ClientHistory", null)
                         .WithMany("Budgets")
-                        .HasForeignKey("ClientHistoryId")
+                        .HasForeignKey("ClientHistoryId");
+
+                    b.HasOne("PresupuestitoBack.Models.Client", "Oclient")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("OclientHistory");
+                    b.Navigation("Oclient");
                 });
 
             modelBuilder.Entity("PresupuestitoBack.Models.Client", b =>

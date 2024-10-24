@@ -16,10 +16,6 @@ namespace PresupuestitoBack.Models
         public string CategoryName { get; set; }
 
         [Required]
-        [Column(TypeName = "NVARCHAR(100)")]
-        public string CategoryModel { get; set; }
-
-        [Required]
         [Column(TypeName = "bit")]
         private bool _Status; 
         public bool Status

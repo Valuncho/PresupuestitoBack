@@ -11,7 +11,7 @@ namespace PresupuestitoBack
         {
             // Budget
             CreateMap<Budget, BudgetResponseDto>().ReverseMap();
-            CreateMap<BudgetRequestDto, Budget>().ReverseMap();
+            CreateMap<BudgetRequestDto, Budget>().ReverseMap().ForMember(dest => dest.ClienteId, opt => opt.MapFrom(src => src.Oclient));
 
             // Category
             CreateMap<Category, CategoryResponseDto>().ReverseMap();

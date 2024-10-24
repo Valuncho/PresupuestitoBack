@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PresupuestitoBack.Migrations
 {
     /// <inheritdoc />
-    public partial class test : Migration
+    public partial class initialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,6 @@ namespace PresupuestitoBack.Migrations
                     CategoryId = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CategoryName = table.Column<string>(type: "NVARCHAR(100)", nullable: false),
-                    CategoryModel = table.Column<string>(type: "NVARCHAR(100)", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -256,9 +255,13 @@ namespace PresupuestitoBack.Migrations
                     BudgetId = table.Column<int>(type: "INT", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Cost = table.Column<decimal>(type: "DECIMAL(18,2)", nullable: false),
+                    BudgetStatus = table.Column<string>(type: "NVARCHAR(100)", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "DATE", nullable: false),
+                    DeadLine = table.Column<DateTime>(type: "DATE", nullable: false),
                     DescriptionBudget = table.Column<string>(type: "NVARCHAR(400)", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false),
-                    ClientHistoryId = table.Column<int>(type: "INT", nullable: false)
+                    ClientId = table.Column<int>(type: "INT", nullable: false),
+                    ClientHistoryId = table.Column<int>(type: "INT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -267,7 +270,12 @@ namespace PresupuestitoBack.Migrations
                         name: "FK_Budgets_ClientsHistorys_ClientHistoryId",
                         column: x => x.ClientHistoryId,
                         principalTable: "ClientsHistorys",
-                        principalColumn: "ClientHistoryId",
+                        principalColumn: "ClientHistoryId");
+                    table.ForeignKey(
+                        name: "FK_Budgets_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "ClientId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -477,7 +485,7 @@ namespace PresupuestitoBack.Migrations
                         column: x => x.PaymentId,
                         principalTable: "Payments",
                         principalColumn: "PaymentId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -498,19 +506,24 @@ namespace PresupuestitoBack.Migrations
                         column: x => x.PaymentId,
                         principalTable: "Payments",
                         principalColumn: "PaymentId",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PaymentsSalary_Salaries_SalaryId",
                         column: x => x.SalaryId,
                         principalTable: "Salaries",
                         principalColumn: "SalaryId",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Budgets_ClientHistoryId",
                 table: "Budgets",
                 column: "ClientHistoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Budgets_ClientId",
+                table: "Budgets",
+                column: "ClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Clients_PersonId",
