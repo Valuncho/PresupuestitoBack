@@ -38,7 +38,8 @@ namespace PresupuestitoBack.Repositories
         public override async Task<List<SupplierHistory>> GetAll(Expression<Func<SupplierHistory, bool>>? filter = null)
         {
             return await context.SupplierHistories.Include(s => s.Osupplier) // Incluir la entidad Supplier
-            .ToListAsync();
+                .Where(o => o.Status == true)
+                .ToListAsync();
         }
 
     }

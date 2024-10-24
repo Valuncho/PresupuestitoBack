@@ -39,7 +39,8 @@ namespace PresupuestitoBack.Repositories
         public override async Task<List<SubCategoryMaterial>> GetAll(Expression<Func<SubCategoryMaterial, bool>>? filter = null)
         {
             return await context.SubCategoryMaterials.Include(s => s.OCategory)
-            .ToListAsync();
+                .Where(o => o.Status == true)
+                .ToListAsync();
         }
 
     }
