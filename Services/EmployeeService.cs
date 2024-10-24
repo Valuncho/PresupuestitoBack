@@ -25,6 +25,7 @@ namespace PresupuestitoBack.Services
             var employee = await personService.CreatePerson(personRequestDto);
             Employee empleado = new Employee();
             empleado.PersonId = employee.PersonId;
+            empleado.Status = true;
             await employeeRepository.Insert(empleado);
         }
 
