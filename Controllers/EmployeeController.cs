@@ -23,13 +23,13 @@ namespace PresupuestitoBack.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task UpdateEmployee(int id,[FromBody] EmployeeRequestDto employeeRequestDto)
+        public async Task UpdateEmployee(int id,[FromBody] PersonRequestDto personRequestDto)
         {
             if (id <= 0)
             {
                 throw new Exception("Id invalido");
             }
-            await employeeService.UpdateEmployee(id, employeeRequestDto);
+            await employeeService.UpdateEmployee(id, personRequestDto);
         }
 
         [HttpGet("{id}")]
