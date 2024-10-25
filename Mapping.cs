@@ -10,7 +10,8 @@ namespace PresupuestitoBack
         public Mapping()
         {
             // Budget
-            CreateMap<Budget, BudgetResponseDto>().ForMember(dest => dest.ClientId, opt => opt.MapFrom(src => src.Oclient));
+            CreateMap<Budget, BudgetResponseDto>()
+                .ForMember(dest => dest.ClientId, opt => opt.MapFrom(src => src.Oclient));
             CreateMap<BudgetRequestDto, Budget>().ReverseMap();
 
             // Category
