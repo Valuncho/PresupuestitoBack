@@ -4,7 +4,7 @@ namespace PresupuestitoBack.DTOs.Response
 {
     public class WorkResponseDto
     {
-        public int IdWork { get; set; }
+        public int WorkId { get; set; }
         public int EstimatedHoursWorked { get; set; }
         public DateTime DeadLine { get; set; }
         public decimal CostPrice { get; set; }
