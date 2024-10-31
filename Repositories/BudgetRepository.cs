@@ -32,13 +32,13 @@ namespace PresupuestitoBack.Repositories
 
         public override async Task<Budget> GetById(int id)
         {
-            return await context.Budgets.Include(o => o.Oclient)
+            return await context.Budgets.Include(o => o.Oclient).Include(o => o.Works)
                 .Where(o => o.Status == true && o.BudgetId == id).FirstAsync();
         }
 
         public override async Task<List<Budget>> GetAll(Expression<Func<Budget, bool>>? filter = null)
         {
-            return await context.Budgets.Include(s => s.Oclient) // Incluir la entidad Person
+            return await context.Budgets.Include(s => s.Oclient).Include(o => o.Works) // Incluir la entidad Person
                 .Where(o => o.Status == true)
                 .ToListAsync();
         }
