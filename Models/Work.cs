@@ -14,14 +14,16 @@ namespace PresupuestitoBack.Models
         public int WorkId { get; set; }
 
         [Required]
+        [Column(TypeName = "NVARCHAR(500)")]
+        public string WorkName { get; set; }
+
+        [Required]
         [Column(TypeName = "INT")]
         public int EstimatedHoursWorked { get; set; }
 
-        [Required]
         [Column(TypeName = "DATE")]
         public DateTime DeadLine { get; set; }
 
-        [Required]
         [Column(TypeName = "DECIMAL(18, 2)")]
         public decimal CostPrice { get; set; }
         public virtual ICollection<Item> OMaterials { get; set; }
@@ -34,14 +36,17 @@ namespace PresupuestitoBack.Models
             set { _Status = value; }
         }
 
-        [Required]
         [Column(TypeName = "NVARCHAR(500)")]
         public string Notes { get; set; }
 
         [Required]
         [ForeignKey("BudgetId")]
         public int BudgetId { get; set; } 
-        public virtual Budget Budget { get; set; } 
+        public virtual Budget Budget { get; set; }
+
+        [Required]
+        [Column(TypeName = "NVARCHAR(500)")]
+        public string WorkStatus { get; set; }
 
     }
 }

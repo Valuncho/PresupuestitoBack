@@ -20,13 +20,9 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "NVARCHAR(400)")]
         public string MaterialDescription { get; set; }
 
-
-        [Required]
         [Column(TypeName = "NVARCHAR(50)")]
         public string MaterialColor { get; set; }
 
-
-        [Required]
         [Column(TypeName = "NVARCHAR(100)")]
         public string MaterialBrand { get; set; }
 

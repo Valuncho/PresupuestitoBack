@@ -18,7 +18,6 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "DATETIME")]
         public DateTime BillDate { get; set; }
 
-        [Required]
         [ForeignKey("PaymentId")]
         public int PaymentId { get; set; }
         public virtual Payment OPayment { get; set; }

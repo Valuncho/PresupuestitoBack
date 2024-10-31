@@ -16,8 +16,6 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "DATE")]
         public DateTime Date { get; set; }
 
-
-        [Required]
         [Column(TypeName = "BIT")]
         public bool IsPaid { get; set; }
 

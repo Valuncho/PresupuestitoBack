@@ -26,15 +26,12 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "NVARCHAR(100)")]
         public string PhoneNumber { get; set; }
 
-        [Required]
         [Column(TypeName = "NVARCHAR(150)")]
         public string Email { get; set; }
 
-        [Required]
         [Column(TypeName = "NVARCHAR(20)")]
         public string DNI { get; set; } 
 
-        [Required]
         [Column(TypeName = "NVARCHAR(20)")]
         public string CUIT { get; set; }
 

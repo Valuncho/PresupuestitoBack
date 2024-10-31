@@ -11,7 +11,6 @@ namespace PresupuestitoBack.Models
         public int BudgetId { get; set; }
         public virtual ICollection<Work> Works { get; set; } 
 
-        [Required]
         [Column(TypeName = "DECIMAL(18, 2)")]
         public decimal Cost { get; set; }
 
@@ -23,7 +22,6 @@ namespace PresupuestitoBack.Models
         [Column(TypeName = "DATE")]
         public DateTime DateCreated { get; set; }
 
-        [Required]
         [Column(TypeName = "DATE")]
         public DateTime DeadLine { get; set; }
 

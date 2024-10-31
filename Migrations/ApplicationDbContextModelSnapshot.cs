@@ -667,6 +667,14 @@ namespace PresupuestitoBack.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
+                    b.Property<string>("WorkName")
+                        .IsRequired()
+                        .HasColumnType("NVARCHAR(500)");
+
+                    b.Property<string>("WorkStatus")
+                        .IsRequired()
+                        .HasColumnType("NVARCHAR(500)");
+
                     b.HasKey("WorkId");
 
                     b.HasIndex("BudgetId");
