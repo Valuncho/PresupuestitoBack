@@ -10,6 +10,5 @@ namespace PresupuestitoBack.DTOs.Request
         public int BudgetId { get; set; }
         public string StatusSerialized { get; set; }
         public string Notes { get; set; }
-        public string Image { get; set; }
     }
 }

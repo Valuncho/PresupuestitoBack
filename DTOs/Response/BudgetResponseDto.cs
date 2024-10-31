@@ -11,6 +11,7 @@ namespace PresupuestitoBack.DTOs.Response
         public ClientResponseDto ClientId { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DeadLine { get; set; }
+        public string BudgetStatus { get; set; }
 
     }
 }
