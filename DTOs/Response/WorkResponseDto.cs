@@ -11,7 +11,7 @@ namespace PresupuestitoBack.DTOs.Response
 
         // Lista de Items
         public List<ItemResponseDto> ItemsId { get; set; }
-        public string StatusSerialized { get; set; }
+        public string Status { get; set; }
         public string Notes { get; set; }
     }
 }
