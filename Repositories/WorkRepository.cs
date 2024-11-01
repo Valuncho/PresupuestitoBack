@@ -32,7 +32,7 @@ namespace PresupuestitoBack.Repositories
 
         public override async Task<Work> GetById(int id)
         {
-            return await context.Works.Include(o => o.OMaterials)
+            return await context.Works.Include(o => o.OMaterials).ThenInclude(e => e.OMaterial)
                 .Where(o => o.Status == true && o.WorkId == id).FirstAsync();
         }
 
