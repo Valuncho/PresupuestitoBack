@@ -23,7 +23,7 @@ namespace PresupuestitoBack.Models
         public DateTime DateCreated { get; set; }
 
         [Column(TypeName = "DATE")]
-        public DateTime DeadLine { get; set; }
+        public DateTime? DeadLine { get; set; }
 
         [Required]
         [Column(TypeName = "NVARCHAR(400)")]

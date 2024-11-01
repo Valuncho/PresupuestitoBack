@@ -61,7 +61,7 @@ namespace PresupuestitoBack
             CreateMap<MaterialRequestDto, Material>().ReverseMap();
 
             // Item
-            CreateMap<Item, ItemResponseDto>().ReverseMap();
+            CreateMap<Item, ItemResponseDto>().ReverseMap().ForMember(dest => dest.MaterialId, opt => opt.MapFrom(src => src.OMaterial));
             CreateMap<ItemRequestDto, Item>().ReverseMap();
 
             // Payment

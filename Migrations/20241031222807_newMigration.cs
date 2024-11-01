@@ -68,9 +68,9 @@ namespace PresupuestitoBack.Migrations
                     LastName = table.Column<string>(type: "NVARCHAR(100)", nullable: false),
                     Address = table.Column<string>(type: "NVARCHAR(250)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "NVARCHAR(100)", nullable: false),
-                    Email = table.Column<string>(type: "NVARCHAR(150)", nullable: false),
-                    DNI = table.Column<string>(type: "NVARCHAR(20)", nullable: false),
-                    CUIT = table.Column<string>(type: "NVARCHAR(20)", nullable: false),
+                    Email = table.Column<string>(type: "NVARCHAR(150)", nullable: true),
+                    DNI = table.Column<string>(type: "NVARCHAR(20)", nullable: true),
+                    CUIT = table.Column<string>(type: "NVARCHAR(20)", nullable: true),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -257,7 +257,7 @@ namespace PresupuestitoBack.Migrations
                     Cost = table.Column<decimal>(type: "DECIMAL(18,2)", nullable: false),
                     BudgetStatus = table.Column<string>(type: "NVARCHAR(100)", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "DATE", nullable: false),
-                    DeadLine = table.Column<DateTime>(type: "DATE", nullable: false),
+                    DeadLine = table.Column<DateTime>(type: "DATE", nullable: true),
                     DescriptionBudget = table.Column<string>(type: "NVARCHAR(400)", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false),
                     ClientId = table.Column<int>(type: "INT", nullable: false),

@@ -10,7 +10,6 @@ namespace PresupuestitoBack.DTOs.Response
         public DateTime DeadLine { get; set; }
         public decimal CostPrice { get; set; }
         public List<ItemResponseDto> ItemsId { get; set; }
-        public string Status { get; set; }
         public string Notes { get; set; }
         public string WorkStatus { get; set; }
     }

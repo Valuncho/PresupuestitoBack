@@ -38,7 +38,7 @@ namespace PresupuestitoBack.Repositories
 
         public override async Task<List<Work>> GetAll(Expression<Func<Work, bool>>? filter = null)
         {
-            return await context.Works.Include(w => w.OMaterials)
+            return await context.Works.Include(w => w.OMaterials).ThenInclude(e => e.OMaterial)
                 .Where(o => o.Status == true)
                 .ToListAsync();
         }
