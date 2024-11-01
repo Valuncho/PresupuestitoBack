@@ -32,24 +32,25 @@ namespace PresupuestitoBack.Repositories
 
         public override async Task<Material> GetById(int id)
         {
-            return await context.Materials.Include(o => o.OSubcategoryMaterial)
-                .Where(o => o.Status == true && o.MaterialId == id).FirstAsync();
+            return await context.Materials.Where(material => material.Status == true && material.MaterialId == id)
+                                          .Include(material => material.OSubcategoryMaterial)
+                                          .ThenInclude(subCategory => subCategory.OCategory)
+                                          .FirstAsync();
         }
 
         public override async Task<List<Material>> GetAll(Expression<Func<Material, bool>>? filter = null)
         {
-            return await context.Materials.Include(m => m.OSubcategoryMaterial) // Incluir la entidad Subcategory
-                .Where(o => o.Status == true)
-                .ToListAsync();
+            return await context.Materials.Where(material => material.Status == true)
+                                          .Include(material => material.OSubcategoryMaterial)
+                                          .ThenInclude(subCategory => subCategory.OCategory)
+                                          .ToListAsync();
         }
 
         public async Task<InvoiceItem?> GetMaterialPrice(int MaterialId)
         {          
-            return await context
-                   .InvoiceItems
-                   .Where(i => i.MaterialId == MaterialId)
-                   .Include(i => i.OMaterial)
-                   .FirstOrDefaultAsync();
+            return await context.InvoiceItems.Where(material => material.MaterialId == MaterialId)
+                                             .Include(material => material.OMaterial)
+                                             .FirstOrDefaultAsync();
         }
 
     }

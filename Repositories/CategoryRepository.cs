@@ -32,15 +32,14 @@ namespace PresupuestitoBack.Repositories
 
         public override async Task<Category> GetById(int id)
         {
-            return await context.Categories
-                .Where(c => c.Status == true && c.CategoryId == id).FirstAsync();
+            return await context.Categories.Where(category => category.Status == true && category.CategoryId == id)
+                                           .FirstAsync();
         }
 
         public override async Task<List<Category>> GetAll(Expression<Func<Category, bool>>? filter = null)
         {
-            return await context.Categories
-                .Where(o => o.Status == true)
-                .ToListAsync();
+            return await context.Categories.Where(category => category.Status == true)
+                                           .ToListAsync();
         }
 
     }

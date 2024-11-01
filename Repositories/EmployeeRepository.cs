@@ -32,15 +32,16 @@ namespace PresupuestitoBack.Repositories
 
         public override async Task<Employee> GetById(int id)
         {
-            return await context.Employees.Include(o => o.OPerson)
-                .Where(o => o.Status == true && o.EmployeeId == id).FirstAsync();
+            return await context.Employees.Where(employee => employee.Status == true && employee.EmployeeId == id)
+                                          .Include(employee => employee.OPerson)
+                                          .FirstAsync();
         }
 
         public override async Task<List<Employee>> GetAll(Expression<Func<Employee, bool>>? filter = null)
         {
-            return await context.Employees.Include(s => s.OPerson) // Incluir la entidad Person
-                .Where(o => o.Status == true)
-                .ToListAsync();
+            return await context.Employees.Where(employee => employee.Status == true)
+                                          .Include(employee => employee.OPerson) 
+                                          .ToListAsync();
         }
 
     }
