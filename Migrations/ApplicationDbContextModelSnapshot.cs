@@ -47,7 +47,7 @@ namespace PresupuestitoBack.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("DATE");
 
-                    b.Property<DateTime>("DeadLine")
+                    b.Property<DateTime?>("DeadLine")
                         .HasColumnType("DATE");
 
                     b.Property<string>("DescriptionBudget")
@@ -259,12 +259,12 @@ namespace PresupuestitoBack.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<int>("SupplierHistoryId")
+                    b.Property<int>("SupplierId")
                         .HasColumnType("INT");
 
                     b.HasKey("InvoiceId");
 
-                    b.HasIndex("SupplierHistoryId");
+                    b.HasIndex("SupplierId");
 
                     b.ToTable("Invoices");
                 });
@@ -743,13 +743,13 @@ namespace PresupuestitoBack.Migrations
 
             modelBuilder.Entity("PresupuestitoBack.Models.Invoice", b =>
                 {
-                    b.HasOne("PresupuestitoBack.Models.SupplierHistory", "OSupplierHistory")
+                    b.HasOne("PresupuestitoBack.Models.Supplier", "OSupplier")
                         .WithMany()
-                        .HasForeignKey("SupplierHistoryId")
+                        .HasForeignKey("SupplierId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("OSupplierHistory");
+                    b.Navigation("OSupplier");
                 });
 
             modelBuilder.Entity("PresupuestitoBack.Models.InvoiceItem", b =>
