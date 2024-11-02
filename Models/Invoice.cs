@@ -21,9 +21,9 @@ namespace PresupuestitoBack.Models
 
         // Relación con SupplierHistory
         [Required]
-        [ForeignKey("SupplierHistoryId")]
-        public int SupplierHistoryId { get; set; } // Clave foránea
-        public virtual SupplierHistory OSupplierHistory { get; set; } // Propiedad de navegación
+        [ForeignKey("SupplierId")]
+        public int SupplierId { get; set; } // Clave foránea
+        public virtual Supplier OSupplier { get; set; } // Propiedad de navegación
 
         public virtual ICollection<Payment> Payments { get; set; }
 

@@ -32,15 +32,26 @@ namespace PresupuestitoBack.Repositories
 
         public override async Task<Budget> GetById(int id)
         {
-            return await context.Budgets.Include(o => o.Oclient).Include(o => o.Works).ThenInclude(r => r.OMaterials).ThenInclude(k => k.OMaterial)
-                .Where(o => o.Status == true && o.BudgetId == id).FirstAsync();
+            return await context.Budgets.Where(budget => budget.Status == true && budget.BudgetId == id)
+                                        .Include(budget => budget.Oclient)
+                                        .Include(budget => budget.Works)
+                                        .ThenInclude(work => work.OMaterials)
+                                        .ThenInclude(work => work.OMaterial)
+                                        .ThenInclude(material => material.OSubcategoryMaterial)
+                                        .ThenInclude(subCategory => subCategory.OCategory)
+                                        .FirstAsync();
         }
 
         public override async Task<List<Budget>> GetAll(Expression<Func<Budget, bool>>? filter = null)
         {
-            return await context.Budgets.Include(s => s.Oclient).Include(o => o.Works).ThenInclude(r => r.OMaterials).ThenInclude(k => k.OMaterial) // Incluir la entidad Person
-                .Where(o => o.Status == true)
-                .ToListAsync();
+            return await context.Budgets.Where(o => o.Status == true)
+                                        .Include(budget => budget.Oclient)
+                                        .Include(budget => budget.Works)
+                                        .ThenInclude(work => work.OMaterials)
+                                        .ThenInclude(work => work.OMaterial)
+                                        .ThenInclude(material => material.OSubcategoryMaterial)
+                                        .ThenInclude(subCategory => subCategory.OCategory)
+                                        .ToListAsync();
         }
 
     }
