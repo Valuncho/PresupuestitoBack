@@ -4,6 +4,8 @@ using PresupuestitoBack.Services;
 using PresupuestitoBack.Repositories;
 using PresupuestitoBack.Repositories.IRepository;
 using PresupuestitoBack;
+using PresupuestitoBack.Extensions;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +27,7 @@ builder.Services.AddAutoMapper(typeof(Mapping));
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
+/*
 #region Services and Repositories
 
 builder.Services.AddScoped<BudgetService>();
@@ -86,6 +88,9 @@ builder.Services.AddScoped<WorkService>();
 builder.Services.AddScoped<IWorkRepository, WorkRepository>();
 
 #endregion
+*/
+
+builder.Services.RegisterServicesAndRepositories(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 
