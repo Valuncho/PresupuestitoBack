@@ -59,5 +59,15 @@ namespace PresupuestitoBack.Controllers
             await invoiceService.DeleteInvoice(id);
         }
 
+        [HttpGet("BySupplier/{SupplierId}")]
+        public async Task<ActionResult<List<InvoiceResponseDto>>> GetInvoicesBySupplierId(int SupplierId)
+        {
+            if (SupplierId <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            return await invoiceService.GetInvoicesBySupplierId(SupplierId);
+        }
+
     }
 }

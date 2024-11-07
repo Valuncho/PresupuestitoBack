@@ -4,6 +4,7 @@ using PresupuestitoBack.DTOs.Request;
 using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Models;
 using PresupuestitoBack.Repositories.IRepository;
+using System.Formats.Asn1;
 
 namespace PresupuestitoBack.Services
 {
@@ -78,6 +79,17 @@ namespace PresupuestitoBack.Services
                 invoice.Status = false;
                 await invoiceRepository.Update(invoice);
             }
+        }
+
+        public async Task<ActionResult<List<InvoiceResponseDto>>> GetInvoicesBySupplierId(int SupplierId)
+        {
+            var invoice = await invoiceRepository.GetById(SupplierId);
+            if (invoice == null)
+            {
+                throw new KeyNotFoundException("La factura no fue encontrada.");
+            }
+            var invoices = await invoiceRepository.GetInvoicesBySupplierId(SupplierId);
+            return mapper.Map<List<InvoiceResponseDto>>(invoices);
         }
 
     }
