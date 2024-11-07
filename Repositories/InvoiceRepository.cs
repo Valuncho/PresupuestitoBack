@@ -47,5 +47,15 @@ namespace PresupuestitoBack.Repositories
                 .ToListAsync();
         }
 
+        public async Task<List<Invoice>> GetInvoicesBySupplierId(int SupplierId)
+        {
+            return await context.Invoices
+                                        .Where(invoice => invoice.Status == true && invoice.OSupplier.SupplierId == SupplierId)
+                                        .Include(invoice => invoice.OSupplier)
+                                        .Include(invoice => invoice.InvoiceItems)
+                                        .ThenInclude(invoiceItem => invoiceItem.OMaterial)
+                                        .ToListAsync();
+        }
+
     }
 }
