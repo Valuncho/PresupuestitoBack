@@ -27,7 +27,6 @@ namespace PresupuestitoBack.Services
             var budget = mapper.Map<Budget>(budgetRequestDto);
             budget.Status = true;
             await budgetRepository.Insert(budget);
-            //await clientHistoryService.CreateClientHistory(budgetRequestDto.ClientId);
         }
 
         public async Task UpdateBudget(int id, BudgetRequestDto budgetRequestDto)
@@ -96,7 +95,6 @@ namespace PresupuestitoBack.Services
                 await budgetRepository.Update(budget);
             }
         }
-
         
         public async Task<decimal> CalculateTotalPriceBudget(int BudgetId)
         {
@@ -107,6 +105,9 @@ namespace PresupuestitoBack.Services
                 int WorkId = work.WorkId;
                 BudgetTotalPrice += await this.workService.CalculateTotalWorkPrice(WorkId);
             }          
+            budget.Cost = BudgetTotalPrice;
+            var budgetMapped = mapper.Map<BudgetRequestDto>(budget);
+            await UpdateBudget(budget.BudgetId, budgetMapped);
             return BudgetTotalPrice;
         }
         
