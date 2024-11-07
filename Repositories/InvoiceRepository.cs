@@ -34,7 +34,8 @@ namespace PresupuestitoBack.Repositories
         {
             return await context.Invoices.Where(invoice => invoice.Status == true && invoice.InvoiceId == id)
                 .Include(invoice => invoice.OSupplier)
-                .Include(invoice => invoice.InvoiceItems.Where(material => material.OMaterial.Status == true))
+                .Include(invoice => invoice.InvoiceItems)
+                .ThenInclude(invoiceItems => invoiceItems.OMaterial)
                 .FirstAsync();
         }
 
