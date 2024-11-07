@@ -12,5 +12,6 @@ namespace PresupuestitoBack.DTOs.Response
         public List<ItemResponseDto> ItemsId { get; set; }
         public string Notes { get; set; }
         public string WorkStatus { get; set; }
+        public int BudgetId { get; set; }
     }
 }

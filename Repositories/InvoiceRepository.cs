@@ -32,13 +32,17 @@ namespace PresupuestitoBack.Repositories
 
         public override async Task<Invoice> GetById(int id)
         {
-            return await context.Invoices.Include(o => o.InvoiceItems).Include(e => e.OSupplier)
-                .Where(o => o.Status == true && o.InvoiceId == id).FirstAsync();
+            return await context.Invoices.Where(invoice => invoice.Status == true && invoice.InvoiceId == id)
+                .Include(invoice => invoice.OSupplier)
+                .Include(invoice => invoice.InvoiceItems.Where(material => material.OMaterial.Status == true))
+                .FirstAsync();
         }
 
         public override async Task<List<Invoice>> GetAll(Expression<Func<Invoice, bool>>? filter = null)
         {
-            return await context.Invoices.Include(c => c.InvoiceItems).Include(e => e.OSupplier)
+            return await context.Invoices.Include(c => c.InvoiceItems)
+                .Include(e => e.OSupplier)
+                .Include(invoice => invoice.InvoiceItems.Where(material => material.OMaterial.Status == true))
                 .Where(o => o.Status == true)
                 .ToListAsync();
         }

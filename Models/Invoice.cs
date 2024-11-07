@@ -27,7 +27,7 @@ namespace PresupuestitoBack.Models
 
         public virtual ICollection<Payment> Payments { get; set; }
 
-        public virtual ICollection<InvoiceItem> InvoiceItems { get; set; } = new List<InvoiceItem>();
+        public virtual ICollection<InvoiceItem> InvoiceItems { get; set; }
 
         [Required]
         [Column(TypeName = "bit")]
