@@ -54,6 +54,18 @@ namespace PresupuestitoBack.Repositories
                                         .ToListAsync();
         }
 
+        public async Task<List<Budget>> GetBudgetsByClientId(int ClientId)
+        {
+            return await context.Budgets.Where(budget => budget.Status == true && budget.ClientId == ClientId)
+                                        .Include(budget => budget.Oclient)
+                                        .Include(budget => budget.Works.Where(work => work.Status == true))
+                                        .ThenInclude(work => work.OMaterials.Where(material => material.Status == true))
+                                        .ThenInclude(work => work.OMaterial)
+                                        .ThenInclude(material => material.OSubcategoryMaterial)
+                                        .ThenInclude(subCategory => subCategory.OCategory)
+                                        .ToListAsync();
+        }
+
     }
 }
 

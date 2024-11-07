@@ -12,12 +12,14 @@ namespace PresupuestitoBack.Services
         private readonly IBudgetRepository budgetRepository;
         private readonly IMapper mapper;
         private readonly WorkService workService;
+        private readonly ClientHistoryService clientHistoryService;
 
-        public BudgetService(IBudgetRepository budgetRepository, IMapper mapper, WorkService workService)
+        public BudgetService(IBudgetRepository budgetRepository, IMapper mapper, WorkService workService, ClientHistoryService clientHistoryService)
         {
             this.budgetRepository = budgetRepository;
             this.mapper = mapper;
             this.workService = workService;
+            this.clientHistoryService = clientHistoryService;
         }
         
         public async Task CreateBudget(BudgetRequestDto budgetRequestDto)
@@ -25,6 +27,7 @@ namespace PresupuestitoBack.Services
             var budget = mapper.Map<Budget>(budgetRequestDto);
             budget.Status = true;
             await budgetRepository.Insert(budget);
+            //await clientHistoryService.CreateClientHistory(budgetRequestDto.ClientId);
         }
 
         public async Task UpdateBudget(int id, BudgetRequestDto budgetRequestDto)
@@ -51,6 +54,19 @@ namespace PresupuestitoBack.Services
             else
             {
                 return mapper.Map<BudgetResponseDto>(budget);   
+            }
+        }
+
+        public async Task<ActionResult<List<BudgetResponseDto>>> GetBudgetsByClientId(int ClientId)
+        {
+            var budgets = await budgetRepository.GetBudgetsByClientId(ClientId);
+            if (budgets == null)
+            {
+                throw new KeyNotFoundException("El presupuesto no fue encontrado");
+            }
+            else
+            {
+                return mapper.Map<List<BudgetResponseDto>>(budgets);
             }
         }
 

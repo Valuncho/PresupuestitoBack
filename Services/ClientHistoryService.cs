@@ -18,11 +18,19 @@ namespace PresupuestitoBack.Services
             this.mapper = mapper;
         }
 
-        public async Task CreateClientHistory(ClientHistoryRequestDto clientHistoryRequestDto)
+        public async Task CreateClientHistory(int ClientId)
         {
-            var clientHistory = mapper.Map<ClientHistory>(clientHistoryRequestDto);
-            clientHistory.Status = true;
-            await clientHistoryRepository.Insert(clientHistory);
+            
+            /*
+            var existingClientHistory = await clientHistoryRepository.GetById(ClientId);
+            if (existingClientHistory == null)
+            {
+                ClientHistory clientHistory = new ClientHistory();
+                clientHistory.ClientId = ClientId;
+                clientHistory.Status = true;
+                await clientHistoryRepository.Insert(clientHistory);
+            }
+            */
         }
 
         public async Task UpdateClientHistory(int id, ClientHistoryRequestDto clientHistoryRequestDto)

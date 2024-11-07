@@ -32,14 +32,31 @@ namespace PresupuestitoBack.Repositories
 
         public override async Task<ClientHistory> GetById(int id)
         {
-            return await context.ClientHistories.Include(o => o.Oclient)
-                .Where(o => o.Status == true && o.ClientId == id).FirstAsync();
+            var prueba = await context.ClientHistories
+                .Include(clientHistories => clientHistories.Oclient)
+                .Include(clientHistories => clientHistories.Budgets.Where(budgets => budgets.ClientId == 1))
+                .ThenInclude(budgets => budgets.Works.Where(work => work.Status == true))
+                .ThenInclude(work => work.OMaterials.Where(material => material.Status == true))
+                .ThenInclude(work => work.OMaterial)
+                .ThenInclude(material => material.OSubcategoryMaterial)
+                .ThenInclude(subCategory => subCategory.OCategory)
+                .Where(clientHistories => clientHistories.Status == true)
+                .Where(o => o.Status == true && o.ClientId == id)
+                .FirstAsync();
+            return prueba;
         }
 
         public override async Task<List<ClientHistory>> GetAll(Expression<Func<ClientHistory, bool>>? filter = null)
         {
-            return await context.ClientHistories.Include(c => c.Oclient) // Incluir la entidad Client
-                .Where(o => o.Status == true)
+            return await context.ClientHistories
+                .Include(clientHistories => clientHistories.Oclient) 
+                .Include(clientHistories => clientHistories.Budgets)
+                .ThenInclude(budgets => budgets.Works.Where(work => work.Status == true))
+                .ThenInclude(work => work.OMaterials.Where(material => material.Status == true))
+                .ThenInclude(work => work.OMaterial)
+                .ThenInclude(material => material.OSubcategoryMaterial)
+                .ThenInclude(subCategory => subCategory.OCategory)
+                .Where(clientHistories => clientHistories.Status == true)
                 .ToListAsync();
         }
 
