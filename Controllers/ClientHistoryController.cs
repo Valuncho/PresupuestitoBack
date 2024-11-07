@@ -15,13 +15,13 @@ namespace PresupuestitoBack.Controllers
         {
             this.clientHistoryService = clientHistoryService;
         }
-
+        /*
         [HttpPost]
         public async Task CreateClientHistory([FromBody] ClientHistoryRequestDto clientHistoryRequestDto)
         {
             await clientHistoryService.CreateClientHistory(clientHistoryRequestDto);
         }
-
+        */
         [HttpPut("{id}")]
         public async Task UpdateClientHistory(int id, [FromBody] ClientHistoryRequestDto clientHistoryRequestDto)
         {
