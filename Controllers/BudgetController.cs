@@ -69,7 +69,7 @@ namespace PresupuestitoBack.Controllers
             await budgetService.DeleteBudget(id);
         }
 
-        [HttpGet("/CalculatePrice{BudgetId}")]
+        [HttpGet("CalculatePrice/{BudgetId}")]
         public async Task<decimal> CalculateBudgetPrice(int BudgetId)
         {
             if (BudgetId <= 0)
