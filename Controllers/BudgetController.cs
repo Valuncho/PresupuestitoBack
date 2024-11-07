@@ -31,8 +31,8 @@ namespace PresupuestitoBack.Controllers
             }
             await budgetService.UpdateBudget(id, budgetRequestDto);
         }
-        /*
-        [HttpGet("{id}")]
+        
+        [HttpGet("ById/{id}")]
         public async Task<ActionResult<BudgetResponseDto>> GetBudgetById(int id)
         {
             if (id <= 0)
@@ -42,8 +42,8 @@ namespace PresupuestitoBack.Controllers
             var budget = await budgetService.GetBudgetById(id);
             return(Ok(budget));
         }
-        */
-        [HttpGet("{ClientId}")]
+        
+        [HttpGet("ByClient/{ClientId}")]
         public async Task<ActionResult<List<BudgetResponseDto>>> GetBudgetsByClientId(int ClientId)
         {
             if (ClientId <= 0)
