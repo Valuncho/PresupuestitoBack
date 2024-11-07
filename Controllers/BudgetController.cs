@@ -31,7 +31,7 @@ namespace PresupuestitoBack.Controllers
             }
             await budgetService.UpdateBudget(id, budgetRequestDto);
         }
-        
+
         [HttpGet("ById/{id}")]
         public async Task<ActionResult<BudgetResponseDto>> GetBudgetById(int id)
         {
@@ -40,9 +40,9 @@ namespace PresupuestitoBack.Controllers
                 throw new Exception("Id invalido");
             }
             var budget = await budgetService.GetBudgetById(id);
-            return(Ok(budget));
+            return (Ok(budget));
         }
-        
+
         [HttpGet("ByClient/{ClientId}")]
         public async Task<ActionResult<List<BudgetResponseDto>>> GetBudgetsByClientId(int ClientId)
         {
@@ -67,6 +67,16 @@ namespace PresupuestitoBack.Controllers
                 throw new Exception("Id invalido");
             }
             await budgetService.DeleteBudget(id);
+        }
+
+        [HttpGet("/CalculatePrice{BudgetId}")]
+        public async Task<decimal> CalculateBudgetPrice(int BudgetId)
+        {
+            if (BudgetId <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            return await budgetService.CalculateTotalPriceBudget(BudgetId);
         }
 
     }
