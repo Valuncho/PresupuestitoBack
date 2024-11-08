@@ -36,7 +36,8 @@ namespace PresupuestitoBack.Repositories
                 .Where(invoice => invoice.Status == true && invoice.InvoiceId == id)
                 .Include(invoice => invoice.OSupplier)
                 .Include(invoice => invoice.InvoiceItems.Where(item => item.Status == true))
-                    .ThenInclude(invoiceItem => invoiceItem.OMaterial)               
+                    .ThenInclude(invoiceItem => invoiceItem.OMaterial)   
+                .OrderByDescending(item => item.Date)
                 .FirstAsync();
         }
 

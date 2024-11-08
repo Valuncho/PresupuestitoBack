@@ -40,7 +40,6 @@ namespace PresupuestitoBack.Repositories
                                                 .ThenInclude(material => material.OSubcategoryMaterial)
                                                     .ThenInclude(subCategory => subCategory.OCategory)
                                         .OrderByDescending(budget => budget.DateCreated)
-                                            .OrderByDescending(work => work.DateCreated)
                                         .FirstAsync();
         }
 
@@ -54,7 +53,6 @@ namespace PresupuestitoBack.Repositories
                                                 .ThenInclude(material => material.OSubcategoryMaterial)
                                                     .ThenInclude(subCategory => subCategory.OCategory)
                                         .OrderByDescending(work => work.DateCreated)
-                                            .OrderByDescending(work => work.DateCreated)
                                         .ToListAsync();
         }
 
@@ -68,7 +66,6 @@ namespace PresupuestitoBack.Repositories
                                                 .ThenInclude(material => material.OSubcategoryMaterial)
                                                     .ThenInclude(subCategory => subCategory.OCategory)
                                         .OrderByDescending(work => work.DateCreated)
-                                            .OrderByDescending(work => work.DateCreated)
                                         .ToListAsync();
         }
 
