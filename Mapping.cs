@@ -48,12 +48,14 @@ namespace PresupuestitoBack
             CreateMap<FixedCostRequestDto, FixedCost>().ReverseMap();
 
             // Invoice
-            CreateMap<Invoice, InvoiceResponseDto>().ReverseMap()
-                .ForMember(dest => dest.SupplierId, opt => opt.MapFrom(src => src.OSupplier));
+            CreateMap<Invoice, InvoiceResponseDto>()
+                .ForMember(dest => dest.OSupplier, opt => opt.MapFrom(src => src.OSupplier))
+                .ForMember(dest => dest.OInvoiceItems, opt => opt.MapFrom(src => src.InvoiceItems));
             CreateMap<InvoiceRequestDto, Invoice>().ReverseMap();
 
             // InvoiceItem
-            CreateMap<InvoiceItem, InvoiceItemResponseDto>().ReverseMap();
+            CreateMap<InvoiceItem, InvoiceItemResponseDto>()
+                .ForMember(dest => dest.OMaterial, opt => opt.MapFrom(src => src.OMaterial));
             CreateMap<InvoiceItemRequestDto, InvoiceItem>().ReverseMap();
 
             // Material
