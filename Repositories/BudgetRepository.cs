@@ -35,10 +35,11 @@ namespace PresupuestitoBack.Repositories
             return await context.Budgets.Where(budget => budget.Status == true && budget.BudgetId == id)
                                         .Include(budget => budget.Oclient)
                                         .Include(budget => budget.Works.Where(work => work.Status == true))
-                                        .ThenInclude(work => work.OMaterials.Where(material => material.Status == true))
-                                        .ThenInclude(work => work.OMaterial)
-                                        .ThenInclude(material => material.OSubcategoryMaterial)
-                                        .ThenInclude(subCategory => subCategory.OCategory)
+                                            .ThenInclude(work => work.OMaterials.Where(material => material.Status == true))
+                                            .ThenInclude(work => work.OMaterial)
+                                                .ThenInclude(material => material.OSubcategoryMaterial)
+                                                    .ThenInclude(subCategory => subCategory.OCategory)
+                                        .OrderByDescending(budget => budget.DateCreated)
                                         .FirstAsync();
         }
 
@@ -47,10 +48,11 @@ namespace PresupuestitoBack.Repositories
             return await context.Budgets.Where(o => o.Status == true)
                                         .Include(budget => budget.Oclient)
                                         .Include(budget => budget.Works.Where(work => work.Status == true))
-                                        .ThenInclude(work => work.OMaterials.Where(material => material.Status == true))
-                                        .ThenInclude(work => work.OMaterial)
-                                        .ThenInclude(material => material.OSubcategoryMaterial)
-                                        .ThenInclude(subCategory => subCategory.OCategory)
+                                            .ThenInclude(work => work.OMaterials.Where(material => material.Status == true))
+                                            .ThenInclude(work => work.OMaterial)
+                                                .ThenInclude(material => material.OSubcategoryMaterial)
+                                                    .ThenInclude(subCategory => subCategory.OCategory)
+                                        .OrderByDescending(work => work.DateCreated)
                                         .ToListAsync();
         }
 
@@ -59,10 +61,11 @@ namespace PresupuestitoBack.Repositories
             return await context.Budgets.Where(budget => budget.Status == true && budget.ClientId == ClientId)
                                         .Include(budget => budget.Oclient)
                                         .Include(budget => budget.Works.Where(work => work.Status == true))
-                                        .ThenInclude(work => work.OMaterials.Where(material => material.Status == true))
-                                        .ThenInclude(work => work.OMaterial)
-                                        .ThenInclude(material => material.OSubcategoryMaterial)
-                                        .ThenInclude(subCategory => subCategory.OCategory)
+                                            .ThenInclude(work => work.OMaterials.Where(material => material.Status == true))
+                                            .ThenInclude(work => work.OMaterial)
+                                                .ThenInclude(material => material.OSubcategoryMaterial)
+                                                    .ThenInclude(subCategory => subCategory.OCategory)
+                                        .OrderByDescending(work => work.DateCreated)
                                         .ToListAsync();
         }
 

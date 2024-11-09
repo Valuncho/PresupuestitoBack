@@ -50,6 +50,7 @@ namespace PresupuestitoBack.Services
             }
             else
             {
+                await CalculateTotalWorkPrice(id);
                 return mapper.Map<WorkResponseDto>(work);
             }
         }
@@ -63,6 +64,10 @@ namespace PresupuestitoBack.Services
             }
             else
             {
+                foreach (var work in works)
+                {
+                    await CalculateTotalWorkPrice(work.WorkId);
+                }
                 return mapper.Map<List<WorkResponseDto>>(works);
             }
         }
@@ -91,6 +96,8 @@ namespace PresupuestitoBack.Services
                 decimal MaterialQuantity = item.Quantity;
                 WorkPrice += await materialService.CalculateSubTotal(MaterialId, MaterialQuantity);
             }
+            work.CostPrice = WorkPrice;
+            await workRepository.Update(work);
             return WorkPrice;
         }
         
