@@ -30,10 +30,10 @@ namespace PresupuestitoBack.Repositories
             return true;
         }
 
-        public override async Task<Category> GetById(int id)
+        public override async Task<Category?> GetById(int id)
         {
             return await context.Categories.Where(category => category.Status == true && category.CategoryId == id)
-                                           .FirstAsync();
+                                           .FirstOrDefaultAsync();
         }
 
         public override async Task<List<Category>> GetAll(Expression<Func<Category, bool>>? filter = null)

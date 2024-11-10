@@ -30,7 +30,7 @@ namespace PresupuestitoBack.Repositories
             return true;
         }
 
-        public override async Task<Budget> GetById(int id)
+        public override async Task<Budget?> GetById(int id)
         {
             return await context.Budgets.Where(budget => budget.Status == true && budget.BudgetId == id)
                                         .Include(budget => budget.Oclient)
@@ -40,7 +40,7 @@ namespace PresupuestitoBack.Repositories
                                                 .ThenInclude(material => material.OSubcategoryMaterial)
                                                     .ThenInclude(subCategory => subCategory.OCategory)
                                         .OrderByDescending(budget => budget.DateCreated)
-                                        .FirstAsync();
+                                        .FirstOrDefaultAsync();
         }
 
         public override async Task<List<Budget>> GetAll(Expression<Func<Budget, bool>>? filter = null)

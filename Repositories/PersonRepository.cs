@@ -30,10 +30,11 @@ namespace PresupuestitoBack.Repositories
             return true;
         }
 
-        public override async Task<Person> GetById(int id)
+        public override async Task<Person?> GetById(int id)
         {
             return await context.People
-                     .Where(p => p.Status == true && p.PersonId == id).FirstAsync();
+                                     .Where(p => p.Status == true && p.PersonId == id)
+                                     .FirstOrDefaultAsync();
         }
 
         public override async Task<List<Person>> GetAll(Expression<Func<Person, bool>>? filter = null)
@@ -41,7 +42,7 @@ namespace PresupuestitoBack.Repositories
             return await base.GetAll(filter);
         }
 
-        public async Task<Person> GetById2()
+        public async Task<Person?> GetById2()
         {
             return await context.People
                 .Where(p => p.Status == true)

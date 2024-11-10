@@ -18,7 +18,7 @@ namespace PresupuestitoBack.Services
             this.mapper = mapper;
         }
 
-        public async Task <Person> CreatePerson(PersonRequestDto personRequestDto)
+        public async Task<Person> CreatePerson(PersonRequestDto personRequestDto)
         {
             var person = mapper.Map<Person>(personRequestDto);
             person.Status = true;
