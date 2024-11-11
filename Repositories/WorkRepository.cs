@@ -38,7 +38,7 @@ namespace PresupuestitoBack.Repositories
                                       .ThenInclude(items => items.OMaterial)
                                         .ThenInclude(material => material.OSubcategoryMaterial)
                                             .ThenInclude(subCategory => subCategory.OCategory)
-                                      .FirstAsync();
+                                      .FirstOrDefaultAsync();
         }
 
         public override async Task<List<Work>> GetAll(Expression<Func<Work, bool>>? filter = null)

@@ -46,8 +46,7 @@ namespace PresupuestitoBack.Services
         public async Task<ActionResult<InvoiceResponseDto>> GetInvoiceById(int id)
         {
             var invoice = await invoiceRepository.GetById(id);
-            
-                return mapper.Map<InvoiceResponseDto>(invoice);
+            return mapper.Map<InvoiceResponseDto>(invoice);
             
         }
 

@@ -42,14 +42,7 @@ namespace PresupuestitoBack.Services
         public async Task<ActionResult<InvoiceItemResponseDto>> GetInvoiceItemById(int id)
         {
             var invoiceItem = await invoiceItemRepository.GetById(id);
-            if (invoiceItem == null)
-            {
-                throw new KeyNotFoundException("El ítem de factura no fue encontrado.");
-            }
-            else
-            {
-                return mapper.Map<InvoiceItemResponseDto>(invoiceItem);
-            }
+            return mapper.Map<InvoiceItemResponseDto>(invoiceItem);
         }
 
         public async Task<ActionResult<List<InvoiceItemResponseDto>>> GetAllInvoiceItems()

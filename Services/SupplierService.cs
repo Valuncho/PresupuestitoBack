@@ -49,14 +49,7 @@ namespace PresupuestitoBack.Services
         public async Task<ActionResult<SupplierResponseDto>> GetSupplierById(int id)
         {
             var supplier = await supplierRepository.GetById(id);
-            if (supplier == null)
-            {
-                throw new KeyNotFoundException("El proveedor no fue encontrado.");
-            }
-            else
-            {
-                return mapper.Map<SupplierResponseDto>(supplier);
-            }
+            return mapper.Map<SupplierResponseDto>(supplier);
         }
 
         public async Task<ActionResult<List<SupplierResponseDto>>> GetAllSuppliers()

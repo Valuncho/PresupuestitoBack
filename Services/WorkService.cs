@@ -44,15 +44,7 @@ namespace PresupuestitoBack.Services
         public async Task<ActionResult<WorkResponseDto>> GetWorkById(int id)
         {
             var work = await workRepository.GetById(id);
-            if (work == null)
-            {
-                throw new KeyNotFoundException("El trabajo no fue encontrado.");
-            }
-            else
-            {
-                await CalculateTotalWorkPrice(id);
-                return mapper.Map<WorkResponseDto>(work);
-            }
+            return mapper.Map<WorkResponseDto>(work);
         }
 
         public async Task<ActionResult<List<WorkResponseDto>>> GetAllWorks()
