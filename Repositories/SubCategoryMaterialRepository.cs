@@ -30,16 +30,18 @@ namespace PresupuestitoBack.Repositories
             return true;
         }
 
-        public override async Task<SubCategoryMaterial> GetById(int id)
+        public override async Task<SubCategoryMaterial?> GetById(int id)
         {
-            return await context.SubCategoryMaterials.Where(subCategory => subCategory.Status == true && subCategory.SubCategoryMaterialId == id)
+            return await context.SubCategoryMaterials
+                                                     .Where(subCategory => subCategory.Status == true && subCategory.SubCategoryMaterialId == id)
                                                      .Include(subCategory => subCategory.OCategory)
-                                                     .FirstAsync();
+                                                     .FirstOrDefaultAsync();
         }
 
         public override async Task<List<SubCategoryMaterial>> GetAll(Expression<Func<SubCategoryMaterial, bool>>? filter = null)
         {
-            return await context.SubCategoryMaterials.Where(subCategory => subCategory.Status == true)
+            return await context.SubCategoryMaterials
+                                                     .Where(subCategory => subCategory.Status == true)
                                                      .Include(subCategory => subCategory.OCategory)
                                                      .ToListAsync();
         }

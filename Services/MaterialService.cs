@@ -42,14 +42,7 @@ namespace PresupuestitoBack.Services
         public async Task<ActionResult<MaterialResponseDto>> GetMaterialById(int id)
         {
             var material = await materialRepository.GetById(id);
-            if (material == null)
-            {
-                throw new KeyNotFoundException("El material no fue encontrado.");
-            }
-            else
-            {
-                return mapper.Map<MaterialResponseDto>(material);
-            }
+            return mapper.Map<MaterialResponseDto>(material);
         }
 
         public async Task<ActionResult<List<MaterialResponseDto>>> GetAllMaterials()

@@ -46,14 +46,8 @@ namespace PresupuestitoBack.Services
         public async Task<ActionResult<BudgetResponseDto>> GetBudgetById(int id)
         {
             var budget = await budgetRepository.GetById(id);
-            if(budget == null)
-            {
-                throw new KeyNotFoundException("El presupuesto no fue encontrado");
-            }
-            else
-            {
-                return mapper.Map<BudgetResponseDto>(budget);   
-            }
+            return mapper.Map<BudgetResponseDto>(budget);   
+            
         }
 
         public async Task<ActionResult<List<BudgetResponseDto>>> GetBudgetsByClientId(int ClientId)

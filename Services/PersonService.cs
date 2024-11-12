@@ -18,7 +18,7 @@ namespace PresupuestitoBack.Services
             this.mapper = mapper;
         }
 
-        public async Task <Person> CreatePerson(PersonRequestDto personRequestDto)
+        public async Task<Person> CreatePerson(PersonRequestDto personRequestDto)
         {
             var person = mapper.Map<Person>(personRequestDto);
             person.Status = true;
@@ -43,14 +43,7 @@ namespace PresupuestitoBack.Services
         public async Task<ActionResult<PersonResponseDto>> GetPersonById(int id)
         {
             var person = await personRepository.GetById(id);
-            if (person == null)
-            {
-                throw new KeyNotFoundException("La persona no fue encontrada.");
-            }
-            else
-            {
-                return mapper.Map<PersonResponseDto>(person);
-            }
+            return mapper.Map<PersonResponseDto>(person);
         }
 
         public async Task<ActionResult<List<PersonResponseDto>>> GetAllPersons()

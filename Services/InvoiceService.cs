@@ -12,11 +12,13 @@ namespace PresupuestitoBack.Services
     {
         private readonly IInvoiceRepository invoiceRepository;
         private readonly IMapper mapper;
+        private readonly InvoiceItemService invoiceItemService;
 
-        public InvoiceService(IInvoiceRepository invoiceRepository, IMapper mapper)
+        public InvoiceService(IInvoiceRepository invoiceRepository, IMapper mapper, InvoiceItemService invoiceItemService)
         {
             this.invoiceRepository = invoiceRepository;
             this.mapper = mapper;
+            this.invoiceItemService = invoiceItemService;
         }
 
         public async Task CreateInvoice(InvoiceRequestDto invoiceRequestDto)
@@ -44,14 +46,8 @@ namespace PresupuestitoBack.Services
         public async Task<ActionResult<InvoiceResponseDto>> GetInvoiceById(int id)
         {
             var invoice = await invoiceRepository.GetById(id);
-            if (invoice == null)
-            {
-                throw new KeyNotFoundException("La factura no fue encontrada.");
-            }
-            else
-            {
-                return mapper.Map<InvoiceResponseDto>(invoice);
-            }
+            return mapper.Map<InvoiceResponseDto>(invoice);
+            
         }
 
         public async Task<ActionResult<List<InvoiceResponseDto>>> GetAllInvoices()
@@ -83,12 +79,11 @@ namespace PresupuestitoBack.Services
 
         public async Task<ActionResult<List<InvoiceResponseDto>>> GetInvoicesBySupplierId(int SupplierId)
         {
-            var invoice = await invoiceRepository.GetById(SupplierId);
-            if (invoice == null)
+            var invoices = await invoiceRepository.GetInvoicesBySupplierId(SupplierId);
+            if (invoices == null)
             {
                 throw new KeyNotFoundException("La factura no fue encontrada.");
             }
-            var invoices = await invoiceRepository.GetInvoicesBySupplierId(SupplierId);
             return mapper.Map<List<InvoiceResponseDto>>(invoices);
         }
 

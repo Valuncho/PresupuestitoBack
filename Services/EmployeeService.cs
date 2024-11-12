@@ -48,14 +48,7 @@ namespace PresupuestitoBack.Services
         public async Task<ActionResult<EmployeeResponseDto>> GetEmployeeById(int id)
         {
             var employee = await employeeRepository.GetById(id);
-            if(employee == null)
-            {
-                throw new KeyNotFoundException("El empleado no existe");
-            }
-            else
-            {
-                return mapper.Map<EmployeeResponseDto>(employee);
-            }           
+            return mapper.Map<EmployeeResponseDto>(employee);
         }
 
         public async Task<ActionResult<List<EmployeeResponseDto>>> GetAllEmployees()

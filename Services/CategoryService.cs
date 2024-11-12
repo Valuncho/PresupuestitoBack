@@ -42,14 +42,7 @@ namespace PresupuestitoBack.Services
         public async Task<ActionResult<CategoryResponseDto>> GetCategoryById(int id)
         {
             var category = await categoryRepository.GetById(id);
-            if (category == null)
-            {
-                throw new KeyNotFoundException("La categoria no fue encontrada.");
-            }
-            else
-            {
-                return mapper.Map<CategoryResponseDto>(category);
-            }           
+            return mapper.Map<CategoryResponseDto>(category);
         }
 
         public async Task<ActionResult<List<CategoryResponseDto>>> GetAllCategories()

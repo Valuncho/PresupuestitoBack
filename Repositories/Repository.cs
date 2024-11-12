@@ -85,7 +85,7 @@ namespace PresupuestitoBack.Repositories
 
 
 
-        public async virtual Task<T> GetById(int id)
+        public async virtual Task<T?> GetById(int id)
         {
             return await dbSet.FindAsync(id);
         }

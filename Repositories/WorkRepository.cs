@@ -30,14 +30,15 @@ namespace PresupuestitoBack.Repositories
             return true;
         }
 
-        public override async Task<Work> GetById(int id)
+        public override async Task<Work?> GetById(int id)
         {
-            return await context.Works.Where(work => work.Status == true && work.WorkId == id)
+            return await context.Works
+                                      .Where(work => work.Status == true && work.WorkId == id)
                                       .Include(work => work.OMaterials.Where(material => material.Status == true))
                                       .ThenInclude(items => items.OMaterial)
-                                      .ThenInclude(material => material.OSubcategoryMaterial)
-                                      .ThenInclude(subCategory => subCategory.OCategory)
-                                      .FirstAsync();
+                                        .ThenInclude(material => material.OSubcategoryMaterial)
+                                            .ThenInclude(subCategory => subCategory.OCategory)
+                                      .FirstOrDefaultAsync();
         }
 
         public override async Task<List<Work>> GetAll(Expression<Func<Work, bool>>? filter = null)
@@ -45,8 +46,8 @@ namespace PresupuestitoBack.Repositories
             return await context.Works.Where(work => work.Status == true)
                                       .Include(work => work.OMaterials.Where(material => material.Status == true))
                                       .ThenInclude(items => items.OMaterial)
-                                      .ThenInclude(material => material.OSubcategoryMaterial)
-                                      .ThenInclude(subCategory => subCategory.OCategory)
+                                        .ThenInclude(material => material.OSubcategoryMaterial)
+                                             .ThenInclude(subCategory => subCategory.OCategory)
                                       .ToListAsync();
         }
 

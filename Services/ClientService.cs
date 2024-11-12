@@ -54,14 +54,7 @@ namespace PresupuestitoBack.Services
         public async Task<ActionResult<ClientResponseDto>> GetClientById(int id)
         {
             var client = await clientRepository.GetById(id);
-            if (client == null)
-            {
-                throw new KeyNotFoundException("El cliente no fue encontrado.");
-            }
-            else
-            {
-                return mapper.Map<ClientResponseDto>(client);
-            }
+            return mapper.Map<ClientResponseDto>(client);
         }
 
         public async Task<ActionResult<List<ClientResponseDto>>> GetAllClients()

@@ -42,14 +42,7 @@ namespace PresupuestitoBack.Services
         public async Task<ActionResult<ItemResponseDto>> GetItemById(int id)
         {
             var item = await itemRepository.GetById(id);
-            if (item == null)
-            {
-                throw new KeyNotFoundException("El ítem no fue encontrado.");
-            }
-            else
-            {
-                return mapper.Map<ItemResponseDto>(item);
-            }
+            return mapper.Map<ItemResponseDto>(item);
         }
 
         public async Task<ActionResult<List<ItemResponseDto>>> GetAllItems()
