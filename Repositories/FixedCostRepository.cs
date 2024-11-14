@@ -30,9 +30,9 @@ namespace PresupuestitoBack.Repositories
             return true;
         }
 
-        public override async Task<FixedCost> GetById(int id)
+        public override async Task<FixedCost?> GetById(int id)
         {
-            return await context.FixedCosts.FirstAsync();
+            return await context.FixedCosts.FirstOrDefaultAsync();
         }
 
         public override async Task<List<FixedCost>> GetAll(Expression<Func<FixedCost, bool>>? filter = null)

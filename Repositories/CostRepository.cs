@@ -31,9 +31,9 @@ namespace PresupuestitoBack.Repositories
         }
 
 
-        public override async Task<Cost> GetById(int id)
+        public override async Task<Cost?> GetById(int id)
         {
-            return await context.Costs.FirstAsync();
+            return await context.Costs.FirstOrDefaultAsync();
         }
 
         public override async Task<List<Cost>> GetAll(Expression<Func<Cost, bool>>? filter = null)

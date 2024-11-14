@@ -30,17 +30,20 @@ namespace PresupuestitoBack.Repositories
             return true;
         }
 
-        public override async Task<Client> GetById(int id)
+        public override async Task<Client?> GetById(int id)
         {
-            return await context.Clients.Include(o => o.OPerson)
-                .Where(o => o.Status == true && o.ClientId == id).FirstAsync();
+            return await context.Clients
+                                        .Include(client => client.OPerson)
+                                        .Where(client => client.Status == true && client.ClientId == id)
+                                        .FirstOrDefaultAsync();
         }
 
         public override async Task<List<Client>> GetAll(Expression<Func<Client, bool>>? filter = null)
         {
-            return await context.Clients.Include(c => c.OPerson) // Incluir la entidad Person
-                .Where(o => o.Status == true)
-                .ToListAsync();
+            return await context.Clients
+                                        .Include(client => client.OPerson) 
+                                        .Where(client => client.Status == true)
+                                        .ToListAsync();
         }
 
     }

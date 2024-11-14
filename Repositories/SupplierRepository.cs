@@ -30,11 +30,12 @@ namespace PresupuestitoBack.Repositories
             return true;
         }
         
-        public override async Task<Supplier> GetById(int id)
+        public override async Task<Supplier?> GetById(int id)
         {
-            return await context.Suppliers.Where(supplier => supplier.Status == true && supplier.SupplierId == id)
+            return await context.Suppliers
+                                          .Where(supplier => supplier.Status == true && supplier.SupplierId == id)
                                           .Include(supplier => supplier.OPerson)
-                                          .FirstAsync();
+                                          .FirstOrDefaultAsync();
         }
 
         public override async Task<List<Supplier>> GetAll(Expression<Func<Supplier, bool>>? filter = null)
