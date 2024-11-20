@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace PresupuestitoBack.Models
 {
@@ -7,22 +8,22 @@ namespace PresupuestitoBack.Models
     public class Category
     {
         [Key]
-        [Column(TypeName = "INT")]
+        [Column("CategoryId",TypeName = "INT")]
         public int CategoryId { get; set; }
 
-
         [Required]
-        [Column(TypeName = "VARCHAR(100)")]
+        [Column(TypeName = "NVARCHAR(100)")]
         public string CategoryName { get; set; }
 
-
         [Required]
-        [Column(TypeName = "VARCHAR(100)")]
-        public string CategoryModel { get; set; }
+        [Column(TypeName = "bit")]
+        private bool _Status; 
+        public bool Status
+        {
+            get => _Status;  
+            set { _Status = value; }  
+        }
 
-        [Required]
-        [Column(TypeName = "Bool")]
-        public bool status { get; set; }
-
+        public virtual ICollection<SubCategoryMaterial> SubCategories { get; set; } 
     }
 }

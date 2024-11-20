@@ -1,89 +1,83 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using PresupuestitoBack.DTOs;
-using PresupuestitoBack.Models;
-using PresupuestitoBack.Repositories;
+﻿using Microsoft.AspNetCore.Mvc;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("api/Budget")]
     public class BudgetController : ControllerBase
     {
-
-
         private readonly BudgetService budgetService;
-
 
         public BudgetController(BudgetService budgetService)
         {
             this.budgetService = budgetService;
-
         }
 
-        [HttpGet("getAll")]
-        public async Task<ActionResult<List<BudgetDto>>> GetBudgets()
+        [HttpPost]
+        public async Task CreateBudget([FromBody] BudgetRequestDto budgetRequestDto)
         {
-            var budgets = await budgetService.GetAllAsync();
-            return Ok(budgets);
+            await budgetService.CreateBudget(budgetRequestDto);
         }
 
-
-        [HttpPost("new")]
-        public async Task<ActionResult> SaveBudget(BudgetDto budgetDto)
+        [HttpPut("{id}")]
+        public async Task UpdateBudget(int id, [FromBody] BudgetRequestDto budgetRequestDto)
         {
-            var result = await budgetService.SaveAsync(budgetDto);
-            if (result)
+            if (id <= 0)
             {
-                return Ok("Budget guardado exitosamente.");
+                throw new Exception("Id invalido");
             }
-            return BadRequest("No se pudo guardar el Budget.");
+            await budgetService.UpdateBudget(id, budgetRequestDto);
         }
 
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<BudgetDto>> GetBudgetById(int id)
+        [HttpGet("ById/{id}")]
+        public async Task<ActionResult<BudgetResponseDto>> GetBudgetById(int id)
         {
-            var budget = await budgetService.GetByIdAsync(id);
-            if (budget == null)
+            if (id <= 0)
             {
-                return NotFound();
+                throw new Exception("Id invalido");
             }
-
-            return Ok(budget);
+            var budget = await budgetService.GetBudgetById(id);
+            return (Ok(budget));
         }
 
-
-        [HttpPut("update/{id}")]
-        public async Task<ActionResult> UpdateBudgetById(int id, BudgetDto requestDto)
+        [HttpGet("ByClient/{ClientId}")]
+        public async Task<ActionResult<List<BudgetResponseDto>>> GetBudgetsByClientId(int ClientId)
         {
-            requestDto.IdBudget = id; // Ensure the ID is set correctly for updating
-            var result = await budgetService.UpdateAsync(requestDto);
-            if (result)
+            if (ClientId <= 0)
             {
-                return Ok("Budget actualizado exitosamente.");
+                throw new Exception("Id invalido");
             }
-            return BadRequest("No se pudo actualizar el Budget.");
+            return await budgetService.GetBudgetsByClientId(ClientId);
         }
 
-
-        [HttpDelete("delete/{id}")]
-        public async Task<ActionResult> DeleteBudgetById(int id)
+        [HttpGet]
+        public async Task<ActionResult<List<BudgetResponseDto>>> GetBudgets()
         {
-            try
-            {
-                var result = await budgetService.DeleteAsync(id);
-                if (result)
-                {
-                    return Ok("Registro eliminado :)");
-                }
-                return BadRequest("No se pudo eliminar el registro.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"No se pudo eliminar el registro. El error es: {ex.Message}");
-            }
+            return await budgetService.GetAllBudgets();
         }
+
+        [HttpPatch("{id}")]
+        public async Task DeleteBudget(int id)
+        {
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            await budgetService.DeleteBudget(id);
+        }
+
+        [HttpGet("CalculatePrice/{BudgetId}")]
+        public async Task<decimal> CalculateBudgetPrice(int BudgetId)
+        {
+            if (BudgetId <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            return await budgetService.CalculateTotalPriceBudget(BudgetId);
+        }
+
     }
 }

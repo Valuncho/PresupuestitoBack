@@ -7,17 +7,24 @@ namespace PresupuestitoBack.Models
     public class ClientHistory
     {
         [Key]
-        [Column(TypeName = "INT")]
-        public int IdClientHistory { get; set; }
+        [Column("ClientHistoryId",TypeName = "INT")]
+        public int ClientHistoryId { get; set; }
 
+        [Required]
+        [ForeignKey("ClientId")]
+        public int ClientId { get; set; } 
+        public virtual Client Oclient { get; set; } 
 
-        public int IdClient { get; set; }
-        [ForeignKey("IdClient")]
-        public Person OClient { get; set; }
+        public virtual ICollection<Budget> Budgets { get; set; }
 
-
-        //List Budgets
-        public ICollection<Budget> Budgets { get; set; }
+        [Required]
+        [Column(TypeName = "bit")]
+        private bool _Status;
+        public bool Status
+        {
+            get => _Status;
+            set { _Status = value; }
+        }
 
     }
 }

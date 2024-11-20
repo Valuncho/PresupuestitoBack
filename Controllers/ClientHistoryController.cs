@@ -1,89 +1,63 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using PresupuestitoBack.DTOs;
-using PresupuestitoBack.Models;
-using PresupuestitoBack.Repositories;
+﻿using Microsoft.AspNetCore.Mvc;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("api/clienteHistory")]
     public class ClientHistoryController : ControllerBase
     {
-
-
         private readonly ClientHistoryService clientHistoryService;
-
 
         public ClientHistoryController(ClientHistoryService clientHistoryService)
         {
             this.clientHistoryService = clientHistoryService;
-
         }
-
-        [HttpGet("getAll")]
-        public async Task<ActionResult<List<ClientHistoryDto>>> GetClientesHistorys()
+        /*
+        [HttpPost]
+        public async Task CreateClientHistory([FromBody] ClientHistoryRequestDto clientHistoryRequestDto)
         {
-            var clientsHistorys = await clientHistoryService.GetAllAsync();
-            return Ok(clientsHistorys);
+            await clientHistoryService.CreateClientHistory(clientHistoryRequestDto);
         }
-
-
-        [HttpPost("new")]
-        public async Task<ActionResult> SaveClienteHistory(ClientHistoryDto clienteHistoryDto)
+        */
+        [HttpPut("{id}")]
+        public async Task UpdateClientHistory(int id, [FromBody] ClientHistoryRequestDto clientHistoryRequestDto)
         {
-            var result = await clientHistoryService.SaveAsync(clienteHistoryDto);
-            if (result)
+            if (id <= 0)
             {
-                return Ok("ClienteHistory guardado exitosamente.");
+                throw new Exception("Id invalido");
             }
-            return BadRequest("No se pudo guardar el clienteHistory.");
+            await clientHistoryService.UpdateClientHistory(id, clientHistoryRequestDto);
         }
-
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ClientHistoryDto>> GetClienteHistoryById(int id)
+        public async Task<ActionResult<ClientHistoryResponseDto>> GetClientHistoryById(int id)
         {
-            var clientHistory = await clientHistoryService.GetByIdAsync(id);
-            if (clientHistory == null)
+            if (id <= 0)
             {
-                return NotFound();
+                throw new Exception("Id invalido");
             }
-
+            var clientHistory = await clientHistoryService.GetClientHistoryById(id);
             return Ok(clientHistory);
         }
 
-
-        [HttpPut("update/{id}")]
-        public async Task<ActionResult> UpdateClienteHistoryById(int id, ClientHistoryDto requestDto)
+        [HttpGet]
+        public async Task<ActionResult<List<ClientHistoryResponseDto>>> GetAllClientHistories()
         {
-            requestDto.IdClientHistory = id; // Ensure the ID is set correctly for updating
-            var result = await clientHistoryService.UpdateAsync(requestDto);
-            if (result)
-            {
-                return Ok("Cliente History actualizado exitosamente.");
-            }
-            return BadRequest("No se pudo actualizar el cliente History.");
+            return await clientHistoryService.GetAllClientHistories();
         }
 
-
-        [HttpDelete("delete/{id}")]
-        public async Task<ActionResult> DeleteClienteHistoryById(int id)
+        [HttpPatch("{id}")]
+        public async Task DeleteClientHistory(int id)
         {
-            try
+            if (id <= 0)
             {
-                var result = await clientHistoryService.DeleteAsync(id);
-                if (result)
-                {
-                    return Ok("Registro eliminado :)");
-                }
-                return BadRequest("No se pudo eliminar el registro.");
+                throw new Exception("Id invalido");
             }
-            catch (Exception ex)
-            {
-                return BadRequest($"No se pudo eliminar el registro. El error es: {ex.Message}");
-            }
+            await clientHistoryService.DeleteClientHistory(id);
         }
+
     }
 }

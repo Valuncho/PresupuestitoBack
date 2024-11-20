@@ -7,11 +7,8 @@ namespace PresupuestitoBack.Models
     public class EmployeeHistory
     {
         [Key]
-        [Column("IdEmployeeHistory", TypeName = "INT")]
-        public int IdEmployeeHistory { get; set; }
-
-        [ForeignKey("IdEmployee")]
-        public Employee OEmployee { get; set; }
+        [Column("EmployeeHistoryId",TypeName = "INT")]
+        public int EmployeeHistoryId { get; set; }
 
         [Required]
         [Column(TypeName = "DECIMAL(18, 2)")]
@@ -20,5 +17,20 @@ namespace PresupuestitoBack.Models
         [Required]
         [Column(TypeName = "DATETIME")]
         public DateTime Date { get; set; }
+
+        [Required]
+        [Column(TypeName = "bit")]
+        private bool _Status;
+        public bool Status
+        {
+            get => _Status;
+            set { _Status = value; }
+        }
+
+        // Relación con Employee
+        [Required]
+        [ForeignKey("EmployeeId")]
+        public int EmployeeId { get; set; } // Clave foránea
+        public virtual Employee OEmployee { get; set; } // Propiedad de navegación
     }
 }

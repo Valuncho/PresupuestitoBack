@@ -9,30 +9,34 @@ namespace PresupuestitoBack.Models
     {
         
         [Key]
-        [Column(TypeName = "INT")]
-        public int IdInvoice { get; set; }
+        [Column("InvoiceId",TypeName = "INT")]
+        public int InvoiceId { get; set; }
 
         [Required]
         [Column(TypeName = "DATE")]
         public DateTime Date { get; set; }
 
-
-        [Required]
         [Column(TypeName = "BIT")]
         public bool IsPaid { get; set; }
 
+        // Relación con SupplierHistory
         [Required]
-        public int IdSupplierHistory { get; set; }
-        [ForeignKey("IdSupplierHistory")]
-        public SupplierHistory OSupplierHistory { get; set; }
+        [ForeignKey("SupplierId")]
+        public int SupplierId { get; set; } // Clave foránea
+        public virtual Supplier OSupplier { get; set; } // Propiedad de navegación
 
+        public virtual ICollection<Payment> Payments { get; set; }
 
-        //List Payments
-        public ICollection<Payment> Payments { get; set; }
+        public virtual ICollection<InvoiceItem> InvoiceItems { get; set; }
 
-
-        //List InvoiceItems
-        public ICollection<InvoiceItem> InvoiceItems { get; set; }
+        [Required]
+        [Column(TypeName = "bit")]
+        private bool _Status;
+        public bool Status
+        {
+            get => _Status;
+            set { _Status = value; }
+        }
 
 
 

@@ -1,41 +1,83 @@
-﻿using PresupuestitoBack.Models;
-using PresupuestitoBack.Repositories;
-using PresupuestitoBack.Repositories.IRepositories;
-using System.Linq.Expressions;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
+using PresupuestitoBack.Models;
+using PresupuestitoBack.Repositories.IRepository;
 
 namespace PresupuestitoBack.Services
 {
     public class PaymentService
     {
-        private readonly IPaymentRepository _paymentRepository;
+        private readonly IPaymentRepository paymentRepository;
+        private readonly IMapper mapper;
 
-        public PaymentService(IPaymentRepository paymentRepository)
+        public PaymentService(IPaymentRepository paymentRepository, IMapper mapper)
         {
-            _paymentRepository = paymentRepository;
-        }
-        public async Task<Payment> GetByIdAsync(int id)
-        {
-            return await _paymentRepository.GetById(c => c.IdPayment == id);
+            this.paymentRepository = paymentRepository;
+            this.mapper = mapper;
         }
 
-        public async Task<List<Payment>> GetAllAsync(Expression<Func<Payment, bool>>? filter = null)
+        public async Task CreatePayment(PaymentRequestDto paymentRequestDto)
         {
-            return await _paymentRepository.GetAll(filter);
+            var payment = mapper.Map<Payment>(paymentRequestDto);
+            payment.Status = true;
+            await paymentRepository.Insert(payment);
         }
 
-        public async Task<bool> DeleteAsync(int idPayment)
+        public async Task UpdatePayment(int id, PaymentRequestDto paymentRequestDto)
         {
-            return await _paymentRepository.Delete(idPayment);
+            var existingPayment = await paymentRepository.GetById(id);
+            if (existingPayment == null)
+            {
+                throw new Exception("El pago no existe");
+            }
+            else
+            {
+                mapper.Map(paymentRequestDto, existingPayment);
+                await paymentRepository.Update(existingPayment);
+            }
         }
 
-        public async Task<bool> SaveAsync(Payment payment)
+        public async Task<ActionResult<PaymentResponseDto>> GetPaymentById(int id)
         {
-            return await _paymentRepository.Insert(payment);
+            var payment = await paymentRepository.GetById(id);
+            if (payment == null)
+            {
+                throw new KeyNotFoundException("El pago no fue encontrado.");
+            }
+            else
+            {
+                return mapper.Map<PaymentResponseDto>(payment);
+            }
         }
 
-        public async Task<bool> UpdateAsync(Payment payment)
+        public async Task<ActionResult<List<PaymentResponseDto>>> GetAllPayments()
         {
-            return await _paymentRepository.Update(payment);
+            var payments = await paymentRepository.GetAll();
+            if (payments == null)
+            {
+                throw new Exception("Pagos no encontrados.");
+            }
+            else
+            {
+                return mapper.Map<List<PaymentResponseDto>>(payments);
+            }
         }
+
+        public async Task DeletePayment(int id)
+        {
+            var payment = await paymentRepository.GetById(id);
+            if (payment == null)
+            {
+                throw new KeyNotFoundException("El pago no fue encontrado.");
+            }
+            else
+            {
+                payment.Status = false;
+                await paymentRepository.Update(payment);
+            }
+        }
+
     }
 }

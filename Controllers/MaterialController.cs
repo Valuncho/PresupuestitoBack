@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using PresupuestitoBack.DTOs;
+﻿using Microsoft.AspNetCore.Mvc;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
@@ -9,7 +9,6 @@ namespace PresupuestitoBack.Controllers
     [ApiController]
     public class MaterialController : ControllerBase
     {
-
         private readonly MaterialService materialService;
 
         public MaterialController(MaterialService materialService)
@@ -18,27 +17,46 @@ namespace PresupuestitoBack.Controllers
         }
 
         [HttpPost]
-        public async Task createMaterial(MaterialDto materialDto)
+        public async Task CreateMaterial([FromBody] MaterialRequestDto materialRequestDto)
         {
-            await materialService.createMaterial(materialDto);
+            await materialService.CreateMaterial(materialRequestDto);
         }
 
         [HttpPut("{id}")]
-        public async Task updateMaterial(MaterialDto materialDto)
+        public async Task UpdateMaterial(int id, [FromBody] MaterialRequestDto materialRequestDto)
         {
-            await materialService.updateMaterial(materialDto);
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            await materialService.UpdateMaterial(id, materialRequestDto);
         }
 
         [HttpGet("{id}")]
-        public async Task<MaterialDto> getMaterialById(int id)
+        public async Task<ActionResult<MaterialResponseDto>> GetMaterialById(int id)
         {
-            return await materialService.getMaterialById(id);
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            var material = await materialService.GetMaterialById(id);
+            return Ok(material);
         }
 
         [HttpGet]
-        public async Task<List<MaterialDto>> getAllMaterial()
+        public async Task<ActionResult<List<MaterialResponseDto>>> GetAllMaterials()
         {
-            return await materialService.getMaterials();
+            return await materialService.GetAllMaterials();
+        }
+
+        [HttpPatch("{id}")]
+        public async Task DeleteMaterial(int id)
+        {
+            if (id <= 0)
+            {
+                throw new Exception("Id invalido");
+            }
+            await materialService.DeleteMaterial(id);
         }
 
     }

@@ -1,92 +1,63 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using PresupuestitoBack.DTOs;
-using PresupuestitoBack.Models;
-using PresupuestitoBack.Repositories;
+﻿using Microsoft.AspNetCore.Mvc;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Services;
 
 namespace PresupuestitoBack.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("api/payment")]
     public class PaymentController : ControllerBase
     {
-
-
         private readonly PaymentService paymentService;
-        private readonly IMapper mapper;
 
-        public PaymentController(PaymentService paymentService, IMapper mapper)
+        public PaymentController(PaymentService paymentService)
         {
             this.paymentService = paymentService;
-            this.mapper = mapper;
         }
 
-        [HttpGet("getAll")]
-        public async Task<ActionResult<List<PaymentDto>>> GetPayments()
+        [HttpPost]
+        public async Task CreatePayment([FromBody] PaymentRequestDto paymentRequestDto)
         {
-            var payments = await paymentService.GetAllAsync();
-            var paymentsDto = mapper.Map<List<PaymentDto>>(payments);
-            return Ok(paymentsDto);
+            await paymentService.CreatePayment(paymentRequestDto);
         }
 
-
-        [HttpPost("new")]
-        public async Task<ActionResult> SavePayment( PaymentDto paymentDto)
+        [HttpPut("{id}")]
+        public async Task UpdatePayment(int id, [FromBody] PaymentRequestDto paymentRequestDto)
         {
-            var payment = mapper.Map<Payment>(paymentDto);
-            var result = await paymentService.SaveAsync(payment);
-            if (result)
+            if (id <= 0)
             {
-                return Ok("Payment guardado exitosamente.");
+                throw new Exception("Id invalido");
             }
-            return BadRequest("No se pudo guardar el Payment.");
+            await paymentService.UpdatePayment(id, paymentRequestDto);
         }
-
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<PaymentDto>> GetPaymentById(int id)
+        public async Task<ActionResult<PaymentResponseDto>> GetPaymentById(int id)
         {
-            var payment = await paymentService.GetByIdAsync(id);
-            if (payment == null)
+            if (id <= 0)
             {
-                return NotFound();
+                throw new Exception("Id invalido");
             }
-            var paymentDto = mapper.Map<PaymentDto>(payment);
-            return Ok(paymentDto);
+            var payment = await paymentService.GetPaymentById(id);
+            return Ok(payment);
         }
 
-
-        [HttpPut("update/{id}")]
-        public async Task<ActionResult> UpdatePaymentById(int id, PaymentDto requestDto)
+        [HttpGet]
+        public async Task<ActionResult<List<PaymentResponseDto>>> GetAllPayments()
         {
-            var payment = mapper.Map<Payment>(requestDto);
-            payment.IdPayment = id; // Ensure the ID is set correctly for updating
-            var result = await paymentService.UpdateAsync(payment);
-            if (result)
-            {
-                return Ok("Payment actualizado exitosamente.");
-            }
-            return BadRequest("No se pudo actualizar el Payment.");
+            return await paymentService.GetAllPayments();
         }
 
-
-        [HttpDelete("delete/{id}")]
-        public async Task<ActionResult> DeletePaymentById(int id)
+        [HttpPatch("{id}")]
+        public async Task DeletePayment(int id)
         {
-            try
+            if (id <= 0)
             {
-                var result = await paymentService.DeleteAsync(id);
-                if (result)
-                {
-                    return Ok("Registro eliminado :)");
-                }
-                return BadRequest("No se pudo eliminar el registro.");
+                throw new Exception("Id invalido");
             }
-            catch (Exception ex)
-            {
-                return BadRequest($"No se pudo eliminar el registro. El error es: {ex.Message}");
-            }
+            await paymentService.DeletePayment(id);
         }
+
     }
 }

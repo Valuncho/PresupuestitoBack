@@ -7,24 +7,21 @@ namespace PresupuestitoBack.Models
     public class SupplierHistory
     {
         [Key]
-        [Column(TypeName = "INT")]
+        [Column("SupplierHistoryId",TypeName = "INT")]
         public int SupplierHistoryId { get; set; }
 
-
-        [Required]       
-        public int IdSupplier { get; set; }
-        [ForeignKey("IdSupplier")]
-        public Supplier OSupplier { get; set; }
-
-
         [Required]
-        public List<int> Invoices { get; set; }
-        [ForeignKey("List<IdInvoices>")]
-        public List<Invoice> OInvoices { get; set; }
+        [ForeignKey("SupplierId")]
+        public int SupplierId { get; set; } 
+        public virtual Supplier Osupplier { get; set; }
 
-        [Required]
-        [Column(TypeName = "Bool")]
-        public bool status { get; set; }
+        [Column(TypeName = ("bit"))]
+        private bool _Status;
+        public bool Status
+        {
+            get => _Status;
+            set { _Status = value; }
+        }
 
     } 
 }

@@ -1,51 +1,91 @@
 ﻿using AutoMapper;
-using PresupuestitoBack.DTOs;
+using Microsoft.AspNetCore.Mvc;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Models;
-using PresupuestitoBack.Repositories;
-using PresupuestitoBack.Repositories.IRepositories;
-using System.Linq.Expressions;
+using PresupuestitoBack.Repositories.IRepository;
+using System.Formats.Asn1;
 
 namespace PresupuestitoBack.Services
 {
     public class InvoiceService
     {
-        private readonly IInvoiceRepository _invoiceRepository;
-        private readonly Mapper _mapper;
+        private readonly IInvoiceRepository invoiceRepository;
+        private readonly IMapper mapper;
+        private readonly InvoiceItemService invoiceItemService;
 
-        public InvoiceService(IInvoiceRepository invoiceRepository, Mapper mapper)
+        public InvoiceService(IInvoiceRepository invoiceRepository, IMapper mapper, InvoiceItemService invoiceItemService)
         {
-            _invoiceRepository = invoiceRepository;
-            _mapper = mapper;
-        }
-        public async Task<Invoice> GetByIdAsync(int id)
-        {
-            var invoiceDto = await _invoiceRepository.GetById(c => c.IdInvoice == id);
-            var invoice = _mapper.Map<Invoice>(invoiceDto);
-            return invoice;
+            this.invoiceRepository = invoiceRepository;
+            this.mapper = mapper;
+            this.invoiceItemService = invoiceItemService;
         }
 
-        public async Task<List<Invoice>> GetAllAsync(Expression<Func<Invoice, bool>>? filter = null)
+        public async Task CreateInvoice(InvoiceRequestDto invoiceRequestDto)
         {
-            var invoiceDto = await _invoiceRepository.GetAll(filter);
-            var invoices = _mapper.Map<List<Invoice>>(invoiceDto);
-            return invoices;
+            var invoice = mapper.Map<Invoice>(invoiceRequestDto);
+            invoice.Status = true;
+            await invoiceRepository.Insert(invoice);
         }
 
-        public async Task<bool> DeleteAsync(int idInvoice)
+        public async Task UpdateInvoice(int id, InvoiceRequestDto invoiceRequestDto)
         {
-            return await _invoiceRepository.Delete(idInvoice);
+            var existingInvoice = await invoiceRepository.GetById(id);
+            if (existingInvoice == null)
+            {
+                throw new Exception("La factura no existe");
+            }
+            else
+            {
+                mapper.Map(invoiceRequestDto, existingInvoice);
+                await invoiceRepository.Update(existingInvoice);
+            }
         }
 
-        public async Task<bool> SaveAsync(InvoiceDto invoiceDto)
+
+        public async Task<ActionResult<InvoiceResponseDto>> GetInvoiceById(int id)
         {
-            var invoice = _mapper.Map<Invoice>(invoiceDto);
-            return await _invoiceRepository.Insert(invoice);
+            var invoice = await invoiceRepository.GetById(id);
+            return mapper.Map<InvoiceResponseDto>(invoice);
+            
         }
 
-        public async Task<bool> UpdateAsync(InvoiceDto invoiceDto)
+        public async Task<ActionResult<List<InvoiceResponseDto>>> GetAllInvoices()
         {
-            var invoice = _mapper.Map<Invoice>(invoiceDto);
-            return await _invoiceRepository.Update(invoice);
+            var invoices = await invoiceRepository.GetAll();
+            if (invoices == null)
+            {
+                throw new Exception("Facturas no encontradas.");
+            }
+            else
+            {
+                return mapper.Map<List<InvoiceResponseDto>>(invoices);
+            }
         }
+
+        public async Task DeleteInvoice(int id)
+        {
+            var invoice = await invoiceRepository.GetById(id);
+            if (invoice == null)
+            {
+                throw new KeyNotFoundException("La factura no fue encontrada.");
+            }
+            else
+            {
+                invoice.Status = false;
+                await invoiceRepository.Update(invoice);
+            }
+        }
+
+        public async Task<ActionResult<List<InvoiceResponseDto>>> GetInvoicesBySupplierId(int SupplierId)
+        {
+            var invoices = await invoiceRepository.GetInvoicesBySupplierId(SupplierId);
+            if (invoices == null)
+            {
+                throw new KeyNotFoundException("La factura no fue encontrada.");
+            }
+            return mapper.Map<List<InvoiceResponseDto>>(invoices);
+        }
+
     }
 }

@@ -1,49 +1,75 @@
 ﻿using AutoMapper;
-using PresupuestitoBack.DTOs;
+using Microsoft.AspNetCore.Mvc;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Models;
-using PresupuestitoBack.Repositories;
-using PresupuestitoBack.Repositories.IRepositories;
 using PresupuestitoBack.Repositories.IRepository;
-using System.Linq.Expressions;
 
 namespace PresupuestitoBack.Services
 {
     public class ItemService
     {
-        private readonly IItemRepository _itemRepository;
-        private readonly Mapper _mapper;
+        private readonly IItemRepository itemRepository;
+        private readonly IMapper mapper;
 
-        public ItemService(IItemRepository itemRepository, Mapper mapper)
+        public ItemService(IItemRepository itemRepository, IMapper mapper)
         {
-            _itemRepository = itemRepository;
-            _mapper = mapper;
-        }
-        public async Task<Item> GetByIdAsync(int id) 
-        {
-            var itemDto = await _itemRepository.GetById(c => c.IdItem == id);
-            var item = _mapper.Map<Item>(itemDto);
-            return item;
-        }
-        public async Task<List<Item>> GetAllAsync(Expression<Func<Item, bool>>? filter = null)
-        {
-            var itemDto = await _itemRepository.GetAll(filter);
-            var items = _mapper.Map<List<Item>>(itemDto);
-            return items; 
-        }
-        internal async Task<bool> DeleteAsync(int idItem)
-        {
-            return await _itemRepository.Delete(idItem);
-        }
-        public async Task<bool> SaveAsync (ItemDao itemDto)
-        {
-            var item = _mapper.Map<Item>(itemDto);
-            return await _itemRepository.Insert(item);
+            this.itemRepository = itemRepository;
+            this.mapper = mapper;
         }
 
-        public async Task<bool> UpdateAsync(ItemDao itemDto)
+        public async Task CreateItem(ItemRequestDto itemRequestDto)
         {
-            var item = _mapper.Map<Item>(itemDto);
-            return await _itemRepository.Update(item);
+            var item = mapper.Map<Item>(itemRequestDto);
+            item.Status = true;
+            await itemRepository.Insert(item);
+        }
+
+        public async Task UpdateItem(int id, ItemRequestDto itemRequestDto)
+        {
+            var existingItem = await itemRepository.GetById(id);
+            if (existingItem == null)
+            {
+                throw new Exception("El ítem no existe");
+            }
+            else
+            {
+                mapper.Map(itemRequestDto, existingItem);
+                await itemRepository.Update(existingItem);
+            }
+        }
+
+        public async Task<ActionResult<ItemResponseDto>> GetItemById(int id)
+        {
+            var item = await itemRepository.GetById(id);
+            return mapper.Map<ItemResponseDto>(item);
+        }
+
+        public async Task<ActionResult<List<ItemResponseDto>>> GetAllItems()
+        {
+            var items = await itemRepository.GetAll();
+            if (items == null)
+            {
+                throw new Exception("Ítems no encontrados.");
+            }
+            else
+            {
+                return mapper.Map<List<ItemResponseDto>>(items);
+            }
+        }
+
+        public async Task DeleteItem(int id)
+        {
+            var item = await itemRepository.GetById(id);
+            if (item == null)
+            {
+                throw new KeyNotFoundException("El ítem no fue encontrado.");
+            }
+            else
+            {
+                item.Status = false;
+                await itemRepository.Update(item);
+            }
         }
 
     }

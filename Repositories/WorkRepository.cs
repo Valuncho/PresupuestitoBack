@@ -2,37 +2,53 @@
 using PresupuestitoBack.DataAccess;
 using PresupuestitoBack.Models;
 using PresupuestitoBack.Repositories.IRepository;
+using System.Linq.Expressions;
 
 namespace PresupuestitoBack.Repositories
 {
     public class WorkRepository : Repository<Work>, IWorkRepository
     {
+
+        private readonly ApplicationDbContext context;
+
         public WorkRepository(ApplicationDbContext context) : base(context)
         {
+            this.context = context;
         }
 
-
-        public override async Task<bool> Insert(Work newWork)
+        public override async Task<bool> Insert(Work work)
         {
-            try
-            {
-                await base.Insert(newWork);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            await context.Works.AddAsync(work);
+            await context.SaveChangesAsync();
+            return true;
         }
 
-        public override async Task<bool> Update(Work updateService)
+        public override async Task<bool> Update(Work work)
         {
-            return await base.Update(updateService);
+            context.Works.Update(work);
+            await context.SaveChangesAsync();
+            return true;
         }
 
-        public override async Task<bool> Delete(int id)
+        public override async Task<Work?> GetById(int id)
         {
-            return await base.Delete(id);
+            return await context.Works
+                                      .Where(work => work.Status == true && work.WorkId == id)
+                                      .Include(work => work.OMaterials.Where(material => material.Status == true))
+                                      .ThenInclude(items => items.OMaterial)
+                                        .ThenInclude(material => material.OSubcategoryMaterial)
+                                            .ThenInclude(subCategory => subCategory.OCategory)
+                                      .FirstOrDefaultAsync();
+        }
+
+        public override async Task<List<Work>> GetAll(Expression<Func<Work, bool>>? filter = null)
+        {
+            return await context.Works.Where(work => work.Status == true)
+                                      .Include(work => work.OMaterials.Where(material => material.Status == true))
+                                      .ThenInclude(items => items.OMaterial)
+                                        .ThenInclude(material => material.OSubcategoryMaterial)
+                                             .ThenInclude(subCategory => subCategory.OCategory)
+                                      .ToListAsync();
         }
 
     }

@@ -10,26 +10,25 @@ namespace PresupuestitoBack.Models
     public class Cost
     {
         [Key]
-        [Column(TypeName = "INT")]
-        public int IdCost { get; set; }
+        [Column("CostId",TypeName = "INT")]
+        public int CostId { get; set; }
 
         [Required]
         [Column(TypeName = "DECIMAL(18, 2)")]
         public decimal CostValue { get; set; }
 
         [Required]
-        [Column(TypeName = "VARCHAR(500)")]
+        [Column(TypeName = "NVARCHAR(500)")]
         public string Description { get; set; }
 
-        [Required]
-        [Column(TypeName = "TEXT")]
-        public string TypeSerialized { get; set; }
 
-        [NotMapped]
-        public Dictionary<string, object> Type
+        [Required]
+        [Column(TypeName = "bit")]
+        private bool _Status;
+        public bool Status
         {
-            get => JsonConvert.DeserializeObject<Dictionary<string, object>>(TypeSerialized);
-            set => TypeSerialized = JsonConvert.SerializeObject(value);
+            get => _Status;
+            set { _Status = value; }
         }
     }
 }

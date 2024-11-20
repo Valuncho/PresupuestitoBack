@@ -10,44 +10,48 @@ namespace PresupuestitoBack.Models
     public class Work
     {
         [Key]
-        [Column(TypeName = "INT")]
-        public int IdWork { get; set; }
+        [Column("WorkId",TypeName = "INT")]
+        public int WorkId { get; set; }
+
+        [Required]
+        [Column(TypeName = "NVARCHAR(500)")]
+        public string WorkName { get; set; }
 
         [Required]
         [Column(TypeName = "INT")]
         public int EstimatedHoursWorked { get; set; }
 
-        [Required]
         [Column(TypeName = "DATE")]
         public DateTime DeadLine { get; set; }
 
-        [Required]
         [Column(TypeName = "DECIMAL(18, 2)")]
         public decimal CostPrice { get; set; }
+        public virtual ICollection<Item> OMaterials { get; set; }
 
-        // Lista de Items
-        public ICollection<Item> Materials { get; set; }
-
-        [Required]
-        [Column(TypeName = "TEXT")]
-        public string StatusSerialized { get; set; }
-
-        [NotMapped]
-        public Dictionary<string, string> Status
+        [Column(TypeName = ("bit"))]
+        private bool _Status;
+        public bool Status
         {
-            get => JsonConvert.DeserializeObject<Dictionary<string, string>>(StatusSerialized);
-            set => StatusSerialized = JsonConvert.SerializeObject(value);
+            get => _Status;
+            set { _Status = value; }
         }
 
-        [Required]
-        [Column(TypeName = "VARCHAR(500)")]
+        [Column(TypeName = "NVARCHAR(500)")]
         public string Notes { get; set; }
 
         [Required]
-        [Column(TypeName = "VARCHAR(500)")]
-        public string Image { get; set; }
+        [ForeignKey("BudgetId")]
+        public int BudgetId { get; set; } 
+        public virtual Budget Budget { get; set; }
+
+        [Required]
+        [Column(TypeName = "NVARCHAR(500)")]
+        public string WorkStatus { get; set; }
+
     }
 }
+
+
 
 
 

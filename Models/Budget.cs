@@ -7,21 +7,46 @@ namespace PresupuestitoBack.Models
     public class Budget
     {
         [Key]
-        [Column(TypeName = "INT")]
-        public int IdBudget { get; set; }
+        [Column("BudgetId",TypeName = "INT")]
+        public int BudgetId { get; set; }
+        public virtual ICollection<Work> Works { get; set; } 
 
-        //List Works
-        public ICollection<Work> Works { get; set; }
-
-        [Required]
         [Column(TypeName = "DECIMAL(18, 2)")]
         public decimal Cost { get; set; }
 
         [Required]
-        [Column(TypeName = "VARCHAR(400)")]
+        [Column(TypeName = "NVARCHAR(100)")]
+        public string BudgetStatus { get; set; }
+
+        [Required]
+        [Column(TypeName = "DATE")]
+        public DateTime DateCreated { get; set; }
+
+        [Column(TypeName = "DATE")]
+        public DateTime? DeadLine { get; set; }
+
+        [Required]
+        [Column(TypeName = "NVARCHAR(400)")]
         public string DescriptionBudget { get; set; }
 
         //List Payments
-        public ICollection<Payment> Payments { get; set; }
+        public virtual ICollection<Payment> Payments { get; set; }
+
+
+        [Required]
+        [Column(TypeName = "bit")]
+        private bool _Status;
+        public bool Status 
+        {
+            get => _Status;
+            set { _Status = value; }
+        }
+
+        // Relación con ClientHistory 
+        [Required]
+        [ForeignKey("ClientId")]
+        public int ClientId { get; set; } // Clave foránea
+        public virtual Client Oclient { get; set; } // Propiedad de navegación
+
     }
 }

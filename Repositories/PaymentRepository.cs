@@ -1,43 +1,43 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PresupuestitoBack.DataAccess;
+﻿using PresupuestitoBack.DataAccess;
 using PresupuestitoBack.Models;
-using PresupuestitoBack.Repositories.IRepositories;
+using PresupuestitoBack.Repositories.IRepository;
+using System.Linq.Expressions;
 
 namespace PresupuestitoBack.Repositories
 {
     public class PaymentRepository : Repository<Payment>, IPaymentRepository
     {
 
+        private readonly ApplicationDbContext context;
 
         public PaymentRepository(ApplicationDbContext context) : base(context)
         {
+            this.context = context;
         }
 
-
-        public override async Task<bool> Insert(Payment newPayment)
+        public override async Task<bool> Insert(Payment payment)
         {
-            try
-            {
-                await base.Insert(newPayment);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            await context.Payments.AddAsync(payment);
+            await context.SaveChangesAsync();
+            return true;
         }
 
-        public override async Task<bool> Update(Payment updateService)
+        public override async Task<bool> Update(Payment payment)
         {
-            return await base.Update(updateService);
+            context.Payments.Update(payment);
+            await context.SaveChangesAsync();
+            return true;
         }
 
-        public override async Task<bool> Delete(int id)
+ /*       public override async Task<Payment> GetById(Expression<Func<Payment, bool>>? filter = null, bool tracked = true)
         {
-            return await base.Delete(id);
+            return await base.GetById(filter, tracked);
         }
 
+        public override async Task<List<Payment>> GetAll(Expression<Func<Payment, bool>>? filter = null)
+        {
+            return await base.GetAll(filter);
+        }
+ */
     }
 }
-
-

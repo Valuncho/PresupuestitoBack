@@ -2,41 +2,53 @@
 using PresupuestitoBack.DataAccess;
 using PresupuestitoBack.Models;
 using PresupuestitoBack.Repositories.IRepository;
-using System.Net;
+using System.Linq.Expressions;
 
 namespace PresupuestitoBack.Repositories
 {
     public class ItemRepository : Repository<Item>, IItemRepository
     {
+
+        private readonly ApplicationDbContext context;
+
         public ItemRepository(ApplicationDbContext context) : base(context)
         {
-
+            this.context = context;
         }
-        public override async Task<bool> Update(Item updateService)
+
+        public override async Task<bool> Insert(Item item)
         {
-            return await base.Update(updateService);
+            await context.Items.AddAsync(item);
+            await context.SaveChangesAsync();
+            return true;
         }
 
-        public override async Task<bool> Delete(int id)
+        public override async Task<bool> Update(Item item)
         {
-            return await base.Delete(id);
-
+            context.Items.Update(item);
+            await context.SaveChangesAsync();
+            return true;
         }
 
-        public override async Task<bool> Insert(Item newItem)
+        public override async Task<Item?> GetById(int id)
         {
-            try
-            {
-                await base.Insert(newItem);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return await context.Items
+                                      .Where(item => item.Status == true && item.ItemId == id)
+                                      .Include(item => item.OMaterial)
+                                      .ThenInclude(material => material.OSubcategoryMaterial)
+                                      .ThenInclude(SubCategory => SubCategory.OCategory)
+                                      .FirstOrDefaultAsync();
         }
 
-
+        public override async Task<List<Item>> GetAll(Expression<Func<Item, bool>>? filter = null)
+        {
+            return await context.Items
+                                      .Where(item => item.Status == true)
+                                      .Include(item => item.OMaterial)
+                                      .ThenInclude(material => material.OSubcategoryMaterial)
+                                      .ThenInclude(SubCategory => SubCategory.OCategory)
+                                      .ToListAsync();
+        }
 
     }
 }

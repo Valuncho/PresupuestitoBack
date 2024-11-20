@@ -1,39 +1,47 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PresupuestitoBack.DataAccess;
 using PresupuestitoBack.Models;
-using PresupuestitoBack.Repositories.IRepositories;
 using PresupuestitoBack.Repositories.IRepository;
+using System.Linq.Expressions;
 
 namespace PresupuestitoBack.Repositories
 {
     public class CostRepository : Repository<Cost>, ICostRepository
     {
+
+        private readonly ApplicationDbContext context;
+
         public CostRepository(ApplicationDbContext context) : base(context)
         {
+            this.context = context;
         }
 
-
-        public override async Task<bool> Insert(Cost newCost)
+        public override async Task<bool> Insert(Cost cost)
         {
-            try
-            {
-                await base.Insert(newCost);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            await context.Costs.AddAsync(cost);
+            await context.SaveChangesAsync();
+            return true;
         }
 
-        public override async Task<bool> Update(Cost updateService)
+        public override async Task<bool> Update(Cost cost)
         {
-            return await base.Update(updateService);
+            context.Costs.Update(cost);
+            await context.SaveChangesAsync();
+            return true;
         }
 
-        public override async Task<bool> Delete(int id)
+
+        public override async Task<Cost?> GetById(int id)
         {
-            return await base.Delete(id);
+            return await context.Costs.FirstOrDefaultAsync();
         }
+
+        public override async Task<List<Cost>> GetAll(Expression<Func<Cost, bool>>? filter = null)
+        {
+            return await context.Costs
+                .Where(o => o.Status == true)
+                .ToListAsync();
+        }
+
     }
 }

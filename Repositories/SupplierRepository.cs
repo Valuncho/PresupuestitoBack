@@ -2,32 +2,48 @@
 using PresupuestitoBack.DataAccess;
 using PresupuestitoBack.Models;
 using PresupuestitoBack.Repositories.IRepository;
+using System.Linq.Expressions;
 
 namespace PresupuestitoBack.Repositories
 {
     public class SupplierRepository : Repository<Supplier>, ISupplierRepository
     {
-        public SupplierRepository(ApplicationDbContext context) : base(context) { }
 
-        public override async Task<bool> Update(Supplier updateSupplier)
+        private readonly ApplicationDbContext context;
+
+        public SupplierRepository(ApplicationDbContext context) : base(context)
         {
-            var Supplier = await _context.Suppliers.FirstOrDefaultAsync(x => x.IdSupplier == updateSupplier.IdSupplier);
-            if (Supplier == null) { return false; }
+            this.context = context;
+        }
 
-            Supplier.OPerson = updateSupplier.OPerson;
-            _context.Suppliers.Update(Supplier);
-            await _context.SaveChangesAsync();
+        public override async Task<bool> Insert(Supplier supplier)
+        {
+            await context.Suppliers.AddAsync(supplier);
+            await context.SaveChangesAsync();
             return true;
         }
-        public override async Task<bool> Delete(int id)
+
+        public override async Task<bool> Update(Supplier supplier)
         {
-            var supplier = await _context.Suppliers.Where(x => x.IdSupplier == id).FirstOrDefaultAsync();
-            if(supplier != null)
-            {
-                _context.Suppliers.Remove(supplier);
-                await _context.SaveChangesAsync();
-            }
+            context.Suppliers.Update(supplier);
+            await context.SaveChangesAsync();
             return true;
         }
+        
+        public override async Task<Supplier?> GetById(int id)
+        {
+            return await context.Suppliers
+                                          .Where(supplier => supplier.Status == true && supplier.SupplierId == id)
+                                          .Include(supplier => supplier.OPerson)
+                                          .FirstOrDefaultAsync();
+        }
+
+        public override async Task<List<Supplier>> GetAll(Expression<Func<Supplier, bool>>? filter = null)
+        {
+            return await context.Suppliers.Where(supplier => supplier.Status == true)
+                                          .Include(supplier => supplier.OPerson) 
+                                          .ToListAsync();
+        }
+
     }
 }

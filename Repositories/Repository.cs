@@ -85,20 +85,9 @@ namespace PresupuestitoBack.Repositories
 
 
 
-        public async Task<T> GetById(Expression<Func<T, bool>>? filter = null, bool tracked = true)
+        public async virtual Task<T?> GetById(int id)
         {
-            IQueryable<T> query = dbSet;
-            if (!tracked)
-            {
-                query = query.AsNoTracking();
-            }
-
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            return await query.FirstOrDefaultAsync();
+            return await dbSet.FindAsync(id);
         }
 
         public virtual async Task<bool> Update(T entity)
@@ -131,7 +120,7 @@ namespace PresupuestitoBack.Repositories
             }
         }
 
-
+        /*
         public virtual async Task<bool> Delete(int id)
         {
             try
@@ -162,7 +151,7 @@ namespace PresupuestitoBack.Repositories
                 return false; // Retornar false si ocurre un error
             }
         }
-
+        */
 
     }
 }

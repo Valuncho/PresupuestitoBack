@@ -7,8 +7,8 @@ namespace PresupuestitoBack.Models
     public class Payment
     {
         [Key]
-        [Column(TypeName = "INT")]
-        public int IdPayment { get; set; }
+        [Column("PaymentId",TypeName = "INT")]
+        public int PaymentId { get; set; }
 
         [Required]
         [Column(TypeName = "DATE")]
@@ -20,25 +20,26 @@ namespace PresupuestitoBack.Models
 
         [Required]
         [Column(TypeName = "VARCHAR(400)")]
-        public string DescriptionPayment { get; set; }
+        public string? DescriptionPayment { get; set; }
 
-        /*
-        [Required]
-        public int IdSalary { get; set; }
-        [ForeignKey("IdSalary")]
-        public Salary OSalary { get; set; }
-
-        */
+        [Required]        
+        [ForeignKey("InvoiceId")]
+        public int InvoiceId { get; set; }
+        public virtual Invoice? OInvoice { get; set; }
 
         [Required]
-        public int IdInvoice { get; set; }
-        [ForeignKey("IdInvoice")]
-        public Invoice OInvoice { get; set; }
+        [ForeignKey("BudgetId")]
+        public int BudgetId { get; set; }      
+        public virtual Budget? OBudget { get; set; }
 
         [Required]
-        public int IdBudget { get; set; }
-        [ForeignKey("IdBudget")]
-        public Budget OBudget { get; set; }
+        [Column(TypeName = "bit")]
+        private bool _Status;
+        public bool Status
+        {
+            get => _Status;
+            set { _Status = value; }
+        }
 
     }
 }

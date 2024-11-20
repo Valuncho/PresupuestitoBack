@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PresupuestitoBack.Models
 {
@@ -7,10 +7,22 @@ namespace PresupuestitoBack.Models
     public class Supplier
     {
         [Key]
-        [Column("IdSupplier", TypeName = "INT")]
-        public int IdSupplier { get; set; }
-        
-        [ForeignKey("IdPerson")]
-        public Person OPerson { get; set; }
+        [Column("SupplierId", TypeName = "INT")]
+        public int SupplierId { get; set; }
+
+        [Required]
+        [ForeignKey("PersonId")]
+        public int PersonId { get; set; }
+        public virtual Person OPerson { get; set; }
+
+        [Column(TypeName = ("bit"))]
+        private bool _Status;
+        public bool Status
+        {
+            get => _Status;
+            set { _Status = value; }
+        }
+
     }
 }
+

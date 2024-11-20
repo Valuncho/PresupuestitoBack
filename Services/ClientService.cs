@@ -1,50 +1,88 @@
 ﻿using AutoMapper;
-using PresupuestitoBack.DTOs;
+using Microsoft.AspNetCore.Mvc;
+using PresupuestitoBack.DTOs.Request;
+using PresupuestitoBack.DTOs.Response;
 using PresupuestitoBack.Models;
-using PresupuestitoBack.Repositories.IRepositories;
-using System.Linq.Expressions;
+using PresupuestitoBack.Repositories;
+using PresupuestitoBack.Repositories.IRepository;
 
 namespace PresupuestitoBack.Services
 {
     public class ClientService
     {
-        private readonly IClientRepository _clientRepository;
-        private readonly Mapper _mapper;
+        private readonly IClientRepository clientRepository;
+        private readonly PersonService personService;
+        private readonly IMapper mapper;
 
-        public ClientService(IClientRepository clientRepository, Mapper mapper)
+        public ClientService(IClientRepository clientRepository, IMapper mapper, PersonService personService)
         {
-            _clientRepository = clientRepository;
-            _mapper = mapper; 
+            this.clientRepository = clientRepository;
+            this.mapper = mapper;
+            this.personService = personService;
         }
-        public async Task<Client> GetByIdAsync(int id) 
+        
+        public async Task CreateClient(PersonRequestDto personRequestDto)
         {
-            var clientDto = await _clientRepository.GetById(c => c.IdClient == id);
-            var client = _mapper.Map<Client>(clientDto);
-            return client; 
-        }
-
-        public async Task<List<Client>> GetAllAsync(Expression<Func<Client, bool>>? filter = null) 
-        {
-            var clientDto = await _clientRepository.GetAll(filter);
-            var clients = _mapper.Map<List<Client>>(clientDto);
-            return clients; 
-        }
-
-        public async Task<bool> DeleteAsync(int idClient)
-        {
-            return await _clientRepository.Delete(idClient);
+            var client = await personService.CreatePerson(personRequestDto);
+            Client cliente = new Client();
+            cliente.PersonId = client.PersonId;
+            cliente.Status = true;
+            await clientRepository.Insert(cliente);
+            
         }
 
-        public async Task<bool> SaveAsync(ClientDto clientDto)
+        public async Task UpdateClient(int id, PersonRequestDto personRequestDto)
         {
-            var client = _mapper.Map<Client>(clientDto);
-            return await _clientRepository.Insert(client);
+            var existingClient = await clientRepository.GetById(id);
+            if (existingClient == null)
+            {
+                throw new Exception("El cliente no existe");
+            }
+            else
+            {
+                // Actualiza la persona relacionada con el cliente
+                var idPersona = existingClient.PersonId;
+                await personService.UpdatePerson(idPersona, personRequestDto);
+
+                // Si necesitas también actualizar los datos del cliente, debes tener un `clientRequestDto`
+                // mapper.Map(clientRequestDto, existingClient);
+
+                await clientRepository.Update(existingClient);
+            }            
         }
 
-        public async Task<bool> UpdateAsync(ClientDto clientDto)
+        public async Task<ActionResult<ClientResponseDto>> GetClientById(int id)
         {
-            var client = _mapper.Map<Client>(clientDto);
-            return await _clientRepository.Update(client);
+            var client = await clientRepository.GetById(id);
+            return mapper.Map<ClientResponseDto>(client);
         }
+
+        public async Task<ActionResult<List<ClientResponseDto>>> GetAllClients()
+        {
+            var clients = await clientRepository.GetAll();
+            if (clients == null)
+            {
+                throw new Exception("Clientes no encontradas");
+            }
+            else
+            {
+                return mapper.Map<List<ClientResponseDto>>(clients);
+            }
+        }
+
+        public async Task DeleteClient(int id)
+        {
+            var client = await clientRepository.GetById(id);
+            if(client == null)
+            {
+                throw new KeyNotFoundException("El cliente no fue encontrado");
+            }
+            else
+            {
+                client.Status = false;
+                await clientRepository.Update(client);
+            }
+        }
+
     }
 }

@@ -1,41 +1,49 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PresupuestitoBack.DataAccess;
-using PresupuestitoBack.DTOs;
 using PresupuestitoBack.Models;
-using PresupuestitoBack.Repositories.IRepositories;
+using PresupuestitoBack.Repositories.IRepository;
+using System.Linq.Expressions;
 
 namespace PresupuestitoBack.Repositories
 {
     public class ClientRepository : Repository<Client>, IClientRepository
     {
 
+        private readonly ApplicationDbContext context;
 
         public ClientRepository(ApplicationDbContext context) : base(context)
         {
+            this.context = context;
         }
 
-
-        public override async Task<bool> Insert(Client newClient)
+        public override async Task<bool> Insert(Client client)
         {
-            try
-            {
-                await base.Insert(newClient);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            await context.Clients.AddAsync(client);
+            await context.SaveChangesAsync();
+            return true;
         }
 
-        public override async Task<bool> Update(Client updateService)
+        public override async Task<bool> Update(Client client)
         {
-            return await base.Update(updateService);
+            context.Clients.Update(client);
+            await context.SaveChangesAsync();
+            return true;
         }
 
-        public override async Task<bool> Delete(int id)
+        public override async Task<Client?> GetById(int id)
         {
-            return await base.Delete(id);
+            return await context.Clients
+                                        .Include(client => client.OPerson)
+                                        .Where(client => client.Status == true && client.ClientId == id)
+                                        .FirstOrDefaultAsync();
+        }
+
+        public override async Task<List<Client>> GetAll(Expression<Func<Client, bool>>? filter = null)
+        {
+            return await context.Clients
+                                        .Include(client => client.OPerson) 
+                                        .Where(client => client.Status == true)
+                                        .ToListAsync();
         }
 
     }

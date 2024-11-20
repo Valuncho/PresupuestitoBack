@@ -7,22 +7,28 @@ namespace PresupuestitoBack.Models
     public class Salary
     {
         [Key]
-        public int IdSalary { get; set; }
-
+        [Column("SalaryId", TypeName = "INT")]
+        public int SalaryId { get; set; }
 
         [Required]
         [Column(TypeName = "DECIMAL(18,2)")]
         public decimal Amount { get; set; }
 
+        [Required]
+        [Column(TypeName = "DATETIME")]
+        public DateTime BillDate { get; set; }
+
+        [ForeignKey("PaymentId")]
+        public int PaymentId { get; set; }
+        public virtual Payment OPayment { get; set; }
 
         [Required]
-        [Column(TypeName = "DATEONLY")]
-        public DateOnly BillDate { get; set; }
-
-
-        [Required]
-        public int IdPayments { get; set; }
-        [ForeignKey("IdPayment")]
-        public Payment OPayment { get; set; }
+        [Column(TypeName = "bit")]
+        private bool _Status;
+        public bool Status
+        {
+            get => _Status;
+            set { _Status = value; }
+        }
     }
 }
